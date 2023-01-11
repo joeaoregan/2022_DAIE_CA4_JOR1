@@ -175,7 +175,82 @@ dbExecute(conn, "CREATE TABLE Work_Item (
 
 ```
 
-#### Disconnect Database
+### Insert Data
+
+#### Status
+
+```{r}
+dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('To Do');")
+dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('In Progress');")
+dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('Review');")
+dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('Done');")
+```
+
+#### Role
+
+```{r}
+dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Project Manager');")
+dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Programmer');")
+dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Tester');")
+dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Artist');")
+dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('3D Modeller');")
+dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Environment Modeller');")
+dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Animator');")
+dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Shading Artist');")
+dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Concept Artist');")
+```
+
+#### Team_Member
+
+```{r}
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Joe', 'O''Regan', 2);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Derp', 'McDerp', 1);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Herpderp', 'Derpderpenson', 3);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Herpa', 'Derpderp', 4);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('De', 'Rpderp', 5);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Pred', 'Prehpred', 6);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Derpa', 'Derpa', 9);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Herpa', 'Derpa', 8);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('HerpaDerpa', 'McDerpa', 7);")
+```
+
+#### Work_Item
+
+```{r}
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Thingy', 2, 4);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Test Thingy', 3, 3);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Environment Model Thingy', 2, 6);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Concept Thingy', 4, 7);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Shading Thingy', 4, 8);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Random 3D Model', 2, 5);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('3D Model Test Obj', 2, 3);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Random Blueprint', 2, 1);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Blueprint Thingy', 2, 2);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Blueprint Test', 3, 2);")
+```
+
+#### Project
+
+```{r}
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Art Proj', '2023-01-11');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('DAIE CA4', '2023-01-20');")
+```
+
+#### Project_Team
+
+```{r}
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (1, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (2, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (3, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (4, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (5, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (6, 2);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (7, 2);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (8, 2);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (9, 2);")
+```
+
+### Disconnect Database
 
 ```{r disconnect from database}
 dbDisconnect(conn)

@@ -493,10 +493,117 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
 </div>
-<div id="disconnect-database" class="section level4">
-<h4>Disconnect Database</h4>
-<pre class="r"><code>dbDisconnect(conn)</code></pre>
 </div>
+<div id="insert-data" class="section level3">
+<h3>Insert Data</h3>
+<div id="status-1" class="section level4">
+<h4>Status</h4>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;To Do&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;In Progress&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;Review&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;Done&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="role-1" class="section level4">
+<h4>Role</h4>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Project Manager&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Programmer&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Tester&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Artist&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;3D Modeller&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Environment Modeller&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Animator&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Shading Artist&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Concept Artist&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="team_member-1" class="section level4">
+<h4>Team_Member</h4>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Joe&#39;, &#39;O&#39;&#39;Regan&#39;, 2);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derp&#39;, &#39;McDerp&#39;, 1);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpderp&#39;, &#39;Derpderpenson&#39;, 3);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpderp&#39;, 4);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;De&#39;, &#39;Rpderp&#39;, 5);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Pred&#39;, &#39;Prehpred&#39;, 6);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derpa&#39;, &#39;Derpa&#39;, 9);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpa&#39;, 8);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;HerpaDerpa&#39;, &#39;McDerpa&#39;, 7);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="work_item-1" class="section level4">
+<h4>Work_Item</h4>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Thingy&#39;, 2, 4);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Test Thingy&#39;, 3, 3);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Environment Model Thingy&#39;, 2, 6);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Concept Thingy&#39;, 4, 7);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Shading Thingy&#39;, 4, 8);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Random 3D Model&#39;, 2, 5);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;3D Model Test Obj&#39;, 2, 3);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Random Blueprint&#39;, 2, 1);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Blueprint Thingy&#39;, 2, 2);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Blueprint Test&#39;, 3, 2);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="project-1" class="section level4">
+<h4>Project</h4>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project (&#39;Name&#39;, &#39;Delivery_Date&#39;) VALUES (&#39;Art Proj&#39;, &#39;2023-01-11&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project (&#39;Name&#39;, &#39;Delivery_Date&#39;) VALUES (&#39;DAIE CA4&#39;, &#39;2023-01-20&#39;);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="project_team-1" class="section level4">
+<h4>Project_Team</h4>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (1, 1);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (2, 1);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (3, 1);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (4, 1);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (5, 1);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (6, 2);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (7, 2);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (8, 2);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (9, 2);&quot;)</code></pre>
+<pre><code>## [1] 1</code></pre>
+</div>
+</div>
+<div id="disconnect-database" class="section level3">
+<h3>Disconnect Database</h3>
+<pre class="r"><code>dbDisconnect(conn)</code></pre>
 </div>
 </div>
 
