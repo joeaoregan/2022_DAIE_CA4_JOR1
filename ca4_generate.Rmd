@@ -56,7 +56,7 @@ conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
 ```{r create asset table}
 # create tables
 dbExecute(conn, "CREATE TABLE Asset (
-    Id integer NOT NULL CONSTRAINT Asset_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Asset_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL,
     Type varchar(50),
     Format varchar(50),
@@ -99,7 +99,7 @@ dbExecute(conn, "CREATE TABLE Collection (
 
 ```{r create library table}
 dbExecute(conn, "CREATE TABLE Library (
-    Id integer NOT NULL CONSTRAINT Library_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Library_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );")
 ```
@@ -132,7 +132,7 @@ dbExecute(conn, "CREATE TABLE Project_Team (
 
 ```{r create role table}
 dbExecute(conn, "CREATE TABLE Role (
-    Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );")
 ```
@@ -141,7 +141,7 @@ dbExecute(conn, "CREATE TABLE Role (
 
 ```{r create status table}
 dbExecute(conn, "CREATE TABLE Status (
-    Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );")
 ```
@@ -150,7 +150,7 @@ dbExecute(conn, "CREATE TABLE Status (
 
 ```{r create team_member table}
 dbExecute(conn, "CREATE TABLE Team_Member (
-    Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY AUTOINCREMENT,
     First_Name varchar(50) NOT NULL,
     Last_Name varchar(50) NOT NULL,
     Role_id integer NOT NULL,
@@ -163,7 +163,7 @@ dbExecute(conn, "CREATE TABLE Team_Member (
 
 ```{r create work_item table}
 dbExecute(conn, "CREATE TABLE Work_Item (
-    Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL,
     Status_Id integer NOT NULL,
     Assigned_to integer NOT NULL,
@@ -173,6 +173,11 @@ dbExecute(conn, "CREATE TABLE Work_Item (
     REFERENCES Team_Member (Id)
 );")
 
+```
+
+#### Disconnect Database
+
+```{r disconnect from database}
 dbDisconnect(conn)
 ```
 

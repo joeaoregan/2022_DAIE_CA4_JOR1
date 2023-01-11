@@ -384,7 +384,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 <h4>Asset</h4>
 <pre class="r"><code># create tables
 dbExecute(conn, &quot;CREATE TABLE Asset (
-    Id integer NOT NULL CONSTRAINT Asset_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Asset_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL,
     Type varchar(50),
     Format varchar(50),
@@ -424,7 +424,7 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 <div id="library" class="section level4">
 <h4>Library</h4>
 <pre class="r"><code>dbExecute(conn, &quot;CREATE TABLE Library (
-    Id integer NOT NULL CONSTRAINT Library_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Library_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
@@ -454,7 +454,7 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 <div id="role" class="section level4">
 <h4>Role</h4>
 <pre class="r"><code>dbExecute(conn, &quot;CREATE TABLE Role (
-    Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
@@ -462,7 +462,7 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 <div id="status" class="section level4">
 <h4>Status</h4>
 <pre class="r"><code>dbExecute(conn, &quot;CREATE TABLE Status (
-    Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
@@ -470,7 +470,7 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 <div id="team_member" class="section level4">
 <h4>Team_Member</h4>
 <pre class="r"><code>dbExecute(conn, &quot;CREATE TABLE Team_Member (
-    Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY AUTOINCREMENT,
     First_Name varchar(50) NOT NULL,
     Last_Name varchar(50) NOT NULL,
     Role_id integer NOT NULL,
@@ -482,7 +482,7 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 <div id="work_item" class="section level4">
 <h4>Work_Item</h4>
 <pre class="r"><code>dbExecute(conn, &quot;CREATE TABLE Work_Item (
-    Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL,
     Status_Id integer NOT NULL,
     Assigned_to integer NOT NULL,
@@ -492,6 +492,9 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     REFERENCES Team_Member (Id)
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
+</div>
+<div id="disconnect-database" class="section level4">
+<h4>Disconnect Database</h4>
 <pre class="r"><code>dbDisconnect(conn)</code></pre>
 </div>
 </div>
