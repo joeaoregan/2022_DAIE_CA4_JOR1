@@ -252,6 +252,47 @@ dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUE
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (9, 2);")
 ```
 
+#### Asset
+
+```{r}
+dbExecute(conn, "INSERT INTO Asset ('Name', 'Type', 'Format', 'Created_By', 'Date_Created') VALUES ('Random Blueprint Asset', 'Combination of Blueprints', 'Zip file', 1, '2023-01-11');")
+dbExecute(conn, "INSERT INTO Asset ('Name', 'Created_By', 'Date_Created') VALUES ('Random Art Asset', 4, '2023-01-10');")
+dbExecute(conn, "INSERT INTO Asset ('Name', 'Created_By', 'Date_Created') VALUES ('Art Asset Thingy', 4, '2023-01-10');")
+dbExecute(conn, "INSERT INTO Asset ('Name', 'Type', 'Created_By', 'Date_Created') VALUES ('Environment Asset Thingy', 'Tree for use in Environment',4, '2023-01-02');")
+```
+
+#### Asset_Work_Items
+
+```{r}
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (8, 1);")
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (9, 1);")
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (10, 1);")
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (1, 2);")
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (2, 2);")
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (4, 3);")
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (5, 3);")
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (3, 4);")
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (6, 4);")
+dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (7, 4);")
+```
+
+#### Collection
+
+```{r}
+dbExecute(conn, "INSERT INTO Collection ('Library_Id', 'Asset_Id') VALUES (1, 1);")
+dbExecute(conn, "INSERT INTO Collection ('Library_Id', 'Asset_Id') VALUES (2, 2);")
+dbExecute(conn, "INSERT INTO Collection ('Library_Id', 'Asset_Id') VALUES (2, 3);")
+dbExecute(conn, "INSERT INTO Collection ('Library_Id', 'Asset_Id') VALUES (3, 4);")
+```
+
+#### Library
+
+```{r}
+dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Programming');")
+dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Models');")
+dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Scenery');")
+```
+
 ### Disconnect Database
 
 ```{r disconnect from database}
