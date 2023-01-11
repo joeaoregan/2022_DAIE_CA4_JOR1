@@ -1,10 +1,10 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-01-11 04:47:41.877
+-- Last modification date: 2023-01-11 14:13:59.238
 
 -- tables
 -- Table: Asset
 CREATE TABLE Asset (
-    Id integer NOT NULL CONSTRAINT Asset_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Asset_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL,
     Type varchar(50),
     Format varchar(50),
@@ -38,13 +38,13 @@ CREATE TABLE Collection (
 
 -- Table: Library
 CREATE TABLE Library (
-    Id integer NOT NULL CONSTRAINT Library_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Library_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );
 
 -- Table: Project
 CREATE TABLE Project (
-    Id integer NOT NULL CONSTRAINT Project_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Project_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(128) NOT NULL,
     Delivery_Date date NOT NULL
 );
@@ -62,19 +62,19 @@ CREATE TABLE Project_Team (
 
 -- Table: Role
 CREATE TABLE Role (
-    Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );
 
 -- Table: Status
 CREATE TABLE Status (
-    Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );
 
 -- Table: Team_Member
 CREATE TABLE Team_Member (
-    Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY AUTOINCREMENT,
     First_Name varchar(50) NOT NULL,
     Last_Name varchar(50) NOT NULL,
     Role_id integer NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE Team_Member (
 
 -- Table: Work_Item
 CREATE TABLE Work_Item (
-    Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY,
+    Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL,
     Status_Id integer NOT NULL,
     Assigned_to integer NOT NULL,
