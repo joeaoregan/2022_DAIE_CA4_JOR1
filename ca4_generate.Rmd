@@ -26,3 +26,153 @@ rasterImage(pp, 0, 0, 1, 1)
 ```
 
 ---
+
+## Create Tables
+
+```{r setup libraries, include=FALSE}
+if(!require("DBI"))
+  install.packages("DBI")
+if(!require("dplyr"))
+  install.packages("dplyr")
+library(DBI)
+library(dplyr)
+```
+
+### Create or recreate the sqlite file
+
+```{r create or recreate the sqlite file}
+# if the sqlite file exists already delete it
+if (file.exists("daie_ca4_data.sqlite"))
+  file.remove("daie_ca4_data.sqlite")
+
+# create the sqlite file
+conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
+```
+
+### Create the tables
+
+#### Asset
+
+```{r create asset table}
+# create tables
+dbExecute(conn, "CREATE TABLE Asset (
+    Id integer NOT NULL CONSTRAINT Asset_pk PRIMARY KEY,
+    Name varchar(50) NOT NULL,
+    Type varchar(50),
+    Format varchar(50),
+    Created_by integer NOT NULL,
+    Date_Created date NOT NULL,
+    CONSTRAINT Asset_Team_Member FOREIGN KEY (Created_by)
+    REFERENCES Team_Member (Id)
+);")
+```
+
+#### Asset_Work_Items
+
+```{r create asset_work_items table}
+dbExecute(conn, "CREATE TABLE Asset_Work_Items (
+    Work_Item_Id integer NOT NULL,
+    Asset_id integer NOT NULL,
+    CONSTRAINT Asset_Work_Items_pk PRIMARY KEY (Work_Item_Id,Asset_id),
+    CONSTRAINT Asset_Work_Item_Work_Item FOREIGN KEY (Work_Item_Id)
+    REFERENCES Work_Item (Id),
+    CONSTRAINT Asset_Work_Items_Asset FOREIGN KEY (Asset_id)
+    REFERENCES Asset (Id)
+);")
+```
+
+#### Collection
+
+```{r create collection table}
+dbExecute(conn, "CREATE TABLE Collection (
+    Library_Id integer NOT NULL,
+    Asset_Id integer NOT NULL,
+    CONSTRAINT Collection_Id PRIMARY KEY (Library_Id,Asset_Id),
+    CONSTRAINT Collection_Asset FOREIGN KEY (Asset_Id)
+    REFERENCES Asset (Id),
+    CONSTRAINT Collection_Library FOREIGN KEY (Library_Id)
+    REFERENCES Library (Id)
+);")
+```
+
+#### Library
+
+```{r create library table}
+dbExecute(conn, "CREATE TABLE Library (
+    Id integer NOT NULL CONSTRAINT Library_pk PRIMARY KEY,
+    Name varchar(50) NOT NULL
+);")
+```
+
+#### Project
+
+```{r create project table}
+dbExecute(conn, "CREATE TABLE Project (
+    Id integer NOT NULL CONSTRAINT Project_pk PRIMARY KEY,
+    Name varchar(128) NOT NULL,
+    Delivery_Date date NOT NULL
+);")
+```
+
+#### Project_Team
+
+```{r create project_team table}
+dbExecute(conn, "CREATE TABLE Project_Team (
+    Team_Member_Id integer NOT NULL,
+    Project_Project_Id integer NOT NULL,
+    CONSTRAINT Project_Team_Id PRIMARY KEY (Project_Project_Id,Team_Member_Id),
+    CONSTRAINT Team_Team_Member FOREIGN KEY (Team_Member_Id)
+    REFERENCES Team_Member (Id),
+    CONSTRAINT Team_Project FOREIGN KEY (Project_Project_Id)
+    REFERENCES Project (Id)
+);")
+```
+
+#### Role
+
+```{r create role table}
+dbExecute(conn, "CREATE TABLE Role (
+    Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY,
+    Name varchar(50) NOT NULL
+);")
+```
+
+#### Status
+
+```{r create status table}
+dbExecute(conn, "CREATE TABLE Status (
+    Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY,
+    Name varchar(50) NOT NULL
+);")
+```
+
+#### Team_Member
+
+```{r create team_member table}
+dbExecute(conn, "CREATE TABLE Team_Member (
+    Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY,
+    First_Name varchar(50) NOT NULL,
+    Last_Name varchar(50) NOT NULL,
+    Role_id integer NOT NULL,
+    CONSTRAINT Team_Member_Role FOREIGN KEY (Role_id)
+    REFERENCES Role (Id)
+);")
+```
+
+#### Work_Item
+
+```{r create work_item table}
+dbExecute(conn, "CREATE TABLE Work_Item (
+    Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY,
+    Name varchar(50) NOT NULL,
+    Status_Id integer NOT NULL,
+    Assigned_to integer NOT NULL,
+    CONSTRAINT Work_Item_Statuses FOREIGN KEY (Status_Id)
+    REFERENCES Status (Id),
+    CONSTRAINT Work_Item_Team_Member FOREIGN KEY (Assigned_to)
+    REFERENCES Team_Member (Id)
+);")
+
+dbDisconnect(conn)
+```
+

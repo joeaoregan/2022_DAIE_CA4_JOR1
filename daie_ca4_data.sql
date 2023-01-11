@@ -12,7 +12,7 @@ CREATE TABLE Asset (
     Date_Created date NOT NULL,
     CONSTRAINT Asset_Team_Member FOREIGN KEY (Created_by)
     REFERENCES Team_Member (Id)
-) COMMENT 'TEST';
+);
 
 -- Table: Asset_Work_Items
 CREATE TABLE Asset_Work_Items (
