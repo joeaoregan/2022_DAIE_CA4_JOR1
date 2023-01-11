@@ -293,6 +293,8 @@ dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Models');")
 dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Scenery');")
 ```
 
+---
+
 ### Disconnect Database
 
 ```{r disconnect from database}

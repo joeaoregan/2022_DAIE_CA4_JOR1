@@ -134,4 +134,11 @@ SELECT * FROM Collection
 collection_data
 ```
 
+---
+
+### Disconnect Database
+
+```{r disconnect from database}
+dbDisconnect(conn)
+```
 
