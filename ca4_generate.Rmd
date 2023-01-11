@@ -60,9 +60,9 @@ dbExecute(conn, "CREATE TABLE Asset (
     Name varchar(50) NOT NULL,
     Type varchar(50),
     Format varchar(50),
-    Created_by integer NOT NULL,
+    Created_By integer NOT NULL,
     Date_Created date NOT NULL,
-    CONSTRAINT Asset_Team_Member FOREIGN KEY (Created_by)
+    CONSTRAINT Asset_Team_Member FOREIGN KEY (Created_By)
     REFERENCES Team_Member (Id)
 );")
 ```
@@ -72,11 +72,11 @@ dbExecute(conn, "CREATE TABLE Asset (
 ```{r create asset_work_items table}
 dbExecute(conn, "CREATE TABLE Asset_Work_Items (
     Work_Item_Id integer NOT NULL,
-    Asset_id integer NOT NULL,
-    CONSTRAINT Asset_Work_Items_pk PRIMARY KEY (Work_Item_Id,Asset_id),
+    Asset_Id integer NOT NULL,
+    CONSTRAINT Asset_Work_Items_pk PRIMARY KEY (Work_Item_Id,Asset_Id),
     CONSTRAINT Asset_Work_Item_Work_Item FOREIGN KEY (Work_Item_Id)
     REFERENCES Work_Item (Id),
-    CONSTRAINT Asset_Work_Items_Asset FOREIGN KEY (Asset_id)
+    CONSTRAINT Asset_Work_Items_Asset FOREIGN KEY (Asset_Id)
     REFERENCES Asset (Id)
 );")
 ```
@@ -119,11 +119,11 @@ dbExecute(conn, "CREATE TABLE Project (
 ```{r create project_team table}
 dbExecute(conn, "CREATE TABLE Project_Team (
     Team_Member_Id integer NOT NULL,
-    Project_Project_Id integer NOT NULL,
-    CONSTRAINT Project_Team_Id PRIMARY KEY (Project_Project_Id,Team_Member_Id),
+    Project_Id integer NOT NULL,
+    CONSTRAINT Project_Team_Id PRIMARY KEY (Project_Id,Team_Member_Id),
     CONSTRAINT Team_Team_Member FOREIGN KEY (Team_Member_Id)
     REFERENCES Team_Member (Id),
-    CONSTRAINT Team_Project FOREIGN KEY (Project_Project_Id)
+    CONSTRAINT Team_Project FOREIGN KEY (Project_Id)
     REFERENCES Project (Id)
 );")
 ```
@@ -153,8 +153,10 @@ dbExecute(conn, "CREATE TABLE Team_Member (
     Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY AUTOINCREMENT,
     First_Name varchar(50) NOT NULL,
     Last_Name varchar(50) NOT NULL,
-    Role_id integer NOT NULL,
-    CONSTRAINT Team_Member_Role FOREIGN KEY (Role_id)
+    Email varchar(128) NOT NULL,
+    Role_Id integer NOT NULL,
+    CONSTRAINT Team_Member_Email_AK UNIQUE (Email),
+    CONSTRAINT Team_Member_Role FOREIGN KEY (Role_Id)
     REFERENCES Role (Id)
 );")
 ```
@@ -166,10 +168,10 @@ dbExecute(conn, "CREATE TABLE Work_Item (
     Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL,
     Status_Id integer NOT NULL,
-    Assigned_to integer NOT NULL,
+    Assigned_To integer NOT NULL,
     CONSTRAINT Work_Item_Statuses FOREIGN KEY (Status_Id)
     REFERENCES Status (Id),
-    CONSTRAINT Work_Item_Team_Member FOREIGN KEY (Assigned_to)
+    CONSTRAINT Work_Item_Team_Member FOREIGN KEY (Assigned_To)
     REFERENCES Team_Member (Id)
 );")
 
@@ -203,15 +205,15 @@ dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Concept Artist');")
 #### Team_Member
 
 ```{r}
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Joe', 'O''Regan', 2);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Derp', 'McDerp', 1);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Herpderp', 'Derpderpenson', 3);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Herpa', 'Derpderp', 4);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('De', 'Rpderp', 5);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Pred', 'Prehpred', 6);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Derpa', 'Derpa', 9);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('Herpa', 'Derpa', 8);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Role_Id') VALUES ('HerpaDerpa', 'McDerpa', 7);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joe', 'O''Regan', 'joe.oregan@daie.ca4', 2);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Derp', 'McDerp', 'derpmcderp@daie.ca4', 1);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Herpderp', 'Derpderpenson', 'hd.derpderpenson@daie.ca4', 3);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Herpa', 'Derpderp', 'herpa.derpderp@daie.ca4', 4);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('De', 'Rpderp', 'de.rpderp@daie.ca4', 5);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Pred', 'Prehpred', 'predprehpred@daie.ca4', 6);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Derpa', 'Derpa', 'derpaderpa@daie.ca4', 9);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Herpa', 'Derpa', 'herpaderpa@daie.ca4', 8);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('HerpaDerpa', 'McDerpa', 'herpaderpa.mcderpa@daie.ca4', 7);")
 ```
 
 #### Work_Item
@@ -239,15 +241,15 @@ dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('DAIE CA4
 #### Project_Team
 
 ```{r}
-dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (1, 1);")
-dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (2, 1);")
-dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (3, 1);")
-dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (4, 1);")
-dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (5, 1);")
-dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (6, 2);")
-dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (7, 2);")
-dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (8, 2);")
-dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Project_Id') VALUES (9, 2);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (1, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (2, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (3, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (4, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (5, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (6, 2);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (7, 2);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (8, 2);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (9, 2);")
 ```
 
 ### Disconnect Database

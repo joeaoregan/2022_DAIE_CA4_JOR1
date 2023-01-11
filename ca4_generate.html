@@ -388,9 +388,9 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     Name varchar(50) NOT NULL,
     Type varchar(50),
     Format varchar(50),
-    Created_by integer NOT NULL,
+    Created_By integer NOT NULL,
     Date_Created date NOT NULL,
-    CONSTRAINT Asset_Team_Member FOREIGN KEY (Created_by)
+    CONSTRAINT Asset_Team_Member FOREIGN KEY (Created_By)
     REFERENCES Team_Member (Id)
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
@@ -399,11 +399,11 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 <h4>Asset_Work_Items</h4>
 <pre class="r"><code>dbExecute(conn, &quot;CREATE TABLE Asset_Work_Items (
     Work_Item_Id integer NOT NULL,
-    Asset_id integer NOT NULL,
-    CONSTRAINT Asset_Work_Items_pk PRIMARY KEY (Work_Item_Id,Asset_id),
+    Asset_Id integer NOT NULL,
+    CONSTRAINT Asset_Work_Items_pk PRIMARY KEY (Work_Item_Id,Asset_Id),
     CONSTRAINT Asset_Work_Item_Work_Item FOREIGN KEY (Work_Item_Id)
     REFERENCES Work_Item (Id),
-    CONSTRAINT Asset_Work_Items_Asset FOREIGN KEY (Asset_id)
+    CONSTRAINT Asset_Work_Items_Asset FOREIGN KEY (Asset_Id)
     REFERENCES Asset (Id)
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
@@ -442,11 +442,11 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 <h4>Project_Team</h4>
 <pre class="r"><code>dbExecute(conn, &quot;CREATE TABLE Project_Team (
     Team_Member_Id integer NOT NULL,
-    Project_Project_Id integer NOT NULL,
-    CONSTRAINT Project_Team_Id PRIMARY KEY (Project_Project_Id,Team_Member_Id),
+    Project_Id integer NOT NULL,
+    CONSTRAINT Project_Team_Id PRIMARY KEY (Project_Id,Team_Member_Id),
     CONSTRAINT Team_Team_Member FOREIGN KEY (Team_Member_Id)
     REFERENCES Team_Member (Id),
-    CONSTRAINT Team_Project FOREIGN KEY (Project_Project_Id)
+    CONSTRAINT Team_Project FOREIGN KEY (Project_Id)
     REFERENCES Project (Id)
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
@@ -473,8 +473,10 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY AUTOINCREMENT,
     First_Name varchar(50) NOT NULL,
     Last_Name varchar(50) NOT NULL,
-    Role_id integer NOT NULL,
-    CONSTRAINT Team_Member_Role FOREIGN KEY (Role_id)
+    Email varchar(128) NOT NULL,
+    Role_Id integer NOT NULL,
+    CONSTRAINT Team_Member_Email_AK UNIQUE (Email),
+    CONSTRAINT Team_Member_Role FOREIGN KEY (Role_Id)
     REFERENCES Role (Id)
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
@@ -485,10 +487,10 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL,
     Status_Id integer NOT NULL,
-    Assigned_to integer NOT NULL,
+    Assigned_To integer NOT NULL,
     CONSTRAINT Work_Item_Statuses FOREIGN KEY (Status_Id)
     REFERENCES Status (Id),
-    CONSTRAINT Work_Item_Team_Member FOREIGN KEY (Assigned_to)
+    CONSTRAINT Work_Item_Team_Member FOREIGN KEY (Assigned_To)
     REFERENCES Team_Member (Id)
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
@@ -530,23 +532,23 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 </div>
 <div id="team_member-1" class="section level4">
 <h4>Team_Member</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Joe&#39;, &#39;O&#39;&#39;Regan&#39;, 2);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Joe&#39;, &#39;O&#39;&#39;Regan&#39;, &#39;joe.oregan@daie.ca4&#39;, 2);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derp&#39;, &#39;McDerp&#39;, 1);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derp&#39;, &#39;McDerp&#39;, &#39;derpmcderp@daie.ca4&#39;, 1);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpderp&#39;, &#39;Derpderpenson&#39;, 3);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpderp&#39;, &#39;Derpderpenson&#39;, &#39;hd.derpderpenson@daie.ca4&#39;, 3);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpderp&#39;, 4);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpderp&#39;, &#39;herpa.derpderp@daie.ca4&#39;, 4);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;De&#39;, &#39;Rpderp&#39;, 5);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;De&#39;, &#39;Rpderp&#39;, &#39;de.rpderp@daie.ca4&#39;, 5);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Pred&#39;, &#39;Prehpred&#39;, 6);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Pred&#39;, &#39;Prehpred&#39;, &#39;predprehpred@daie.ca4&#39;, 6);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derpa&#39;, &#39;Derpa&#39;, 9);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derpa&#39;, &#39;Derpa&#39;, &#39;derpaderpa@daie.ca4&#39;, 9);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpa&#39;, 8);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpa&#39;, &#39;herpaderpa@daie.ca4&#39;, 8);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Role_Id&#39;) VALUES (&#39;HerpaDerpa&#39;, &#39;McDerpa&#39;, 7);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;HerpaDerpa&#39;, &#39;McDerpa&#39;, &#39;herpaderpa.mcderpa@daie.ca4&#39;, 7);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
 </div>
 <div id="work_item-1" class="section level4">
@@ -581,23 +583,23 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 </div>
 <div id="project_team-1" class="section level4">
 <h4>Project_Team</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (1, 1);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (1, 1);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (2, 1);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (2, 1);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (3, 1);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (3, 1);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (4, 1);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (4, 1);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (5, 1);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (5, 1);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (6, 2);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (6, 2);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (7, 2);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (7, 2);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (8, 2);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (8, 2);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Project_Id&#39;) VALUES (9, 2);&quot;)</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (9, 2);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
 </div>
 </div>
