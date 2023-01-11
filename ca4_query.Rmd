@@ -1,0 +1,137 @@
+---
+title: "Data Analytics for Immersive Environments"
+subtitle: "CA4 - Querying Database"
+author: "Joe O'Regan"
+date: "2023-01-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+cat('\014')
+#knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+
+## Make Database Connection
+
+```{r setup libraries, include=FALSE}
+# libraries to query database
+if(!require("DBI"))
+  install.packages("DBI")
+if(!require("dplyr"))
+  install.packages("dplyr")
+library(DBI)
+library(dplyr)
+```
+
+### Connect to the sqlite database file
+
+```{r connect to the sqlite database file}
+# connect to the sqlite database file
+conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
+```
+
+## Query Database
+
+### Status
+
+```{sql connection=conn, output.var="status_data"}
+SELECT * FROM Status
+```
+
+```{r output status table contents}
+status_data
+```
+
+### Role
+
+```{sql connection=conn, output.var="role_data"}
+SELECT * FROM Role
+```
+
+```{r output role table contents}
+role_data
+```
+
+### Team_Member
+
+```{sql connection=conn, output.var="team_member_data"}
+SELECT * FROM Team_Member
+```
+
+```{r output team_member table contents}
+team_member_data
+```
+
+### Work_Item
+
+```{sql connection=conn, output.var="work_item_data"}
+SELECT * FROM Work_Item
+```
+
+```{r output work_item table contents}
+work_item_data
+```
+
+### Project
+
+```{sql connection=conn, output.var="project_data"}
+SELECT * FROM Project
+```
+
+```{r output project table contents}
+project_data
+```
+
+### Project_Team
+
+```{sql connection=conn, output.var="project_team_data"}
+SELECT * FROM Project_Team
+```
+
+```{r output project_team table contents}
+project_team_data
+```
+
+### Asset
+
+```{sql connection=conn, output.var="asset_data"}
+SELECT * FROM Asset
+```
+
+```{r output asset table contents}
+asset_data
+```
+
+### Asset_Work_Items
+
+```{sql connection=conn, output.var="asset_work_items_data"}
+SELECT * FROM Asset_Work_Items
+```
+
+```{r output asset_work_items table contents}
+asset_work_items_data
+```
+
+### Library
+
+```{sql connection=conn, output.var="library_data"}
+SELECT * FROM Library
+```
+
+```{r output library table contents}
+library_data
+```
+
+### Collection
+
+```{sql connection=conn, output.var="collection_data"}
+SELECT * FROM Collection
+```
+
+```{r output collection table contents}
+collection_data
+```
+
+
