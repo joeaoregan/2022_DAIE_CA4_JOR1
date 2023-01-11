@@ -1,0 +1,28 @@
+---
+title: "Data Analytics for Immersive Environments"
+subtitle: "CA4 - Generate and Populate Database"
+author: "Joe O'Regan"
+date: "2023-01-11"
+output: html_document
+---
+
+<!-- clear console -->
+```{r setup, include=FALSE}
+cat('\014')
+#knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+
+## ER Diagram
+
+<!-- show ER Diagram -->
+```{r er image, echo=FALSE}
+library("png")
+pp <- readPNG("daie_ca4_er_diagram.png")
+plot.new()
+rasterImage(pp, 0, 0, 1, 1)
+
+```
+
+---
