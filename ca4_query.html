@@ -498,16 +498,25 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 <pre class="sql"><code>SELECT * FROM Project_Team</code></pre>
 <p>Display Project_Team table data.</p>
 <pre class="r"><code>project_team_data</code></pre>
-<pre><code>##   Team_Member_Id Project_Id
-## 1              1          1
-## 2              2          1
-## 3              3          1
-## 4              4          1
-## 5              5          1
-## 6              6          2
-## 7              7          2
-## 8              8          2
-## 9              9          2</code></pre>
+<pre><code>##    Team_Member_Id Project_Id
+## 1               1          1
+## 2               2          1
+## 3               3          1
+## 4               4          1
+## 5               5          1
+## 6               2          2
+## 7               6          2
+## 8               7          2
+## 9               8          2
+## 10              9          2
+## 11              2          3
+## 12             10          3
+## 13             11          3
+## 14             14          4
+## 15             12          4
+## 16             13          5
+## 17             14          6
+## 18             14          7</code></pre>
 <hr />
 </div>
 <div id="asset" class="section level3">
@@ -820,6 +829,20 @@ WHERE Status_Id &gt; 2)</code></pre>
 <pre><code>##   Id            Name Status_Id Assigned_To
 ## 1  2 Art Test Thingy         3           3
 ## 2 10  Blueprint Test         3           2</code></pre>
+<hr />
+</div>
+<div id="subquery-with-select-and-not-in" class="section level4">
+<h4><strong>Subquery with SELECT and NOT IN</strong></h4>
+<p>Select work items that contain the string “test” and have a Status_Id
+less than 3.</p>
+<pre class="sql"><code>SELECT * FROM Work_Item
+WHERE Name LIKE &quot;%test%&quot; 
+AND Status_Id NOT IN
+(SELECT Status_Id FROM Work_Item
+WHERE Status_Id &gt; 2)</code></pre>
+<pre class="r"><code>query13b_subquery_with_select_not_in</code></pre>
+<pre><code>##   Id              Name Status_Id Assigned_To
+## 1  7 3D Model Test Obj         2           3</code></pre>
 <hr />
 </div>
 </div>

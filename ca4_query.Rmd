@@ -438,6 +438,24 @@ query13_subquery_with_select
 
 ---
 
+#### **Subquery with SELECT and NOT IN**
+
+Select work items that contain the string "test" and have a Status_Id less than 3. 
+
+```{sql connection=conn, output.var="query13b_subquery_with_select_not_in"}
+SELECT * FROM Work_Item
+WHERE Name LIKE "%test%" 
+AND Status_Id NOT IN
+(SELECT Status_Id FROM Work_Item
+WHERE Status_Id > 2)
+```
+
+```{r subquery with select and not in}
+query13b_subquery_with_select_not_in
+```
+
+---
+
 ### **5. SELECT across a date range**
 
 Select delivery dates from Project table to compare query against. And order them to make it that much easier to find.

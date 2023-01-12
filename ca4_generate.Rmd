@@ -500,10 +500,19 @@ dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUE
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (3, 1);")
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (4, 1);")
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (5, 1);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (2, 2);")
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (6, 2);")
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (7, 2);")
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (8, 2);")
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (9, 2);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (2, 3);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (10, 3);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (11, 3);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (14, 4);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (12, 4);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (13, 5);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (14, 6);")
+dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (14, 7);")
 ```
 
 Display table data:
