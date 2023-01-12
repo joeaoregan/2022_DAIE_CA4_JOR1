@@ -734,6 +734,54 @@ ON t.Role_Id = r.Id</code></pre>
 ## 9              9     HerpaDerpa McDerpa             Animator</code></pre>
 <hr />
 </div>
+<div id="subquery-with-select" class="section level3">
+<h3><strong>4. Subquery with SELECT</strong></h3>
+<div id="subquery-part-1-inner-query" class="section level4">
+<h4><strong>Subquery part 1, inner query</strong></h4>
+<p>Select the work items that are at least in Review (Review, or Done),
+i.e.with a status greater than 2.</p>
+<pre class="sql"><code>SELECT * FROM Work_Item
+WHERE Status_Id &gt; 2</code></pre>
+<pre class="r"><code>query11_subquery_part_1</code></pre>
+<pre><code>##   Id               Name Status_Id Assigned_To
+## 1  2    Art Test Thingy         3           3
+## 2  4 Art Concept Thingy         4           7
+## 3  5 Art Shading Thingy         4           8
+## 4 10     Blueprint Test         3           2</code></pre>
+<hr />
+</div>
+<div id="subquery-part-2-outer-query" class="section level4">
+<h4><strong>Subquery part 2, outer query</strong></h4>
+<p>Select work items that contain the string “test”.</p>
+<pre class="sql"><code>SELECT * FROM Work_Item
+WHERE Name LIKE &quot;%test%&quot;</code></pre>
+<pre class="r"><code>query12_subquery_part_2</code></pre>
+<pre><code>##   Id              Name Status_Id Assigned_To
+## 1  2   Art Test Thingy         3           3
+## 2  7 3D Model Test Obj         2           3
+## 3 10    Blueprint Test         3           2</code></pre>
+<hr />
+</div>
+<div id="subquery-with-select-1" class="section level4">
+<h4><strong>Subquery with SELECT</strong></h4>
+<p>Select work items that contain the string “test” and have a Status_Id
+greater than 2.</p>
+<pre class="sql"><code>SELECT * FROM Work_Item
+WHERE Name LIKE &quot;%test%&quot; 
+AND Status_Id IN
+(SELECT Status_Id FROM Work_Item
+WHERE Status_Id &gt; 2)</code></pre>
+<pre class="r"><code>query13_subquery_with_select</code></pre>
+<pre><code>##   Id            Name Status_Id Assigned_To
+## 1  2 Art Test Thingy         3           3
+## 2 10  Blueprint Test         3           2</code></pre>
+<hr />
+</div>
+</div>
+<div id="select-across-a-date-range" class="section level3">
+<h3><strong>5. SELECT across a date range</strong></h3>
+<hr />
+</div>
 <div id="disconnect-database" class="section level3">
 <h3>Disconnect Database</h3>
 <pre class="r"><code>dbDisconnect(conn)</code></pre>

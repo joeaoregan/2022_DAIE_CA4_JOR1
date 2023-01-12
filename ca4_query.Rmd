@@ -364,6 +364,60 @@ query10_select_inner_join
 
 ---
 
+### **4. Subquery with SELECT**
+
+#### **Subquery part 1, inner query**
+
+Select the work items that are at least in Review (Review, or Done), i.e.with a status greater than 2.
+
+```{sql connection=conn, output.var="query11_subquery_part_1"}
+SELECT * FROM Work_Item
+WHERE Status_Id > 2
+```
+
+```{r subquery part 1}
+query11_subquery_part_1
+```
+
+---
+
+#### **Subquery part 2, outer query**
+
+Select work items that contain the string "test".
+
+```{sql connection=conn, output.var="query12_subquery_part_2"}
+SELECT * FROM Work_Item
+WHERE Name LIKE "%test%"
+```
+
+```{r subquery part 2}
+query12_subquery_part_2
+```
+
+---
+
+#### **Subquery with SELECT**
+
+Select work items that contain the string "test" and have a Status_Id greater than 2. 
+
+```{sql connection=conn, output.var="query13_subquery_with_select"}
+SELECT * FROM Work_Item
+WHERE Name LIKE "%test%" 
+AND Status_Id IN
+(SELECT Status_Id FROM Work_Item
+WHERE Status_Id > 2)
+```
+
+```{r subquery with select}
+query13_subquery_with_select
+```
+
+---
+
+### **5. SELECT across a date range**
+
+---
+
 ### Disconnect Database
 
 ```{r disconnect from database}
