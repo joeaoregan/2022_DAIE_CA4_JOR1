@@ -28,6 +28,7 @@ rasterImage(pp, 0, 0, 1, 1)
 
 ## Create Tables
 
+<!--include libraries-->
 ```{r setup libraries, include=FALSE}
 if(!require("DBI"))
   install.packages("DBI")
@@ -41,6 +42,8 @@ library(magick) # crop images
 ```
 
 ### Create or recreate the sqlite file
+
+Check if the sqlite file exists already and if it does delete it. Then create an in-memory RSQLite database.
 
 ```{r create or recreate the sqlite file, results='hide'}
 # if the sqlite file exists already delete it
@@ -78,7 +81,7 @@ asset_img
 
 **Foreign Key(s):** Created_By (Team_Member.Id)
 
-Create the Asset table.
+Create the Asset table. Automatically increment the primary key. Id, Name, Created_By, and Date_created are mandatory fields.
 
 ```{r create asset table, results='hide'}
 # create tables
@@ -367,7 +370,7 @@ Display table data (using knitr library kable function):
 
 ```{r show rows in status}
 status_data <- dbGetQuery(conn, "SELECT * FROM Status;")
-#View(status_data)
+#View(status_data) # replace with knitr::kable() as it looks better
 knitr::kable(status_data, caption = "Status Table")
 ```
 
@@ -609,6 +612,7 @@ Insert table data:
 dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Programming');")
 dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Models');")
 dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Scenery');")
+dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Characters');")
 ```
 
 Display table data:
