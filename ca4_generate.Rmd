@@ -33,8 +33,11 @@ if(!require("DBI"))
   install.packages("DBI")
 if(!require("dplyr"))
   install.packages("dplyr")
-library(DBI)
+if(!require("magick"))
+  install.packages("magick")
+library(DBI) # interface with database
 library(dplyr)
+library(magick) # crop images
 ```
 
 ### Create or recreate the sqlite file
@@ -48,9 +51,32 @@ if (file.exists("daie_ca4_data.sqlite"))
 conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
 ```
 
+---
+
 ### Create the tables
 
 #### Asset
+
+```{r show asset table only, echo=FALSE}
+er_img <- image_read("daie_ca4_er_diagram.png")
+# cropped image dimension offset by location (in pixels)
+# (newXdimension x newYdimension + Xlocation + Ylocation)
+asset_img = image_scale(image_crop(er_img, "181x117+184+155"), "640")
+asset_img
+```
+
+* **Id:** Unique identifier for each row
+* **Name:** Description of the asset
+* **Type:** Short description of type of asset (Not mandatory)
+* **Format:** Short description of format of asset (Not mandatory)
+* **Created_By:** Team member who created the asset
+* **Date_Created:** Date the asset was created
+
+**Primary Key(s):** Id (auto increments)
+
+**Foreign Key(s):** Created_By (Team_Member.Id)
+
+Create the Asset table.
 
 ```{r create asset table, results='hide'}
 # create tables
@@ -66,7 +92,21 @@ dbExecute(conn, "CREATE TABLE Asset (
 );")
 ```
 
+---
+
 #### Asset_Work_Items
+
+```{r show Asset_Work_Items table only, echo=FALSE}
+asset_work_items_img = image_scale(image_crop(er_img, "183x62+181+27"), "640")
+asset_work_items_img
+```
+
+* **Work_Item_Id:** Id for work items used to create the asset
+* **Asset_Id:** Id of the asset
+
+**Primary Key(s):** Composite. Work_Item_Id + Asset_Id
+
+**Foreign Key(s):** Work_Item_Id (Work_Item.Id), Asset_Id (Asset.Id)
 
 ```{r create asset_work_items table, results='hide'}
 dbExecute(conn, "CREATE TABLE Asset_Work_Items (
@@ -80,7 +120,21 @@ dbExecute(conn, "CREATE TABLE Asset_Work_Items (
 );")
 ```
 
+---
+
 #### Collection
+
+```{r show Collection table only, echo=FALSE}
+collection_img = image_scale(image_crop(er_img, "146x61+210+334"), "640")
+collection_img
+```
+
+* **Library_Id:** Unique reference for a collection of assets
+* **Asset_Id:** Unique reference of the asset that make up a collection
+
+**Primary Key(s):** Composite. Library_Id + Asset_Id
+
+**Foreign Key(s):** Library_Id (Library.Id), Asset_Id (Asset.Id)
 
 ```{r create collection table, results='hide'}
 dbExecute(conn, "CREATE TABLE Collection (
@@ -94,7 +148,21 @@ dbExecute(conn, "CREATE TABLE Collection (
 );")
 ```
 
+---
+
 #### Library
+
+```{r show Library table only, echo=FALSE}
+library_img = image_scale(image_crop(er_img, "136x62+19+331"), "640")
+library_img
+```
+
+* **Id:** Unique reference for each collection in Library
+* **Name:** Description of library collection
+
+**Primary Key(s):** Id
+
+**Foreign Key(s):** Id (Collection.Library_Id)
 
 ```{r create library table, results='hide'}
 dbExecute(conn, "CREATE TABLE Library (
@@ -103,7 +171,22 @@ dbExecute(conn, "CREATE TABLE Library (
 );")
 ```
 
+---
+
 #### Project
+
+```{r show Project table only, echo=FALSE}
+project_img = image_scale(image_crop(er_img, "182x74+687+322"), "640")
+project_img
+```
+
+* **Id:** Unique reference for each project
+* **Name:** Description of Project
+* **Delivery_Date:** Date project is due to finish
+
+**Primary Key(s):** Id
+
+**Foreign Key(s):** Id (Project_Team.Project_Id). Each Project has multiple Team Members.
 
 ```{r create project table, results='hide'}
 dbExecute(conn, "CREATE TABLE Project (
@@ -113,7 +196,21 @@ dbExecute(conn, "CREATE TABLE Project (
 );")
 ```
 
+---
+
 #### Project_Team
+
+```{r show Project_Team table only, echo=FALSE}
+project_team_img = image_scale(image_crop(er_img, "182x74+687+322"), "640")
+project_team_img
+```
+
+* **Team_Member_Id:** Unique reference for each Team Member
+* **Project_Id:** Id of Project
+
+**Primary Key(s):** Composite. Team_Member_Id + Project_Id
+
+**Foreign Key(s):** Team_Member_Id (Team_Member.Id), Project_Id (Project.Id). Each Project has multiple Team Members. Each team member can work on 1 or more projects.
 
 ```{r create project_team table, results='hide'}
 dbExecute(conn, "CREATE TABLE Project_Team (
@@ -127,7 +224,21 @@ dbExecute(conn, "CREATE TABLE Project_Team (
 );")
 ```
 
+---
+
 #### Role
+
+```{r show Role table only, echo=FALSE}
+role_img = image_scale(image_crop(er_img, "136x62+709+177"), "640")
+role_img
+```
+
+* **Id:** Unique reference for role
+* **Name:** Role description
+
+**Primary Key(s):** Id
+
+**Foreign Key(s):** Id (Team_Member.Role_Id). Each team member has 1 role for projects.
 
 ```{r create role table, results='hide'}
 dbExecute(conn, "CREATE TABLE Role (
@@ -136,16 +247,47 @@ dbExecute(conn, "CREATE TABLE Role (
 );")
 ```
 
+---
+
 #### Status
 
-```{r create status table, results='hide'}
+```{r show Status table only, echo=FALSE}
+status_img = image_scale(image_crop(er_img, "138x63+708+34"), "640")
+status_img
+```
+
+* **Id:** Unique reference for status
+* **Name:** Status description
+
+**Primary Key(s):** Id
+
+**Foreign Key(s):** Id (Work_Item.Stats_Id). Each work item has a status (To Do, In Progress, Review, Done).
+
+```{r create Status table, results='hide'}
 dbExecute(conn, "CREATE TABLE Status (
     Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );")
 ```
 
+---
+
 #### Team_Member
+
+```{r show Team_Member table only, echo=FALSE}
+team_member_img = image_scale(image_crop(er_img, "172x103+462+167"), "640")
+team_member_img
+```
+
+* **Id:** Unique reference for team member
+* **First_Name:** Team Member first name
+* **Last_Name:** Team Member last name
+* **Email:** Team Member email
+* **Role_Id:** Team members role for projects
+
+**Primary Key(s):** Id
+
+**Foreign Key(s):** Id (Project_Team.Team_Member_Id, Work_Item.Assigned_To), Role_Id (Role.Id). Each Team Member has a role for projects. Each project team has team members. Each work item can be assigned to a team member.
 
 ```{r create team_member table, results='hide'}
 dbExecute(conn, "CREATE TABLE Team_Member (
@@ -160,7 +302,23 @@ dbExecute(conn, "CREATE TABLE Team_Member (
 );")
 ```
 
+---
+
 #### Work_Item
+
+```{r show Work_Item table only, echo=FALSE}
+work_item_img = image_scale(image_crop(er_img, "203x91+439+19"), "640")
+work_item_img
+```
+
+* **Id:** Unique reference for work item.
+* **Name:** Description of work item.
+* **Status_Id:** Work item has as status (To Do, In Progress, Review, Done).
+* **Assigned_To:** Work items can be assigned to team members.
+
+**Primary Key(s):** Id
+
+**Foreign Key(s):** Id (Asset_Work_Items.Work_Item.Id), Status_Id (Status.Id), Assigned_To (Team_Member.Id). Each work item can be assigned to a team member. Each work Item has a status. Assets are made of work items.
 
 ```{r create work_item table, results='hide'}
 dbExecute(conn, "CREATE TABLE Work_Item (
