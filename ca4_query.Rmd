@@ -59,6 +59,8 @@ Display table using knitr library kable function.
 knitr::kable(status_data)
 ```
 
+---
+
 ### Role
 
 Get all rows in Role table.
@@ -72,6 +74,8 @@ Display Role table data.
 ```{r output role table contents}
 role_data
 ```
+
+---
 
 ### Team_Member
 
@@ -87,6 +91,8 @@ Display Team_Member table data.
 team_member_data
 ```
 
+---
+
 ### Work_Item
 
 Get all rows in Work_Item table.
@@ -100,6 +106,8 @@ Display Work_Item table data.
 ```{r output work_item table contents}
 work_item_data
 ```
+
+---
 
 ### Project
 
@@ -115,6 +123,8 @@ Display Project table data.
 project_data
 ```
 
+---
+
 ### Project_Team
 
 Get all rows in Project_Team table.
@@ -128,6 +138,8 @@ Display Project_Team table data.
 ```{r output project_team table contents}
 project_team_data
 ```
+
+---
 
 ### Asset
 
@@ -143,6 +155,8 @@ Display Asset table data.
 asset_data
 ```
 
+---
+
 ### Asset_Work_Items
 
 Get all rows in Asset_Work_Items table.
@@ -157,6 +171,8 @@ Display Asset_Work_Items table data.
 asset_work_items_data
 ```
 
+---
+
 ### Library
 
 Get all rows in Library table.
@@ -170,6 +186,8 @@ Display Library table data.
 ```{r output library table contents}
 library_data
 ```
+
+---
 
 ### Collection
 
@@ -187,9 +205,17 @@ collection_data
 
 ---
 
-## Database Querying
+## **Database Querying**
 
-### **SELECT with WHERE.**
+1. SELECT with WHERE, LIKE, and OR
+2. SELECT with DISTINCT and ORDER BY
+3. Inner Join
+4. Subquery with SELECT
+5. SELECT across a date range
+
+### **1. SELECT with WHERE, LIKE, and OR**
+
+#### **Select with WHERE**
 
 Find Team Members who have the first name Joe.
 
@@ -204,7 +230,7 @@ query1_select_with_where
 
 ---
 
-### **SELECT with LIKE.**
+#### **SELECT with LIKE**
 
 Find Team Members with last name containing the string "derp"
 
@@ -218,17 +244,106 @@ query2_select_with_like
 
 ---
 
-### **SELECT with OR.**
-
-Find work items with Name beginning with the string "art" or have a Status_Id of 3.
+#### **SELECT with OR.**
 
 ```{sql connection=conn, output.var="query3_select_with_or"}
-SELECT * FROM Work_Item WHERE Name LIKE "art%" OR Status_Id = 3;
+SELECT * FROM Team_Member WHERE Role_Id = 2 OR Role_Id = 7;
 ```
 
 ```{r select with or}
 query3_select_with_or
 ```
+
+---
+
+#### **SELECT with WHERE, LIKE and OR**
+
+Find work items with Name beginning with a string like "art" or have a Status_Id of 3.
+
+```{sql connection=conn, output.var="query4_select_with_where_like_or"}
+SELECT * FROM Work_Item WHERE Name LIKE "art%" OR Status_Id = 3;
+```
+
+```{r select with where like or}
+query4_select_with_where_like_or
+```
+
+---
+
+### **2. SELECT with DISTINCT and ORDER BY**
+
+#### **SELECT with DISTINCT**
+
+Find the unique status IDs currently in the Work_Item table.
+
+```{sql connection=conn, output.var="query5_select_distinct"}
+SELECT DISTINCT Status_Id FROM Work_Item;
+```
+
+```{r select distinct}
+query5_select_distinct
+```
+
+---
+
+#### **SELECT with ORDER BY**
+
+Display work items ordered by assigned_to (Team_Member.Id).
+
+```{sql connection=conn, output.var="query6_select_order_by"}
+SELECT * FROM Work_Item ORDER BY Assigned_To;
+```
+
+```{r select order by}
+query6_select_order_by
+```
+
+---
+
+#### **SELECT with ORDER BY ASC**
+
+Display work items ordered by Status_Id (Status.Id) in ascending order.
+
+```{sql connection=conn, output.var="query7_select_order_by_asc"}
+SELECT * FROM Work_Item ORDER BY Status_Id ASC;
+```
+
+```{r select order by asc}
+query7_select_order_by_asc
+```
+
+---
+
+#### **SELECT with ORDER BY DESC**
+
+Display work items ordered by Assigned_To (Team_Member.Id) in descending order.
+
+```{sql connection=conn, output.var="query8_select_order_by_desc"}
+SELECT * FROM Work_Item ORDER BY Assigned_To DESC;
+```
+
+```{r select order by desc}
+query8_select_order_by_desc
+```
+
+---
+
+#### **SELECT with DISTINCT and ORDER By**
+
+Display work items ordered by Assigned_To (Team_Member.Id) in descending order.
+
+```{sql connection=conn, output.var="query9_select_distinct_order_by"}
+SELECT DISTINCT Assigned_To FROM Work_Item ORDER BY Assigned_To;
+```
+
+```{r select with distinct and order by}
+query9_select_distinct_order_by
+```
+
+---
+
+### **3. Inner Join**
+
 
 ---
 

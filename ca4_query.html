@@ -411,6 +411,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </tr>
 </tbody>
 </table>
+<hr />
 </div>
 <div id="role" class="section level3">
 <h3>Role</h3>
@@ -428,6 +429,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 7  7             Animator
 ## 8  8       Shading Artist
 ## 9  9       Concept Artist</code></pre>
+<hr />
 </div>
 <div id="team_member" class="section level3">
 <h3>Team_Member</h3>
@@ -445,6 +447,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 7  7      Derpa         Derpa         derpaderpa@daie.ca4       9
 ## 8  8      Herpa         Derpa         herpaderpa@daie.ca4       8
 ## 9  9 HerpaDerpa       McDerpa herpaderpa.mcderpa@daie.ca4       7</code></pre>
+<hr />
 </div>
 <div id="work_item" class="section level3">
 <h3>Work_Item</h3>
@@ -463,6 +466,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 8   8         Random Blueprint         2           1
 ## 9   9         Blueprint Thingy         2           2
 ## 10 10           Blueprint Test         3           2</code></pre>
+<hr />
 </div>
 <div id="project" class="section level3">
 <h3>Project</h3>
@@ -473,6 +477,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 <pre><code>##   Id     Name Delivery_Date
 ## 1  1 Art Proj    2023-01-11
 ## 2  2 DAIE CA4    2023-01-20</code></pre>
+<hr />
 </div>
 <div id="project_team" class="section level3">
 <h3>Project_Team</h3>
@@ -490,6 +495,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 7              7          2
 ## 8              8          2
 ## 9              9          2</code></pre>
+<hr />
 </div>
 <div id="asset" class="section level3">
 <h3>Asset</h3>
@@ -507,6 +513,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 2   2023-01-10
 ## 3   2023-01-10
 ## 4   2023-01-02</code></pre>
+<hr />
 </div>
 <div id="asset_work_items" class="section level3">
 <h3>Asset_Work_Items</h3>
@@ -525,6 +532,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 8             3        4
 ## 9             6        4
 ## 10            7        4</code></pre>
+<hr />
 </div>
 <div id="library" class="section level3">
 <h3>Library</h3>
@@ -536,6 +544,7 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 1  1 Programming
 ## 2  2      Models
 ## 3  3     Scenery</code></pre>
+<hr />
 </div>
 <div id="collection" class="section level3">
 <h3>Collection</h3>
@@ -552,9 +561,18 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </div>
 </div>
 <div id="database-querying" class="section level2">
-<h2>Database Querying</h2>
-<div id="select-with-where." class="section level3">
-<h3><strong>SELECT with WHERE.</strong></h3>
+<h2><strong>Database Querying</strong></h2>
+<ol style="list-style-type: decimal">
+<li>SELECT with WHERE, LIKE, and OR</li>
+<li>SELECT with DISTINCT and ORDER BY</li>
+<li>Inner Join</li>
+<li>Subquery with SELECT</li>
+<li>SELECT across a date range</li>
+</ol>
+<div id="select-with-where-like-and-or" class="section level3">
+<h3><strong>1. SELECT with WHERE, LIKE, and OR</strong></h3>
+<div id="select-with-where" class="section level4">
+<h4><strong>Select with WHERE</strong></h4>
 <p>Find Team Members who have the first name Joe.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE First_Name = &#39;Joe&#39;;
 </code></pre>
@@ -563,8 +581,8 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 1  1        Joe   O&#39;Regan joe.oregan@daie.ca4       2</code></pre>
 <hr />
 </div>
-<div id="select-with-like." class="section level3">
-<h3><strong>SELECT with LIKE.</strong></h3>
+<div id="select-with-like" class="section level4">
+<h4><strong>SELECT with LIKE</strong></h4>
 <p>Find Team Members with last name containing the string “derp”</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE Last_Name LIKE &quot;%derp%&quot;;</code></pre>
 <pre class="r"><code>query2_select_with_like</code></pre>
@@ -578,18 +596,119 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 7  9 HerpaDerpa       McDerpa herpaderpa.mcderpa@daie.ca4       7</code></pre>
 <hr />
 </div>
-<div id="select-with-or." class="section level3">
-<h3><strong>SELECT with OR.</strong></h3>
-<p>Find work items with Name beginning with the string “art” or have a
-Status_Id of 3.</p>
-<pre class="sql"><code>SELECT * FROM Work_Item WHERE Name LIKE &quot;art%&quot; OR Status_Id = 3;</code></pre>
+<div id="select-with-or." class="section level4">
+<h4><strong>SELECT with OR.</strong></h4>
+<pre class="sql"><code>SELECT * FROM Team_Member WHERE Role_Id = 2 OR Role_Id = 7;</code></pre>
 <pre class="r"><code>query3_select_with_or</code></pre>
+<pre><code>##   Id First_Name Last_Name                       Email Role_Id
+## 1  1        Joe   O&#39;Regan         joe.oregan@daie.ca4       2
+## 2  9 HerpaDerpa   McDerpa herpaderpa.mcderpa@daie.ca4       7</code></pre>
+<hr />
+</div>
+<div id="select-with-where-like-and-or-1" class="section level4">
+<h4><strong>SELECT with WHERE, LIKE and OR</strong></h4>
+<p>Find work items with Name beginning with a string like “art” or have
+a Status_Id of 3.</p>
+<pre class="sql"><code>SELECT * FROM Work_Item WHERE Name LIKE &quot;art%&quot; OR Status_Id = 3;</code></pre>
+<pre class="r"><code>query4_select_with_where_like_or</code></pre>
 <pre><code>##   Id               Name Status_Id Assigned_To
 ## 1  1         Art Thingy         2           4
 ## 2  2    Art Test Thingy         3           3
 ## 3  4 Art Concept Thingy         4           7
 ## 4  5 Art Shading Thingy         4           8
 ## 5 10     Blueprint Test         3           2</code></pre>
+<hr />
+</div>
+</div>
+<div id="select-with-distinct-and-order-by" class="section level3">
+<h3><strong>2. SELECT with DISTINCT and ORDER BY</strong></h3>
+<div id="select-with-distinct" class="section level4">
+<h4><strong>SELECT with DISTINCT</strong></h4>
+<p>Find the unique status IDs currently in the Work_Item table.</p>
+<pre class="sql"><code>SELECT DISTINCT Status_Id FROM Work_Item;</code></pre>
+<pre class="r"><code>query5_select_distinct</code></pre>
+<pre><code>##   Status_Id
+## 1         2
+## 2         3
+## 3         4</code></pre>
+<hr />
+</div>
+<div id="select-with-order-by" class="section level4">
+<h4><strong>SELECT with ORDER BY</strong></h4>
+<p>Display work items ordered by assigned_to (Team_Member.Id).</p>
+<pre class="sql"><code>SELECT * FROM Work_Item ORDER BY Assigned_To;</code></pre>
+<pre class="r"><code>query6_select_order_by</code></pre>
+<pre><code>##    Id                     Name Status_Id Assigned_To
+## 1   8         Random Blueprint         2           1
+## 2   9         Blueprint Thingy         2           2
+## 3  10           Blueprint Test         3           2
+## 4   2          Art Test Thingy         3           3
+## 5   7        3D Model Test Obj         2           3
+## 6   1               Art Thingy         2           4
+## 7   6          Random 3D Model         2           5
+## 8   3 Environment Model Thingy         2           6
+## 9   4       Art Concept Thingy         4           7
+## 10  5       Art Shading Thingy         4           8</code></pre>
+<hr />
+</div>
+<div id="select-with-order-by-asc" class="section level4">
+<h4><strong>SELECT with ORDER BY ASC</strong></h4>
+<p>Display work items ordered by Status_Id (Status.Id) in ascending
+order.</p>
+<pre class="sql"><code>SELECT * FROM Work_Item ORDER BY Status_Id ASC;</code></pre>
+<pre class="r"><code>query7_select_order_by_asc</code></pre>
+<pre><code>##    Id                     Name Status_Id Assigned_To
+## 1   1               Art Thingy         2           4
+## 2   3 Environment Model Thingy         2           6
+## 3   6          Random 3D Model         2           5
+## 4   7        3D Model Test Obj         2           3
+## 5   8         Random Blueprint         2           1
+## 6   9         Blueprint Thingy         2           2
+## 7   2          Art Test Thingy         3           3
+## 8  10           Blueprint Test         3           2
+## 9   4       Art Concept Thingy         4           7
+## 10  5       Art Shading Thingy         4           8</code></pre>
+<hr />
+</div>
+<div id="select-with-order-by-desc" class="section level4">
+<h4><strong>SELECT with ORDER BY DESC</strong></h4>
+<p>Display work items ordered by Assigned_To (Team_Member.Id) in
+descending order.</p>
+<pre class="sql"><code>SELECT * FROM Work_Item ORDER BY Assigned_To DESC;</code></pre>
+<pre class="r"><code>query8_select_order_by_desc</code></pre>
+<pre><code>##    Id                     Name Status_Id Assigned_To
+## 1   5       Art Shading Thingy         4           8
+## 2   4       Art Concept Thingy         4           7
+## 3   3 Environment Model Thingy         2           6
+## 4   6          Random 3D Model         2           5
+## 5   1               Art Thingy         2           4
+## 6   2          Art Test Thingy         3           3
+## 7   7        3D Model Test Obj         2           3
+## 8   9         Blueprint Thingy         2           2
+## 9  10           Blueprint Test         3           2
+## 10  8         Random Blueprint         2           1</code></pre>
+<hr />
+</div>
+<div id="select-with-distinct-and-order-by-1" class="section level4">
+<h4><strong>SELECT with DISTINCT and ORDER By</strong></h4>
+<p>Display work items ordered by Assigned_To (Team_Member.Id) in
+descending order.</p>
+<pre class="sql"><code>SELECT DISTINCT Assigned_To FROM Work_Item ORDER BY Assigned_To;</code></pre>
+<pre class="r"><code>query9_select_distinct_order_by</code></pre>
+<pre><code>##   Assigned_To
+## 1           1
+## 2           2
+## 3           3
+## 4           4
+## 5           5
+## 6           6
+## 7           7
+## 8           8</code></pre>
+<hr />
+</div>
+</div>
+<div id="inner-join" class="section level3">
+<h3><strong>3. Inner Join</strong></h3>
 <hr />
 </div>
 <div id="disconnect-database" class="section level3">
