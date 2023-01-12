@@ -6,10 +6,17 @@ date: "2023-01-11"
 output: html_document
 ---
 
+<!-- clear console -->
 ```{r setup, include=FALSE}
 cat('\014')
 #knitr::opts_chunk$set(echo = TRUE)
 ```
+
+---
+
+## ER Diagram
+
+![Entity Relationship Diagram](daie_ca4_er_diagram.png)
 
 ---
 
