@@ -344,6 +344,23 @@ query9_select_distinct_order_by
 
 ### **3. Inner Join**
 
+Inner Join Team_Member and Role tables via foreign key Team_Member.Role_id corresponding to Role.Id. 
+
+First name and last name are concatenated with the || operator as Concat() doesn't work in Sqlite. Using Alias (AS) for column headings and t for Team_Member and r for Role table aliases.
+
+```{sql connection=conn, output.var="query10_select_inner_join"}
+ -- no Concat() in sqlite, || = concat operator
+SELECT t.Id as "Team Member Id", 
+t.First_Name || ' ' || t.Last_Name AS 'Full Name',
+r.Name AS 'Project Role'
+From Team_Member t
+Inner Join Role r
+ON t.Role_Id = r.Id
+```
+
+```{r select with inner join}
+query10_select_inner_join
+```
 
 ---
 

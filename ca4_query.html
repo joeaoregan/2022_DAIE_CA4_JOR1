@@ -709,6 +709,29 @@ descending order.</p>
 </div>
 <div id="inner-join" class="section level3">
 <h3><strong>3. Inner Join</strong></h3>
+<p>Inner Join Team_Member and Role tables via foreign key
+Team_Member.Role_id corresponding to Role.Id.</p>
+<p>First name and last name are concatenated with the || operator as
+Concat() doesn’t work in Sqlite. Using Alias (AS) for column headings
+and t for Team_Member and r for Role table aliases.</p>
+<pre class="sql"><code> -- no Concat() in sqlite, || = concat operator
+SELECT t.Id as &quot;Team Member Id&quot;, 
+t.First_Name || &#39; &#39; || t.Last_Name AS &#39;Full Name&#39;,
+r.Name AS &#39;Project Role&#39;
+From Team_Member t
+Inner Join Role r
+ON t.Role_Id = r.Id</code></pre>
+<pre class="r"><code>query10_select_inner_join</code></pre>
+<pre><code>##   Team Member Id              Full Name         Project Role
+## 1              1            Joe O&#39;Regan           Programmer
+## 2              2            Derp McDerp      Project Manager
+## 3              3 Herpderp Derpderpenson               Tester
+## 4              4         Herpa Derpderp               Artist
+## 5              5              De Rpderp          3D Modeller
+## 6              6          Pred Prehpred Environment Modeller
+## 7              7            Derpa Derpa       Concept Artist
+## 8              8            Herpa Derpa       Shading Artist
+## 9              9     HerpaDerpa McDerpa             Animator</code></pre>
 <hr />
 </div>
 <div id="disconnect-database" class="section level3">
