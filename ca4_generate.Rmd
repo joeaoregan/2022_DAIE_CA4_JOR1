@@ -57,7 +57,9 @@ conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
 
 #### Asset
 
-```{r show asset table only, echo=FALSE}
+Show each table cropped from the main ER Diagram using magick library. Only dimensions and offset change for each cropped table, so this code is shown once.
+
+```{r show asset table only}
 er_img <- image_read("daie_ca4_er_diagram.png")
 # cropped image dimension offset by location (in pixels)
 # (newXdimension x newYdimension + Xlocation + Ylocation)
