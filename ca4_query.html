@@ -780,7 +780,26 @@ WHERE Status_Id &gt; 2)</code></pre>
 </div>
 <div id="select-across-a-date-range" class="section level3">
 <h3><strong>5. SELECT across a date range</strong></h3>
+<p>Select delivery dates from Project table to compare query
+against.</p>
+<pre class="sql"><code>SELECT Delivery_Date FROM Project</code></pre>
+<pre class="r"><code>query14_check_dates</code></pre>
+<pre><code>##   Delivery_Date
+## 1    2023-01-11
+## 2    2023-01-20</code></pre>
 <hr />
+<div id="select-across-a-date-range-1" class="section level4">
+<h4><strong>Select across a date range</strong></h4>
+<p>Select projects with a delivery date in the range 16/01/2023 to
+25/01/2023.</p>
+<pre class="sql"><code>SELECT * FROM Project
+WHERE Delivery_Date 
+BETWEEN &quot;2023-01-16&quot; AND &quot;2023-01-25&quot;;</code></pre>
+<pre class="r"><code>query15_select_across_date_range</code></pre>
+<pre><code>##   Id     Name Delivery_Date
+## 1  2 DAIE CA4    2023-01-20</code></pre>
+<hr />
+</div>
 </div>
 <div id="disconnect-database" class="section level3">
 <h3>Disconnect Database</h3>

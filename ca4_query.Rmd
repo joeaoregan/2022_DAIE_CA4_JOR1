@@ -416,6 +416,32 @@ query13_subquery_with_select
 
 ### **5. SELECT across a date range**
 
+Select delivery dates from Project table to compare query against.
+
+```{sql connection=conn, output.var="query14_check_dates"}
+SELECT Delivery_Date FROM Project
+```
+
+```{r select date part 1}
+query14_check_dates
+```
+
+---
+
+#### **Select across a date range**
+
+Select projects with a delivery date in the range 16/01/2023 to 25/01/2023.
+
+```{sql connection=conn, output.var="query15_select_across_date_range"}
+SELECT * FROM Project
+WHERE Delivery_Date 
+BETWEEN "2023-01-16" AND "2023-01-25";
+```
+
+```{r select across date range}
+query15_select_across_date_range
+```
+
 ---
 
 ### Disconnect Database
