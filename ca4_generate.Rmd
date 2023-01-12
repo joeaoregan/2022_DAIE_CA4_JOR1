@@ -354,7 +354,7 @@ dbListTables(conn)
 dbListFields(conn, "Status")
 ```
 
-Insert table data:
+Insert table data (using DBI library dbExecute function):
 
 ```{r insert data into status table, results='hide'}
 dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('To Do');")
@@ -363,7 +363,7 @@ dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('Review');")
 dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('Done');")
 ```
 
-Display table data:
+Display table data (using knitr library kable function):
 
 ```{r show rows in status}
 status_data <- dbGetQuery(conn, "SELECT * FROM Status;")

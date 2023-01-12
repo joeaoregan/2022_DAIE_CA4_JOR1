@@ -32,30 +32,42 @@ library(DBI)
 library(dplyr)
 ```
 
-### Connect to the sqlite database file
+Connect to the sqlite database file.
 
 ```{r connect to the sqlite database file}
 # connect to the sqlite database file
 conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
 ```
 
-## Query Database
+---
+
+## TABLE CONTENTS
+
+Contents of tables to check queries against.
 
 ### Status
+
+Get all rows in Status table.
 
 ```{sql connection=conn, output.var="status_data"}
 SELECT * FROM Status
 ```
 
+Display table using knitr library kable function.
+
 ```{r output status table contents}
-status_data
+knitr::kable(status_data)
 ```
 
 ### Role
 
+Get all rows in Role table.
+
 ```{sql connection=conn, output.var="role_data"}
 SELECT * FROM Role
 ```
+
+Display Role table data.
 
 ```{r output role table contents}
 role_data
@@ -63,9 +75,13 @@ role_data
 
 ### Team_Member
 
+Get all rows in Team_Member table.
+
 ```{sql connection=conn, output.var="team_member_data"}
 SELECT * FROM Team_Member
 ```
+
+Display Team_Member table data.
 
 ```{r output team_member table contents}
 team_member_data
@@ -73,9 +89,13 @@ team_member_data
 
 ### Work_Item
 
+Get all rows in Work_Item table.
+
 ```{sql connection=conn, output.var="work_item_data"}
 SELECT * FROM Work_Item
 ```
+
+Display Work_Item table data.
 
 ```{r output work_item table contents}
 work_item_data
@@ -83,9 +103,13 @@ work_item_data
 
 ### Project
 
+Get all rows in Project table.
+
 ```{sql connection=conn, output.var="project_data"}
 SELECT * FROM Project
 ```
+
+Display Project table data.
 
 ```{r output project table contents}
 project_data
@@ -93,9 +117,13 @@ project_data
 
 ### Project_Team
 
+Get all rows in Project_Team table.
+
 ```{sql connection=conn, output.var="project_team_data"}
 SELECT * FROM Project_Team
 ```
+
+Display Project_Team table data.
 
 ```{r output project_team table contents}
 project_team_data
@@ -103,9 +131,13 @@ project_team_data
 
 ### Asset
 
+Get all rows in Asset table.
+
 ```{sql connection=conn, output.var="asset_data"}
 SELECT * FROM Asset
 ```
+
+Display Asset table data.
 
 ```{r output asset table contents}
 asset_data
@@ -113,9 +145,13 @@ asset_data
 
 ### Asset_Work_Items
 
+Get all rows in Asset_Work_Items table.
+
 ```{sql connection=conn, output.var="asset_work_items_data"}
 SELECT * FROM Asset_Work_Items
 ```
+
+Display Asset_Work_Items table data.
 
 ```{r output asset_work_items table contents}
 asset_work_items_data
@@ -123,9 +159,13 @@ asset_work_items_data
 
 ### Library
 
+Get all rows in Library table.
+
 ```{sql connection=conn, output.var="library_data"}
 SELECT * FROM Library
 ```
+
+Display Library table data.
 
 ```{r output library table contents}
 library_data
@@ -133,12 +173,61 @@ library_data
 
 ### Collection
 
+Get all rows in Collection table.
+
 ```{sql connection=conn, output.var="collection_data"}
 SELECT * FROM Collection
 ```
 
+Display Collection table data.
+
 ```{r output collection table contents}
 collection_data
+```
+
+---
+
+## Database Querying
+
+### **SELECT with WHERE.**
+
+Find Team Members who have the first name Joe.
+
+```{sql connection=conn, output.var="query1_select_with_where"}
+SELECT * FROM Team_Member WHERE First_Name = 'Joe';
+
+```
+
+```{r select with where}
+query1_select_with_where
+```
+
+---
+
+### **SELECT with LIKE.**
+
+Find Team Members with last name containing the string "derp"
+
+```{sql connection=conn, output.var="query2_select_with_like"}
+SELECT * FROM Team_Member WHERE Last_Name LIKE "%derp%";
+```
+
+```{r select with like}
+query2_select_with_like
+```
+
+---
+
+### **SELECT with OR.**
+
+Find work items with Name beginning with the string "art" or have a Status_Id of 3.
+
+```{sql connection=conn, output.var="query3_select_with_or"}
+SELECT * FROM Work_Item WHERE Name LIKE "art%" OR Status_Id = 3;
+```
+
+```{r select with or}
+query3_select_with_or
 ```
 
 ---

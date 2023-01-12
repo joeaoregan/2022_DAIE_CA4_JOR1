@@ -371,27 +371,52 @@ Environments - CA4 - RDBMS &amp; Linear Regression Project</h1>
 </div>
 <div id="make-database-connection" class="section level2">
 <h2>Make Database Connection</h2>
-<div id="connect-to-the-sqlite-database-file" class="section level3">
-<h3>Connect to the sqlite database file</h3>
+<p>Connect to the sqlite database file.</p>
 <pre class="r"><code># connect to the sqlite database file
 conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code></pre>
+<hr />
 </div>
-</div>
-<div id="query-database" class="section level2">
-<h2>Query Database</h2>
+<div id="table-contents" class="section level2">
+<h2>TABLE CONTENTS</h2>
+<p>Contents of tables to check queries against.</p>
 <div id="status" class="section level3">
 <h3>Status</h3>
+<p>Get all rows in Status table.</p>
 <pre class="sql"><code>SELECT * FROM Status</code></pre>
-<pre class="r"><code>status_data</code></pre>
-<pre><code>##   Id        Name
-## 1  1       To Do
-## 2  2 In Progress
-## 3  3      Review
-## 4  4        Done</code></pre>
+<p>Display table using knitr library kable function.</p>
+<pre class="r"><code>knitr::kable(status_data)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Id</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">To Do</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">In Progress</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Review</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Done</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="role" class="section level3">
 <h3>Role</h3>
+<p>Get all rows in Role table.</p>
 <pre class="sql"><code>SELECT * FROM Role</code></pre>
+<p>Display Role table data.</p>
 <pre class="r"><code>role_data</code></pre>
 <pre><code>##   Id                 Name
 ## 1  1      Project Manager
@@ -406,7 +431,9 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </div>
 <div id="team_member" class="section level3">
 <h3>Team_Member</h3>
+<p>Get all rows in Team_Member table.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member</code></pre>
+<p>Display Team_Member table data.</p>
 <pre class="r"><code>team_member_data</code></pre>
 <pre><code>##   Id First_Name     Last_Name                       Email Role_Id
 ## 1  1        Joe       O&#39;Regan         joe.oregan@daie.ca4       2
@@ -421,7 +448,9 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </div>
 <div id="work_item" class="section level3">
 <h3>Work_Item</h3>
+<p>Get all rows in Work_Item table.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item</code></pre>
+<p>Display Work_Item table data.</p>
 <pre class="r"><code>work_item_data</code></pre>
 <pre><code>##    Id                     Name Status_Id Assigned_To
 ## 1   1               Art Thingy         2           4
@@ -437,7 +466,9 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </div>
 <div id="project" class="section level3">
 <h3>Project</h3>
+<p>Get all rows in Project table.</p>
 <pre class="sql"><code>SELECT * FROM Project</code></pre>
+<p>Display Project table data.</p>
 <pre class="r"><code>project_data</code></pre>
 <pre><code>##   Id     Name Delivery_Date
 ## 1  1 Art Proj    2023-01-11
@@ -445,7 +476,9 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </div>
 <div id="project_team" class="section level3">
 <h3>Project_Team</h3>
+<p>Get all rows in Project_Team table.</p>
 <pre class="sql"><code>SELECT * FROM Project_Team</code></pre>
+<p>Display Project_Team table data.</p>
 <pre class="r"><code>project_team_data</code></pre>
 <pre><code>##   Team_Member_Id Project_Id
 ## 1              1          1
@@ -460,7 +493,9 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </div>
 <div id="asset" class="section level3">
 <h3>Asset</h3>
+<p>Get all rows in Asset table.</p>
 <pre class="sql"><code>SELECT * FROM Asset</code></pre>
+<p>Display Asset table data.</p>
 <pre class="r"><code>asset_data</code></pre>
 <pre><code>##   Id                     Name                        Type   Format Created_By
 ## 1  1   Random Blueprint Asset   Combination of Blueprints Zip file          1
@@ -475,7 +510,9 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </div>
 <div id="asset_work_items" class="section level3">
 <h3>Asset_Work_Items</h3>
+<p>Get all rows in Asset_Work_Items table.</p>
 <pre class="sql"><code>SELECT * FROM Asset_Work_Items</code></pre>
+<p>Display Asset_Work_Items table data.</p>
 <pre class="r"><code>asset_work_items_data</code></pre>
 <pre><code>##    Work_Item_Id Asset_Id
 ## 1             8        1
@@ -491,7 +528,9 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </div>
 <div id="library" class="section level3">
 <h3>Library</h3>
+<p>Get all rows in Library table.</p>
 <pre class="sql"><code>SELECT * FROM Library</code></pre>
+<p>Display Library table data.</p>
 <pre class="r"><code>library_data</code></pre>
 <pre><code>##   Id        Name
 ## 1  1 Programming
@@ -500,13 +539,57 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </div>
 <div id="collection" class="section level3">
 <h3>Collection</h3>
+<p>Get all rows in Collection table.</p>
 <pre class="sql"><code>SELECT * FROM Collection</code></pre>
+<p>Display Collection table data.</p>
 <pre class="r"><code>collection_data</code></pre>
 <pre><code>##   Library_Id Asset_Id
 ## 1          1        1
 ## 2          2        2
 ## 3          2        3
 ## 4          3        4</code></pre>
+<hr />
+</div>
+</div>
+<div id="database-querying" class="section level2">
+<h2>Database Querying</h2>
+<div id="select-with-where." class="section level3">
+<h3><strong>SELECT with WHERE.</strong></h3>
+<p>Find Team Members who have the first name Joe.</p>
+<pre class="sql"><code>SELECT * FROM Team_Member WHERE First_Name = &#39;Joe&#39;;
+</code></pre>
+<pre class="r"><code>query1_select_with_where</code></pre>
+<pre><code>##   Id First_Name Last_Name               Email Role_Id
+## 1  1        Joe   O&#39;Regan joe.oregan@daie.ca4       2</code></pre>
+<hr />
+</div>
+<div id="select-with-like." class="section level3">
+<h3><strong>SELECT with LIKE.</strong></h3>
+<p>Find Team Members with last name containing the string “derp”</p>
+<pre class="sql"><code>SELECT * FROM Team_Member WHERE Last_Name LIKE &quot;%derp%&quot;;</code></pre>
+<pre class="r"><code>query2_select_with_like</code></pre>
+<pre><code>##   Id First_Name     Last_Name                       Email Role_Id
+## 1  2       Derp        McDerp         derpmcderp@daie.ca4       1
+## 2  3   Herpderp Derpderpenson   hd.derpderpenson@daie.ca4       3
+## 3  4      Herpa      Derpderp     herpa.derpderp@daie.ca4       4
+## 4  5         De        Rpderp          de.rpderp@daie.ca4       5
+## 5  7      Derpa         Derpa         derpaderpa@daie.ca4       9
+## 6  8      Herpa         Derpa         herpaderpa@daie.ca4       8
+## 7  9 HerpaDerpa       McDerpa herpaderpa.mcderpa@daie.ca4       7</code></pre>
+<hr />
+</div>
+<div id="select-with-or." class="section level3">
+<h3><strong>SELECT with OR.</strong></h3>
+<p>Find work items with Name beginning with the string “art” or have a
+Status_Id of 3.</p>
+<pre class="sql"><code>SELECT * FROM Work_Item WHERE Name LIKE &quot;art%&quot; OR Status_Id = 3;</code></pre>
+<pre class="r"><code>query3_select_with_or</code></pre>
+<pre><code>##   Id               Name Status_Id Assigned_To
+## 1  1         Art Thingy         2           4
+## 2  2    Art Test Thingy         3           3
+## 3  4 Art Concept Thingy         4           7
+## 4  5 Art Shading Thingy         4           8
+## 5 10     Blueprint Test         3           2</code></pre>
 <hr />
 </div>
 <div id="disconnect-database" class="section level3">
