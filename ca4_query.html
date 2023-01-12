@@ -437,16 +437,21 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 <pre class="sql"><code>SELECT * FROM Team_Member</code></pre>
 <p>Display Team_Member table data.</p>
 <pre class="r"><code>team_member_data</code></pre>
-<pre><code>##   Id First_Name     Last_Name                       Email Role_Id
-## 1  1        Joe       O&#39;Regan         joe.oregan@daie.ca4       2
-## 2  2       Derp        McDerp         derpmcderp@daie.ca4       1
-## 3  3   Herpderp Derpderpenson   hd.derpderpenson@daie.ca4       3
-## 4  4      Herpa      Derpderp     herpa.derpderp@daie.ca4       4
-## 5  5         De        Rpderp          de.rpderp@daie.ca4       5
-## 6  6       Pred      Prehpred       predprehpred@daie.ca4       6
-## 7  7      Derpa         Derpa         derpaderpa@daie.ca4       9
-## 8  8      Herpa         Derpa         herpaderpa@daie.ca4       8
-## 9  9 HerpaDerpa       McDerpa herpaderpa.mcderpa@daie.ca4       7</code></pre>
+<pre><code>##    Id First_Name     Last_Name                       Email Role_Id
+## 1   1        Joe       O&#39;Regan         joe.oregan@daie.ca4       2
+## 2   2       Derp        McDerp         derpmcderp@daie.ca4       1
+## 3   3   Herpderp Derpderpenson   hd.derpderpenson@daie.ca4       3
+## 4   4      Herpa      Derpderp     herpa.derpderp@daie.ca4       4
+## 5   5         De        Rpderp          de.rpderp@daie.ca4       5
+## 6   6       Pred      Prehpred       predprehpred@daie.ca4       6
+## 7   7      Derpa         Derpa         derpaderpa@daie.ca4       9
+## 8   8      Herpa         Derpa         herpaderpa@daie.ca4       8
+## 9   9 HerpaDerpa       McDerpa herpaderpa.mcderpa@daie.ca4       7
+## 10 10        Joe          Derp             j.derp@daie.ca4       2
+## 11 11        Jon     Herpaderp         jherpaderp@daie.ca4       7
+## 12 12     Joblot       O&#39;Stuff      joblot.ostuff@daie.ca4       3
+## 13 13     Joderp Herpderpenson    j.herpderpenson@daie.ca4       4
+## 14 14         Jo McQueryfiller    j.mcqueryfiller@daie.ca4       1</code></pre>
 <hr />
 </div>
 <div id="work_item" class="section level3">
@@ -586,22 +591,47 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 </code></pre>
 <pre class="r"><code>query1_select_with_where</code></pre>
 <pre><code>##   Id First_Name Last_Name               Email Role_Id
-## 1  1        Joe   O&#39;Regan joe.oregan@daie.ca4       2</code></pre>
+## 1  1        Joe   O&#39;Regan joe.oregan@daie.ca4       2
+## 2 10        Joe      Derp     j.derp@daie.ca4       2</code></pre>
 <hr />
 </div>
 <div id="select-with-like" class="section level4">
 <h4><strong>SELECT with LIKE</strong></h4>
-<p>Find Team Members with last name containing the string “derp”</p>
+<p>Find Team Members with first name with 3 characters beginning with
+“jo” using ’_’ wildcard.</p>
+<pre class="sql"><code>SELECT * FROM Team_Member WHERE First_Name LIKE &quot;jo_&quot;;</code></pre>
+<pre class="r"><code>query2a_select_with_like</code></pre>
+<pre><code>##   Id First_Name Last_Name               Email Role_Id
+## 1  1        Joe   O&#39;Regan joe.oregan@daie.ca4       2
+## 2 10        Joe      Derp     j.derp@daie.ca4       2
+## 3 11        Jon Herpaderp jherpaderp@daie.ca4       7</code></pre>
+<hr />
+<p>Find Team Members with last name containing the string “derp” using
+‘%’ wildcard.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE Last_Name LIKE &quot;%derp%&quot;;</code></pre>
-<pre class="r"><code>query2_select_with_like</code></pre>
-<pre><code>##   Id First_Name     Last_Name                       Email Role_Id
-## 1  2       Derp        McDerp         derpmcderp@daie.ca4       1
-## 2  3   Herpderp Derpderpenson   hd.derpderpenson@daie.ca4       3
-## 3  4      Herpa      Derpderp     herpa.derpderp@daie.ca4       4
-## 4  5         De        Rpderp          de.rpderp@daie.ca4       5
-## 5  7      Derpa         Derpa         derpaderpa@daie.ca4       9
-## 6  8      Herpa         Derpa         herpaderpa@daie.ca4       8
-## 7  9 HerpaDerpa       McDerpa herpaderpa.mcderpa@daie.ca4       7</code></pre>
+<pre class="r"><code>query2b_select_with_like</code></pre>
+<pre><code>##    Id First_Name     Last_Name                       Email Role_Id
+## 1   2       Derp        McDerp         derpmcderp@daie.ca4       1
+## 2   3   Herpderp Derpderpenson   hd.derpderpenson@daie.ca4       3
+## 3   4      Herpa      Derpderp     herpa.derpderp@daie.ca4       4
+## 4   5         De        Rpderp          de.rpderp@daie.ca4       5
+## 5   7      Derpa         Derpa         derpaderpa@daie.ca4       9
+## 6   8      Herpa         Derpa         herpaderpa@daie.ca4       8
+## 7   9 HerpaDerpa       McDerpa herpaderpa.mcderpa@daie.ca4       7
+## 8  10        Joe          Derp             j.derp@daie.ca4       2
+## 9  11        Jon     Herpaderp         jherpaderp@daie.ca4       7
+## 10 13     Joderp Herpderpenson    j.herpderpenson@daie.ca4       4</code></pre>
+<hr />
+<p>Find Team Members with first name beginning with “jo” with at least 3
+characters, i.e. excludes “Jo”.</p>
+<pre class="sql"><code>SELECT * FROM Team_Member WHERE First_Name LIKE &quot;jo_%&quot;;</code></pre>
+<pre class="r"><code>query2c_select_with_like</code></pre>
+<pre><code>##   Id First_Name     Last_Name                    Email Role_Id
+## 1  1        Joe       O&#39;Regan      joe.oregan@daie.ca4       2
+## 2 10        Joe          Derp          j.derp@daie.ca4       2
+## 3 11        Jon     Herpaderp      jherpaderp@daie.ca4       7
+## 4 12     Joblot       O&#39;Stuff   joblot.ostuff@daie.ca4       3
+## 5 13     Joderp Herpderpenson j.herpderpenson@daie.ca4       4</code></pre>
 <hr />
 </div>
 <div id="select-with-or." class="section level4">
@@ -610,7 +640,9 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 <pre class="r"><code>query3_select_with_or</code></pre>
 <pre><code>##   Id First_Name Last_Name                       Email Role_Id
 ## 1  1        Joe   O&#39;Regan         joe.oregan@daie.ca4       2
-## 2  9 HerpaDerpa   McDerpa herpaderpa.mcderpa@daie.ca4       7</code></pre>
+## 2  9 HerpaDerpa   McDerpa herpaderpa.mcderpa@daie.ca4       7
+## 3 10        Joe      Derp             j.derp@daie.ca4       2
+## 4 11        Jon Herpaderp         jherpaderp@daie.ca4       7</code></pre>
 <hr />
 </div>
 <div id="select-with-where-like-and-or-1" class="section level4">
@@ -730,16 +762,21 @@ From Team_Member t
 Inner Join Role r
 ON t.Role_Id = r.Id</code></pre>
 <pre class="r"><code>query10_select_inner_join</code></pre>
-<pre><code>##   Team Member Id              Full Name         Project Role
-## 1              1            Joe O&#39;Regan           Programmer
-## 2              2            Derp McDerp      Project Manager
-## 3              3 Herpderp Derpderpenson               Tester
-## 4              4         Herpa Derpderp               Artist
-## 5              5              De Rpderp          3D Modeller
-## 6              6          Pred Prehpred Environment Modeller
-## 7              7            Derpa Derpa       Concept Artist
-## 8              8            Herpa Derpa       Shading Artist
-## 9              9     HerpaDerpa McDerpa             Animator</code></pre>
+<pre><code>##    Team Member Id              Full Name         Project Role
+## 1               1            Joe O&#39;Regan           Programmer
+## 2               2            Derp McDerp      Project Manager
+## 3               3 Herpderp Derpderpenson               Tester
+## 4               4         Herpa Derpderp               Artist
+## 5               5              De Rpderp          3D Modeller
+## 6               6          Pred Prehpred Environment Modeller
+## 7               7            Derpa Derpa       Concept Artist
+## 8               8            Herpa Derpa       Shading Artist
+## 9               9     HerpaDerpa McDerpa             Animator
+## 10             10               Joe Derp           Programmer
+## 11             11          Jon Herpaderp             Animator
+## 12             12         Joblot O&#39;Stuff               Tester
+## 13             13   Joderp Herpderpenson               Artist
+## 14             14       Jo McQueryfiller      Project Manager</code></pre>
 <hr />
 </div>
 <div id="subquery-with-select" class="section level3">

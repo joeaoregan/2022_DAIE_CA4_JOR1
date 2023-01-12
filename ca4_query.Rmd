@@ -232,14 +232,38 @@ query1_select_with_where
 
 #### **SELECT with LIKE**
 
-Find Team Members with last name containing the string "derp"
+Find Team Members with first name with 3 characters beginning with "jo" using '_' wildcard.
 
-```{sql connection=conn, output.var="query2_select_with_like"}
+```{sql connection=conn, output.var="query2a_select_with_like"}
+SELECT * FROM Team_Member WHERE First_Name LIKE "jo_";
+```
+
+```{r select with like single character wildcard}
+query2a_select_with_like
+```
+
+---
+
+Find Team Members with last name containing the string "derp" using '%' wildcard.
+
+```{sql connection=conn, output.var="query2b_select_with_like"}
 SELECT * FROM Team_Member WHERE Last_Name LIKE "%derp%";
 ```
 
 ```{r select with like}
-query2_select_with_like
+query2b_select_with_like
+```
+
+---
+
+Find Team Members with first name beginning with "jo" with at least 3 characters, i.e. excludes "Jo".
+
+```{sql connection=conn, output.var="query2c_select_with_like"}
+SELECT * FROM Team_Member WHERE First_Name LIKE "jo_%";
+```
+
+```{r select with like both wildcards}
+query2c_select_with_like
 ```
 
 ---

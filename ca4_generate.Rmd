@@ -416,6 +416,11 @@ dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'R
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Derpa', 'Derpa', 'derpaderpa@daie.ca4', 9);")
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Herpa', 'Derpa', 'herpaderpa@daie.ca4', 8);")
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('HerpaDerpa', 'McDerpa', 'herpaderpa.mcderpa@daie.ca4', 7);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joe', 'Derp', 'j.derp@daie.ca4', 2);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Jon', 'Herpaderp', 'jherpaderp@daie.ca4', 7);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joblot', 'O''Stuff', 'joblot.ostuff@daie.ca4', 3);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joderp', 'Herpderpenson', 'j.herpderpenson@daie.ca4', 4);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Jo', 'McQueryfiller', 'j.mcqueryfiller@daie.ca4', 1);")
 ```
 
 Display table data:
