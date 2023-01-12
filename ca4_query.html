@@ -470,7 +470,10 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 ## 7   7        3D Model Test Obj         2           3
 ## 8   8         Random Blueprint         2           1
 ## 9   9         Blueprint Thingy         2           2
-## 10 10           Blueprint Test         3           2</code></pre>
+## 10 10           Blueprint Test         3           2
+## 11 11                 Art Test         1          12
+## 12 12       Query Model Thingy         3          11
+## 13 13             Another Test         4          13</code></pre>
 <hr />
 </div>
 <div id="project" class="section level3">
@@ -665,7 +668,9 @@ a Status_Id of 3.</p>
 ## 2  2    Art Test Thingy         3           3
 ## 3  4 Art Concept Thingy         4           7
 ## 4  5 Art Shading Thingy         4           8
-## 5 10     Blueprint Test         3           2</code></pre>
+## 5 10     Blueprint Test         3           2
+## 6 11           Art Test         1          12
+## 7 12 Query Model Thingy         3          11</code></pre>
 <hr />
 </div>
 </div>
@@ -679,7 +684,8 @@ a Status_Id of 3.</p>
 <pre><code>##   Status_Id
 ## 1         2
 ## 2         3
-## 3         4</code></pre>
+## 3         4
+## 4         1</code></pre>
 <hr />
 </div>
 <div id="select-with-order-by" class="section level4">
@@ -697,7 +703,10 @@ a Status_Id of 3.</p>
 ## 7   6          Random 3D Model         2           5
 ## 8   3 Environment Model Thingy         2           6
 ## 9   4       Art Concept Thingy         4           7
-## 10  5       Art Shading Thingy         4           8</code></pre>
+## 10  5       Art Shading Thingy         4           8
+## 11 12       Query Model Thingy         3          11
+## 12 11                 Art Test         1          12
+## 13 13             Another Test         4          13</code></pre>
 <hr />
 </div>
 <div id="select-with-order-by-asc" class="section level4">
@@ -707,16 +716,19 @@ order.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item ORDER BY Status_Id ASC;</code></pre>
 <pre class="r"><code>query7_select_order_by_asc</code></pre>
 <pre><code>##    Id                     Name Status_Id Assigned_To
-## 1   1               Art Thingy         2           4
-## 2   3 Environment Model Thingy         2           6
-## 3   6          Random 3D Model         2           5
-## 4   7        3D Model Test Obj         2           3
-## 5   8         Random Blueprint         2           1
-## 6   9         Blueprint Thingy         2           2
-## 7   2          Art Test Thingy         3           3
-## 8  10           Blueprint Test         3           2
-## 9   4       Art Concept Thingy         4           7
-## 10  5       Art Shading Thingy         4           8</code></pre>
+## 1  11                 Art Test         1          12
+## 2   1               Art Thingy         2           4
+## 3   3 Environment Model Thingy         2           6
+## 4   6          Random 3D Model         2           5
+## 5   7        3D Model Test Obj         2           3
+## 6   8         Random Blueprint         2           1
+## 7   9         Blueprint Thingy         2           2
+## 8   2          Art Test Thingy         3           3
+## 9  10           Blueprint Test         3           2
+## 10 12       Query Model Thingy         3          11
+## 11  4       Art Concept Thingy         4           7
+## 12  5       Art Shading Thingy         4           8
+## 13 13             Another Test         4          13</code></pre>
 <hr />
 </div>
 <div id="select-with-order-by-desc" class="section level4">
@@ -726,16 +738,19 @@ descending order.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item ORDER BY Assigned_To DESC;</code></pre>
 <pre class="r"><code>query8_select_order_by_desc</code></pre>
 <pre><code>##    Id                     Name Status_Id Assigned_To
-## 1   5       Art Shading Thingy         4           8
-## 2   4       Art Concept Thingy         4           7
-## 3   3 Environment Model Thingy         2           6
-## 4   6          Random 3D Model         2           5
-## 5   1               Art Thingy         2           4
-## 6   2          Art Test Thingy         3           3
-## 7   7        3D Model Test Obj         2           3
-## 8   9         Blueprint Thingy         2           2
-## 9  10           Blueprint Test         3           2
-## 10  8         Random Blueprint         2           1</code></pre>
+## 1  13             Another Test         4          13
+## 2  11                 Art Test         1          12
+## 3  12       Query Model Thingy         3          11
+## 4   5       Art Shading Thingy         4           8
+## 5   4       Art Concept Thingy         4           7
+## 6   3 Environment Model Thingy         2           6
+## 7   6          Random 3D Model         2           5
+## 8   1               Art Thingy         2           4
+## 9   2          Art Test Thingy         3           3
+## 10  7        3D Model Test Obj         2           3
+## 11  9         Blueprint Thingy         2           2
+## 12 10           Blueprint Test         3           2
+## 13  8         Random Blueprint         2           1</code></pre>
 <hr />
 </div>
 <div id="select-with-distinct-and-order-by-1" class="section level4">
@@ -744,15 +759,18 @@ descending order.</p>
 descending order.</p>
 <pre class="sql"><code>SELECT DISTINCT Assigned_To FROM Work_Item ORDER BY Assigned_To;</code></pre>
 <pre class="r"><code>query9_select_distinct_order_by</code></pre>
-<pre><code>##   Assigned_To
-## 1           1
-## 2           2
-## 3           3
-## 4           4
-## 5           5
-## 6           6
-## 7           7
-## 8           8</code></pre>
+<pre><code>##    Assigned_To
+## 1            1
+## 2            2
+## 3            3
+## 4            4
+## 5            5
+## 6            6
+## 7            7
+## 8            8
+## 9           11
+## 10          12
+## 11          13</code></pre>
 <hr />
 </div>
 </div>
@@ -770,7 +788,77 @@ r.Name AS &#39;Project Role&#39;
 From Team_Member t
 Inner Join Role r
 ON t.Role_Id = r.Id</code></pre>
-<pre class="r"><code>query10_select_inner_join</code></pre>
+<pre class="r"><code>query10a_select_inner_join</code></pre>
+<pre><code>##    Team Member Id              Full Name         Project Role
+## 1               1            Joe O&#39;Regan           Programmer
+## 2               2            Derp McDerp      Project Manager
+## 3               3 Herpderp Derpderpenson               Tester
+## 4               4         Herpa Derpderp               Artist
+## 5               5              De Rpderp          3D Modeller
+## 6               6          Pred Prehpred Environment Modeller
+## 7               7            Derpa Derpa       Concept Artist
+## 8               8            Herpa Derpa       Shading Artist
+## 9               9     HerpaDerpa McDerpa             Animator
+## 10             10               Joe Derp           Programmer
+## 11             11          Jon Herpaderp             Animator
+## 12             12         Joblot O&#39;Stuff               Tester
+## 13             13   Joderp Herpderpenson               Artist
+## 14             14       Jo McQueryfiller      Project Manager</code></pre>
+<hr />
+<div id="inner-join-2" class="section level4">
+<h4><strong>Inner Join 2</strong></h4>
+<p>Get Projects with no Project Manager.</p>
+<hr />
+<p>Part 1: Select Project Managers from Team Members</p>
+<pre class="sql"><code>SELECT * FROM Team_Member WHERE Role_id = 1;</code></pre>
+<pre class="r"><code>query10b_part1</code></pre>
+<pre><code>##   Id First_Name     Last_Name                    Email Role_Id
+## 1  2       Derp        McDerp      derpmcderp@daie.ca4       1
+## 2 14         Jo McQueryfiller j.mcqueryfiller@daie.ca4       1</code></pre>
+<hr />
+<p>Part 2: Show Project Manager and their projects</p>
+<pre class="sql"><code>SELECT First_Name || &#39; &#39; || Last_Name as &quot;Name&quot;, r.name, r.Id, pt.Project_Id
+FROM Team_Member tm
+INNER JOIN Project_Team pt
+ON pt.Team_Member_Id = tm.Id
+INNER JOIN Role r
+ON tm.Role_Id = r.Id
+WHERE tm.Role_Id IN 
+(SELECT Role_Id FROM Team_Member WHERE Role_id = 1);</code></pre>
+<pre class="r"><code>query10b_part2</code></pre>
+<pre><code>##               Name            Name Id Project_Id
+## 1      Derp McDerp Project Manager  1          1
+## 2      Derp McDerp Project Manager  1          2
+## 3      Derp McDerp Project Manager  1          3
+## 4 Jo McQueryfiller Project Manager  1          4
+## 5 Jo McQueryfiller Project Manager  1          6
+## 6 Jo McQueryfiller Project Manager  1          7</code></pre>
+<hr />
+<p>Part 3: Get Projects with no Project Manager.</p>
+<pre class="sql"><code>Select Name as &quot;Projects with no Manager:&quot; from Project
+WHERE Id NOT IN
+(SELECT DISTINCT pt.Project_Id
+FROM Team_Member tm
+INNER JOIN Project_Team pt
+ON pt.Team_Member_Id = tm.Id
+INNER JOIN Role r
+ON tm.Role_Id = r.Id
+WHERE tm.Role_Id IN 
+(SELECT Role_Id FROM Team_Member WHERE Role_id = 1));</code></pre>
+<pre class="r"><code>query10b_part3</code></pre>
+<pre><code>##   Projects with no Manager:
+## 1    Christmas 2022 Project
+## 2            Project Filler
+## 3              Derp Project
+## 4   Hmmm I Ran Out of Names</code></pre>
+<hr />
+<pre class="sql"><code>SELECT t.Id as &quot;Team Member Id&quot;, 
+t.First_Name || &#39; &#39; || t.Last_Name AS &#39;Full Name&#39;,
+r.Name AS &#39;Project Role&#39;
+From Team_Member t
+Inner Join Role r
+ON t.Role_Id = r.Id</code></pre>
+<pre class="r"><code>query10b_select_inner_join_2</code></pre>
 <pre><code>##    Team Member Id              Full Name         Project Role
 ## 1               1            Joe O&#39;Regan           Programmer
 ## 2               2            Derp McDerp      Project Manager
@@ -788,6 +876,7 @@ ON t.Role_Id = r.Id</code></pre>
 ## 14             14       Jo McQueryfiller      Project Manager</code></pre>
 <hr />
 </div>
+</div>
 <div id="subquery-with-select" class="section level3">
 <h3><strong>4. Subquery with SELECT</strong></h3>
 <div id="subquery-part-1-inner-query" class="section level4">
@@ -801,7 +890,9 @@ WHERE Status_Id &gt; 2</code></pre>
 ## 1  2    Art Test Thingy         3           3
 ## 2  4 Art Concept Thingy         4           7
 ## 3  5 Art Shading Thingy         4           8
-## 4 10     Blueprint Test         3           2</code></pre>
+## 4 10     Blueprint Test         3           2
+## 5 12 Query Model Thingy         3          11
+## 6 13       Another Test         4          13</code></pre>
 <hr />
 </div>
 <div id="subquery-part-2-outer-query" class="section level4">
@@ -813,7 +904,9 @@ WHERE Name LIKE &quot;%test%&quot;</code></pre>
 <pre><code>##   Id              Name Status_Id Assigned_To
 ## 1  2   Art Test Thingy         3           3
 ## 2  7 3D Model Test Obj         2           3
-## 3 10    Blueprint Test         3           2</code></pre>
+## 3 10    Blueprint Test         3           2
+## 4 11          Art Test         1          12
+## 5 13      Another Test         4          13</code></pre>
 <hr />
 </div>
 <div id="subquery-with-select-1" class="section level4">
@@ -828,7 +921,8 @@ WHERE Status_Id &gt; 2)</code></pre>
 <pre class="r"><code>query13_subquery_with_select</code></pre>
 <pre><code>##   Id            Name Status_Id Assigned_To
 ## 1  2 Art Test Thingy         3           3
-## 2 10  Blueprint Test         3           2</code></pre>
+## 2 10  Blueprint Test         3           2
+## 3 13    Another Test         4          13</code></pre>
 <hr />
 </div>
 <div id="subquery-with-select-and-not-in" class="section level4">
@@ -842,7 +936,8 @@ AND Status_Id NOT IN
 WHERE Status_Id &gt; 2)</code></pre>
 <pre class="r"><code>query13b_subquery_with_select_not_in</code></pre>
 <pre><code>##   Id              Name Status_Id Assigned_To
-## 1  7 3D Model Test Obj         2           3</code></pre>
+## 1  7 3D Model Test Obj         2           3
+## 2 11          Art Test         1          12</code></pre>
 <hr />
 </div>
 </div>

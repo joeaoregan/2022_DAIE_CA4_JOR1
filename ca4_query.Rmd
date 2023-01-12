@@ -372,7 +372,7 @@ Inner Join Team_Member and Role tables via foreign key Team_Member.Role_id corre
 
 First name and last name are concatenated with the || operator as Concat() doesn't work in Sqlite. Using Alias (AS) for column headings and t for Team_Member and r for Role table aliases.
 
-```{sql connection=conn, output.var="query10_select_inner_join"}
+```{sql connection=conn, output.var="query10a_select_inner_join"}
  -- no Concat() in sqlite, || = concat operator
 SELECT t.Id as "Team Member Id", 
 t.First_Name || ' ' || t.Last_Name AS 'Full Name',
@@ -383,7 +383,80 @@ ON t.Role_Id = r.Id
 ```
 
 ```{r select with inner join}
-query10_select_inner_join
+query10a_select_inner_join
+```
+
+---
+
+#### **Inner Join 2**
+
+Get Projects with no Project Manager.
+
+---
+
+Part 1: Select Project Managers from Team Members
+
+```{sql connection=conn, output.var="query10b_part1"}
+SELECT * FROM Team_Member WHERE Role_id = 1;
+```
+
+```{r select with inner join 2 part 1}
+query10b_part1
+```
+
+---
+
+Part 2: Show Project Manager and their projects
+
+```{sql connection=conn, output.var="query10b_part2"}
+SELECT First_Name || ' ' || Last_Name as "Name", r.name, r.Id, pt.Project_Id
+FROM Team_Member tm
+INNER JOIN Project_Team pt
+ON pt.Team_Member_Id = tm.Id
+INNER JOIN Role r
+ON tm.Role_Id = r.Id
+WHERE tm.Role_Id IN 
+(SELECT Role_Id FROM Team_Member WHERE Role_id = 1);
+```
+
+```{r select with inner join 2 part 2}
+query10b_part2
+```
+
+--- 
+
+Part 3: Get Projects with no Project Manager.
+
+```{sql connection=conn, output.var="query10b_part3"}
+Select Name as "Projects with no Manager:" from Project
+WHERE Id NOT IN
+(SELECT DISTINCT pt.Project_Id
+FROM Team_Member tm
+INNER JOIN Project_Team pt
+ON pt.Team_Member_Id = tm.Id
+INNER JOIN Role r
+ON tm.Role_Id = r.Id
+WHERE tm.Role_Id IN 
+(SELECT Role_Id FROM Team_Member WHERE Role_id = 1));
+```
+
+```{r select with inner join 2 part 3}
+query10b_part3
+```
+
+--- 
+
+```{sql connection=conn, output.var="query10b_select_inner_join_2"}
+SELECT t.Id as "Team Member Id", 
+t.First_Name || ' ' || t.Last_Name AS 'Full Name',
+r.Name AS 'Project Role'
+From Team_Member t
+Inner Join Role r
+ON t.Role_Id = r.Id
+```
+
+```{r select with inner join 2}
+query10b_select_inner_join_2
 ```
 
 ---

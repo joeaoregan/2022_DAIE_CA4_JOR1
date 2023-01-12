@@ -449,6 +449,9 @@ dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALU
 dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Random Blueprint', 2, 1);")
 dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Blueprint Thingy', 2, 2);")
 dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Blueprint Test', 3, 2);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Test', 1, 12);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Query Model Thingy', 3, 11);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Another Test', 4, 13);")
 ```
 
 Display table data:
