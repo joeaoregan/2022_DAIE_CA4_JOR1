@@ -1,6 +1,6 @@
 ---
-title: "Data Analytics for Immersive Environments"
-subtitle: "CA4 - Querying Database"
+title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear Regression Project"
+subtitle: "CA4 Part 2 - Querying Database"
 author: "Joe O'Regan"
 date: "2023-01-11"
 output: html_document

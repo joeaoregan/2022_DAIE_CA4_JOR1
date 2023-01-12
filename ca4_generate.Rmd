@@ -1,6 +1,6 @@
 ---
-title: "Data Analytics for Immersive Environments"
-subtitle: "CA4 - Generate and Populate Database"
+title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear Regression Project"
+subtitle: "Part 1 - Generate and Populate Database"
 author: "Joe O'Regan"
 date: "2023-01-11"
 output: html_document
@@ -39,7 +39,7 @@ library(dplyr)
 
 ### Create or recreate the sqlite file
 
-```{r create or recreate the sqlite file}
+```{r create or recreate the sqlite file, results='hide'}
 # if the sqlite file exists already delete it
 if (file.exists("daie_ca4_data.sqlite"))
   file.remove("daie_ca4_data.sqlite")
@@ -52,7 +52,7 @@ conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
 
 #### Asset
 
-```{r create asset table}
+```{r create asset table, results='hide'}
 # create tables
 dbExecute(conn, "CREATE TABLE Asset (
     Id integer NOT NULL CONSTRAINT Asset_pk PRIMARY KEY AUTOINCREMENT,
@@ -68,7 +68,7 @@ dbExecute(conn, "CREATE TABLE Asset (
 
 #### Asset_Work_Items
 
-```{r create asset_work_items table}
+```{r create asset_work_items table, results='hide'}
 dbExecute(conn, "CREATE TABLE Asset_Work_Items (
     Work_Item_Id integer NOT NULL,
     Asset_Id integer NOT NULL,
@@ -82,7 +82,7 @@ dbExecute(conn, "CREATE TABLE Asset_Work_Items (
 
 #### Collection
 
-```{r create collection table}
+```{r create collection table, results='hide'}
 dbExecute(conn, "CREATE TABLE Collection (
     Library_Id integer NOT NULL,
     Asset_Id integer NOT NULL,
@@ -96,7 +96,7 @@ dbExecute(conn, "CREATE TABLE Collection (
 
 #### Library
 
-```{r create library table}
+```{r create library table, results='hide'}
 dbExecute(conn, "CREATE TABLE Library (
     Id integer NOT NULL CONSTRAINT Library_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
@@ -105,7 +105,7 @@ dbExecute(conn, "CREATE TABLE Library (
 
 #### Project
 
-```{r create project table}
+```{r create project table, results='hide'}
 dbExecute(conn, "CREATE TABLE Project (
     Id integer NOT NULL CONSTRAINT Project_pk PRIMARY KEY,
     Name varchar(128) NOT NULL,
@@ -115,7 +115,7 @@ dbExecute(conn, "CREATE TABLE Project (
 
 #### Project_Team
 
-```{r create project_team table}
+```{r create project_team table, results='hide'}
 dbExecute(conn, "CREATE TABLE Project_Team (
     Team_Member_Id integer NOT NULL,
     Project_Id integer NOT NULL,
@@ -129,7 +129,7 @@ dbExecute(conn, "CREATE TABLE Project_Team (
 
 #### Role
 
-```{r create role table}
+```{r create role table, results='hide'}
 dbExecute(conn, "CREATE TABLE Role (
     Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
@@ -138,7 +138,7 @@ dbExecute(conn, "CREATE TABLE Role (
 
 #### Status
 
-```{r create status table}
+```{r create status table, results='hide'}
 dbExecute(conn, "CREATE TABLE Status (
     Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
@@ -147,7 +147,7 @@ dbExecute(conn, "CREATE TABLE Status (
 
 #### Team_Member
 
-```{r create team_member table}
+```{r create team_member table, results='hide'}
 dbExecute(conn, "CREATE TABLE Team_Member (
     Id integer NOT NULL CONSTRAINT Team_Member_pk PRIMARY KEY AUTOINCREMENT,
     First_Name varchar(50) NOT NULL,
@@ -162,7 +162,7 @@ dbExecute(conn, "CREATE TABLE Team_Member (
 
 #### Work_Item
 
-```{r create work_item table}
+```{r create work_item table, results='hide'}
 dbExecute(conn, "CREATE TABLE Work_Item (
     Id integer NOT NULL CONSTRAINT Work_Item_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL,
@@ -190,9 +190,13 @@ dbListTables(conn)
 
 #### Status
 
+```{r show fields in status table}
+dbListFields(conn, "Status")
+```
+
 Insert table data:
 
-```{r insert data into status table}
+```{r insert data into status table, results='hide'}
 dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('To Do');")
 dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('In Progress');")
 dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('Review');")
@@ -208,6 +212,10 @@ knitr::kable(status_data, caption = "Status Table")
 ```
 
 #### Role
+
+```{r show fields in role table}
+dbListFields(conn, "Role")
+```
 
 Insert table data:
 
@@ -232,6 +240,10 @@ knitr::kable(role_data, caption = "Role Table")
 
 #### Team_Member
 
+```{r show fields in team_member table}
+dbListFields(conn, "Team_Member")
+```
+
 Insert table data:
 
 ```{r insert data into team_member table, results='hide'}
@@ -254,6 +266,10 @@ knitr::kable(team_member_data, caption = "Team_Member Table")
 ```
 
 #### Work_Item
+
+```{r show fields in Work_Item table}
+dbListFields(conn, "Work_Item")
+```
 
 Insert table data:
 
@@ -279,6 +295,10 @@ knitr::kable(work_item_data, caption = "Work_Item Table")
 
 #### Project
 
+```{r show fields in Project table}
+dbListFields(conn, "Project")
+```
+
 Insert table data:
 
 ```{r insert data into project table, results='hide'}
@@ -294,6 +314,10 @@ knitr::kable(project_data, caption = "Project Table")
 ```
 
 #### Project_Team
+
+```{r show fields in Project_Team table}
+dbListFields(conn, "Project_Team")
+```
 
 Insert table data:
 
@@ -318,6 +342,10 @@ knitr::kable(project_team_data, caption = "Project_Team Table")
 
 #### Asset
 
+```{r show fields in Asset table}
+dbListFields(conn, "Asset")
+```
+
 Insert table data:
 
 ```{r  insert data into asset table, results='hide'}
@@ -335,6 +363,10 @@ knitr::kable(asset_data, caption = "Asset Table")
 ```
 
 #### Asset_Work_Items
+
+```{r show fields in Asset_Work_Items table}
+dbListFields(conn, "Asset_Work_Items")
+```
 
 Insert table data:
 
@@ -360,6 +392,10 @@ knitr::kable(asset_work_items_data, caption = "Asset_Work_Items Table")
 
 #### Collection
 
+```{r show fields in Collection table}
+dbListFields(conn, "Collection")
+```
+
 Insert table data:
 
 ```{r insert data into collection table, results='hide'}
@@ -377,6 +413,10 @@ knitr::kable(collection_data, caption = "Collection Table")
 ```
 
 #### Library
+
+```{r show fields in Library table}
+dbListFields(conn, "Library")
+```
 
 Insert table data:
 

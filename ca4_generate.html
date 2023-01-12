@@ -13,7 +13,7 @@
 
 <meta name="date" content="2023-01-11" />
 
-<title>Data Analytics for Immersive Environments</title>
+<title>2022 - Data Analytics for Immersive Environments - CA4 - RDBMS &amp; Linear Regression Project</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,9 +350,9 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Data Analytics for Immersive
-Environments</h1>
-<h3 class="subtitle">CA4 - Generate and Populate Database</h3>
+<h1 class="title toc-ignore">2022 - Data Analytics for Immersive
+Environments - CA4 - RDBMS &amp; Linear Regression Project</h1>
+<h3 class="subtitle">Part 1 - Generate and Populate Database</h3>
 <h4 class="author">Joe O’Regan</h4>
 <h4 class="date">2023-01-11</h4>
 
@@ -373,9 +373,9 @@ Environments</h1>
 <h3>Create or recreate the sqlite file</h3>
 <pre class="r"><code># if the sqlite file exists already delete it
 if (file.exists(&quot;daie_ca4_data.sqlite&quot;))
-  file.remove(&quot;daie_ca4_data.sqlite&quot;)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code># create the sqlite file
+  file.remove(&quot;daie_ca4_data.sqlite&quot;)
+
+# create the sqlite file
 conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code></pre>
 </div>
 <div id="create-the-tables" class="section level3">
@@ -393,7 +393,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     CONSTRAINT Asset_Team_Member FOREIGN KEY (Created_By)
     REFERENCES Team_Member (Id)
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 </div>
 <div id="asset_work_items" class="section level4">
 <h4>Asset_Work_Items</h4>
@@ -406,7 +405,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     CONSTRAINT Asset_Work_Items_Asset FOREIGN KEY (Asset_Id)
     REFERENCES Asset (Id)
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 </div>
 <div id="collection" class="section level4">
 <h4>Collection</h4>
@@ -419,7 +417,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     CONSTRAINT Collection_Library FOREIGN KEY (Library_Id)
     REFERENCES Library (Id)
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 </div>
 <div id="library" class="section level4">
 <h4>Library</h4>
@@ -427,7 +424,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     Id integer NOT NULL CONSTRAINT Library_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 </div>
 <div id="project" class="section level4">
 <h4>Project</h4>
@@ -436,7 +432,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     Name varchar(128) NOT NULL,
     Delivery_Date date NOT NULL
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 </div>
 <div id="project_team" class="section level4">
 <h4>Project_Team</h4>
@@ -449,7 +444,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     CONSTRAINT Team_Project FOREIGN KEY (Project_Id)
     REFERENCES Project (Id)
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 </div>
 <div id="role" class="section level4">
 <h4>Role</h4>
@@ -457,7 +451,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 </div>
 <div id="status" class="section level4">
 <h4>Status</h4>
@@ -465,7 +458,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     Id integer NOT NULL CONSTRAINT Status_pk PRIMARY KEY AUTOINCREMENT,
     Name varchar(50) NOT NULL
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 </div>
 <div id="team_member" class="section level4">
 <h4>Team_Member</h4>
@@ -479,7 +471,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     CONSTRAINT Team_Member_Role FOREIGN KEY (Role_Id)
     REFERENCES Role (Id)
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 </div>
 <div id="work_item" class="section level4">
 <h4>Work_Item</h4>
@@ -493,7 +484,6 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     CONSTRAINT Work_Item_Team_Member FOREIGN KEY (Assigned_To)
     REFERENCES Team_Member (Id)
 );&quot;)</code></pre>
-<pre><code>## [1] 0</code></pre>
 <hr />
 </div>
 <div id="show-tables-in-database" class="section level4">
@@ -509,15 +499,13 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 <h3>Insert Data</h3>
 <div id="status-1" class="section level4">
 <h4>Status</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Status&quot;)</code></pre>
+<pre><code>## [1] &quot;Id&quot;   &quot;Name&quot;</code></pre>
 <p>Insert table data:</p>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;To Do&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;In Progress&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;Review&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;Done&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;To Do&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;In Progress&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;Review&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;Done&#39;);&quot;)</code></pre>
 <p>Display table data:</p>
 <pre class="r"><code>status_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Status;&quot;)
 #View(status_data)
@@ -552,6 +540,8 @@ knitr::kable(status_data, caption = &quot;Status Table&quot;)</code></pre>
 </div>
 <div id="role-1" class="section level4">
 <h4>Role</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Role&quot;)</code></pre>
+<pre><code>## [1] &quot;Id&quot;   &quot;Name&quot;</code></pre>
 <p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Project Manager&#39;);&quot;)
 dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Programmer&#39;);&quot;)
@@ -615,6 +605,8 @@ knitr::kable(role_data, caption = &quot;Role Table&quot;)</code></pre>
 </div>
 <div id="team_member-1" class="section level4">
 <h4>Team_Member</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Team_Member&quot;)</code></pre>
+<pre><code>## [1] &quot;Id&quot;         &quot;First_Name&quot; &quot;Last_Name&quot;  &quot;Email&quot;      &quot;Role_Id&quot;</code></pre>
 <p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Joe&#39;, &#39;O&#39;&#39;Regan&#39;, &#39;joe.oregan@daie.ca4&#39;, 2);&quot;)
 dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derp&#39;, &#39;McDerp&#39;, &#39;derpmcderp@daie.ca4&#39;, 1);&quot;)
@@ -708,6 +700,8 @@ knitr::kable(team_member_data, caption = &quot;Team_Member Table&quot;)</code></
 </div>
 <div id="work_item-1" class="section level4">
 <h4>Work_Item</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Work_Item&quot;)</code></pre>
+<pre><code>## [1] &quot;Id&quot;          &quot;Name&quot;        &quot;Status_Id&quot;   &quot;Assigned_To&quot;</code></pre>
 <p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Thingy&#39;, 2, 4);&quot;)
 dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Test Thingy&#39;, 3, 3);&quot;)
@@ -798,6 +792,8 @@ knitr::kable(work_item_data, caption = &quot;Work_Item Table&quot;)</code></pre>
 </div>
 <div id="project-1" class="section level4">
 <h4>Project</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Project&quot;)</code></pre>
+<pre><code>## [1] &quot;Id&quot;            &quot;Name&quot;          &quot;Delivery_Date&quot;</code></pre>
 <p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project (&#39;Name&#39;, &#39;Delivery_Date&#39;) VALUES (&#39;Art Proj&#39;, &#39;2023-01-11&#39;);&quot;)
 dbExecute(conn, &quot;INSERT INTO Project (&#39;Name&#39;, &#39;Delivery_Date&#39;) VALUES (&#39;DAIE CA4&#39;, &#39;2023-01-20&#39;);&quot;)</code></pre>
@@ -829,6 +825,8 @@ knitr::kable(project_data, caption = &quot;Project Table&quot;)</code></pre>
 </div>
 <div id="project_team-1" class="section level4">
 <h4>Project_Team</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Project_Team&quot;)</code></pre>
+<pre><code>## [1] &quot;Team_Member_Id&quot; &quot;Project_Id&quot;</code></pre>
 <p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (1, 1);&quot;)
 dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (2, 1);&quot;)
@@ -892,6 +890,9 @@ knitr::kable(project_team_data, caption = &quot;Project_Team Table&quot;)</code>
 </div>
 <div id="asset-1" class="section level4">
 <h4>Asset</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Asset&quot;)</code></pre>
+<pre><code>## [1] &quot;Id&quot;           &quot;Name&quot;         &quot;Type&quot;         &quot;Format&quot;       &quot;Created_By&quot;  
+## [6] &quot;Date_Created&quot;</code></pre>
 <p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Type&#39;, &#39;Format&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Random Blueprint Asset&#39;, &#39;Combination of Blueprints&#39;, &#39;Zip file&#39;, 1, &#39;2023-01-11&#39;);&quot;)
 dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Random Art Asset&#39;, 4, &#39;2023-01-10&#39;);&quot;)
@@ -958,6 +959,8 @@ knitr::kable(asset_data, caption = &quot;Asset Table&quot;)</code></pre>
 </div>
 <div id="asset_work_items-1" class="section level4">
 <h4>Asset_Work_Items</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Asset_Work_Items&quot;)</code></pre>
+<pre><code>## [1] &quot;Work_Item_Id&quot; &quot;Asset_Id&quot;</code></pre>
 <p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (8, 1);&quot;)
 dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (9, 1);&quot;)
@@ -1026,6 +1029,8 @@ knitr::kable(asset_work_items_data, caption = &quot;Asset_Work_Items Table&quot;
 </div>
 <div id="collection-1" class="section level4">
 <h4>Collection</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Collection&quot;)</code></pre>
+<pre><code>## [1] &quot;Library_Id&quot; &quot;Asset_Id&quot;</code></pre>
 <p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (1, 1);&quot;)
 dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (2, 2);&quot;)
@@ -1064,6 +1069,8 @@ knitr::kable(collection_data, caption = &quot;Collection Table&quot;)</code></pr
 </div>
 <div id="library-1" class="section level4">
 <h4>Library</h4>
+<pre class="r"><code>dbListFields(conn, &quot;Library&quot;)</code></pre>
+<pre><code>## [1] &quot;Id&quot;   &quot;Name&quot;</code></pre>
 <p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Library (&#39;Name&#39;) VALUES (&#39;Programming&#39;);&quot;)
 dbExecute(conn, &quot;INSERT INTO Library (&#39;Name&#39;) VALUES (&#39;Models&#39;);&quot;)
