@@ -22,7 +22,6 @@ library("png")
 pp <- readPNG("daie_ca4_er_diagram.png")
 plot.new()
 rasterImage(pp, 0, 0, 1, 1)
-
 ```
 
 ---
@@ -177,20 +176,42 @@ dbExecute(conn, "CREATE TABLE Work_Item (
 
 ```
 
+---
+
+#### Show tables in database
+
+```{r list the tables}
+dbListTables(conn)
+```
+
+---
+
 ### Insert Data
 
 #### Status
 
-```{r}
+Insert table data:
+
+```{r insert data into status table}
 dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('To Do');")
 dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('In Progress');")
 dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('Review');")
 dbExecute(conn, "INSERT INTO Status ('Name') VALUES ('Done');")
 ```
 
+Display table data:
+
+```{r show rows in status}
+status_data <- dbGetQuery(conn, "SELECT * FROM Status;")
+#View(status_data)
+knitr::kable(status_data, caption = "Status Table")
+```
+
 #### Role
 
-```{r}
+Insert table data:
+
+```{r insert data into role table, results='hide'}
 dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Project Manager');")
 dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Programmer');")
 dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Tester');")
@@ -202,9 +223,18 @@ dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Shading Artist');")
 dbExecute(conn, "INSERT INTO Role ('Name') VALUES ('Concept Artist');")
 ```
 
+Display table data:
+
+```{r show rows in role}
+role_data <- dbGetQuery(conn, "SELECT * FROM Role;")
+knitr::kable(role_data, caption = "Role Table")
+```
+
 #### Team_Member
 
-```{r}
+Insert table data:
+
+```{r insert data into team_member table, results='hide'}
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joe', 'O''Regan', 'joe.oregan@daie.ca4', 2);")
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Derp', 'McDerp', 'derpmcderp@daie.ca4', 1);")
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Herpderp', 'Derpderpenson', 'hd.derpderpenson@daie.ca4', 3);")
@@ -216,9 +246,18 @@ dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'R
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('HerpaDerpa', 'McDerpa', 'herpaderpa.mcderpa@daie.ca4', 7);")
 ```
 
+Display table data:
+
+```{r show rows in team_member}
+team_member_data <- dbGetQuery(conn, "SELECT * FROM Team_Member;")
+knitr::kable(team_member_data, caption = "Team_Member Table")
+```
+
 #### Work_Item
 
-```{r}
+Insert table data:
+
+```{r insert data into work_item table, results='hide'}
 dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Thingy', 2, 4);")
 dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Test Thingy', 3, 3);")
 dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Environment Model Thingy', 2, 6);")
@@ -231,16 +270,34 @@ dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALU
 dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Blueprint Test', 3, 2);")
 ```
 
+Display table data:
+
+```{r show rows in work_item}
+work_item_data <- dbGetQuery(conn, "SELECT * FROM Work_Item;")
+knitr::kable(work_item_data, caption = "Work_Item Table")
+```
+
 #### Project
 
-```{r}
+Insert table data:
+
+```{r insert data into project table, results='hide'}
 dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Art Proj', '2023-01-11');")
 dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('DAIE CA4', '2023-01-20');")
 ```
 
+Display table data:
+
+```{r show rows in project}
+project_data <- dbGetQuery(conn, "SELECT * FROM Project;")
+knitr::kable(project_data, caption = "Project Table")
+```
+
 #### Project_Team
 
-```{r}
+Insert table data:
+
+```{r insert data into project_team table, results='hide'}
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (1, 1);")
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (2, 1);")
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (3, 1);")
@@ -252,18 +309,36 @@ dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUE
 dbExecute(conn, "INSERT INTO Project_Team ('Team_Member_Id', 'Project_Id') VALUES (9, 2);")
 ```
 
+Display table data:
+
+```{r show rows in project_team}
+project_team_data <- dbGetQuery(conn, "SELECT * FROM Project_Team;")
+knitr::kable(project_team_data, caption = "Project_Team Table")
+```
+
 #### Asset
 
-```{r}
+Insert table data:
+
+```{r  insert data into asset table, results='hide'}
 dbExecute(conn, "INSERT INTO Asset ('Name', 'Type', 'Format', 'Created_By', 'Date_Created') VALUES ('Random Blueprint Asset', 'Combination of Blueprints', 'Zip file', 1, '2023-01-11');")
 dbExecute(conn, "INSERT INTO Asset ('Name', 'Created_By', 'Date_Created') VALUES ('Random Art Asset', 4, '2023-01-10');")
 dbExecute(conn, "INSERT INTO Asset ('Name', 'Created_By', 'Date_Created') VALUES ('Art Asset Thingy', 4, '2023-01-10');")
 dbExecute(conn, "INSERT INTO Asset ('Name', 'Type', 'Created_By', 'Date_Created') VALUES ('Environment Asset Thingy', 'Tree for use in Environment',4, '2023-01-02');")
 ```
 
+Display table data:
+
+```{r show rows in asset}
+asset_data <- dbGetQuery(conn, "SELECT * FROM Asset;")
+knitr::kable(asset_data, caption = "Asset Table")
+```
+
 #### Asset_Work_Items
 
-```{r}
+Insert table data:
+
+```{r insert data into asset_work_items table, results='hide'}
 dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (8, 1);")
 dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (9, 1);")
 dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (10, 1);")
@@ -276,21 +351,46 @@ dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUE
 dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (7, 4);")
 ```
 
+Display table data:
+
+```{r show rows in asset_work_items}
+asset_work_items_data <- dbGetQuery(conn, "SELECT * FROM Asset_Work_Items;")
+knitr::kable(asset_work_items_data, caption = "Asset_Work_Items Table")
+```
+
 #### Collection
 
-```{r}
+Insert table data:
+
+```{r insert data into collection table, results='hide'}
 dbExecute(conn, "INSERT INTO Collection ('Library_Id', 'Asset_Id') VALUES (1, 1);")
 dbExecute(conn, "INSERT INTO Collection ('Library_Id', 'Asset_Id') VALUES (2, 2);")
 dbExecute(conn, "INSERT INTO Collection ('Library_Id', 'Asset_Id') VALUES (2, 3);")
 dbExecute(conn, "INSERT INTO Collection ('Library_Id', 'Asset_Id') VALUES (3, 4);")
 ```
 
+Display table data:
+
+```{r show rows in collection}
+collection_data <- dbGetQuery(conn, "SELECT * FROM Collection;")
+knitr::kable(collection_data, caption = "Collection Table")
+```
+
 #### Library
 
-```{r}
+Insert table data:
+
+```{r insert data into library table, results='hide'}
 dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Programming');")
 dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Models');")
 dbExecute(conn, "INSERT INTO Library ('Name') VALUES ('Scenery');")
+```
+
+Display table data:
+
+```{r show rows in library}
+library_data <- dbGetQuery(conn, "SELECT * FROM Library;")
+knitr::kable(library_data, caption = "Library Table")
 ```
 
 ---

@@ -494,12 +494,22 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
     REFERENCES Team_Member (Id)
 );&quot;)</code></pre>
 <pre><code>## [1] 0</code></pre>
+<hr />
+</div>
+<div id="show-tables-in-database" class="section level4">
+<h4>Show tables in database</h4>
+<pre class="r"><code>dbListTables(conn)</code></pre>
+<pre><code>##  [1] &quot;Asset&quot;            &quot;Asset_Work_Items&quot; &quot;Collection&quot;       &quot;Library&quot;         
+##  [5] &quot;Project&quot;          &quot;Project_Team&quot;     &quot;Role&quot;             &quot;Status&quot;          
+##  [9] &quot;Team_Member&quot;      &quot;Work_Item&quot;        &quot;sqlite_sequence&quot;</code></pre>
+<hr />
 </div>
 </div>
 <div id="insert-data" class="section level3">
 <h3>Insert Data</h3>
 <div id="status-1" class="section level4">
 <h4>Status</h4>
+<p>Insert table data:</p>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;To Do&#39;);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;In Progress&#39;);&quot;)</code></pre>
@@ -508,153 +518,582 @@ dbExecute(conn, &quot;CREATE TABLE Asset (
 <pre><code>## [1] 1</code></pre>
 <pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Status (&#39;Name&#39;) VALUES (&#39;Done&#39;);&quot;)</code></pre>
 <pre><code>## [1] 1</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>status_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Status;&quot;)
+#View(status_data)
+knitr::kable(status_data, caption = &quot;Status Table&quot;)</code></pre>
+<table>
+<caption>Status Table</caption>
+<thead>
+<tr class="header">
+<th align="right">Id</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">To Do</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">In Progress</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Review</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Done</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="role-1" class="section level4">
 <h4>Role</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Project Manager&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Programmer&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Tester&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Artist&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;3D Modeller&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Environment Modeller&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Animator&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Shading Artist&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Concept Artist&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<p>Insert table data:</p>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Project Manager&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Programmer&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Tester&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Artist&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;3D Modeller&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Environment Modeller&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Animator&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Shading Artist&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Role (&#39;Name&#39;) VALUES (&#39;Concept Artist&#39;);&quot;)</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>role_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Role;&quot;)
+knitr::kable(role_data, caption = &quot;Role Table&quot;)</code></pre>
+<table>
+<caption>Role Table</caption>
+<thead>
+<tr class="header">
+<th align="right">Id</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Project Manager</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Programmer</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Tester</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Artist</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">3D Modeller</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Environment Modeller</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Animator</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Shading Artist</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">Concept Artist</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="team_member-1" class="section level4">
 <h4>Team_Member</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Joe&#39;, &#39;O&#39;&#39;Regan&#39;, &#39;joe.oregan@daie.ca4&#39;, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derp&#39;, &#39;McDerp&#39;, &#39;derpmcderp@daie.ca4&#39;, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpderp&#39;, &#39;Derpderpenson&#39;, &#39;hd.derpderpenson@daie.ca4&#39;, 3);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpderp&#39;, &#39;herpa.derpderp@daie.ca4&#39;, 4);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;De&#39;, &#39;Rpderp&#39;, &#39;de.rpderp@daie.ca4&#39;, 5);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Pred&#39;, &#39;Prehpred&#39;, &#39;predprehpred@daie.ca4&#39;, 6);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derpa&#39;, &#39;Derpa&#39;, &#39;derpaderpa@daie.ca4&#39;, 9);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpa&#39;, &#39;herpaderpa@daie.ca4&#39;, 8);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;HerpaDerpa&#39;, &#39;McDerpa&#39;, &#39;herpaderpa.mcderpa@daie.ca4&#39;, 7);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<p>Insert table data:</p>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Joe&#39;, &#39;O&#39;&#39;Regan&#39;, &#39;joe.oregan@daie.ca4&#39;, 2);&quot;)
+dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derp&#39;, &#39;McDerp&#39;, &#39;derpmcderp@daie.ca4&#39;, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpderp&#39;, &#39;Derpderpenson&#39;, &#39;hd.derpderpenson@daie.ca4&#39;, 3);&quot;)
+dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpderp&#39;, &#39;herpa.derpderp@daie.ca4&#39;, 4);&quot;)
+dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;De&#39;, &#39;Rpderp&#39;, &#39;de.rpderp@daie.ca4&#39;, 5);&quot;)
+dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Pred&#39;, &#39;Prehpred&#39;, &#39;predprehpred@daie.ca4&#39;, 6);&quot;)
+dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Derpa&#39;, &#39;Derpa&#39;, &#39;derpaderpa@daie.ca4&#39;, 9);&quot;)
+dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;Herpa&#39;, &#39;Derpa&#39;, &#39;herpaderpa@daie.ca4&#39;, 8);&quot;)
+dbExecute(conn, &quot;INSERT INTO Team_Member (&#39;First_Name&#39;, &#39;Last_Name&#39;, &#39;Email&#39;, &#39;Role_Id&#39;) VALUES (&#39;HerpaDerpa&#39;, &#39;McDerpa&#39;, &#39;herpaderpa.mcderpa@daie.ca4&#39;, 7);&quot;)</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>team_member_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Team_Member;&quot;)
+knitr::kable(team_member_data, caption = &quot;Team_Member Table&quot;)</code></pre>
+<table>
+<caption>Team_Member Table</caption>
+<thead>
+<tr class="header">
+<th align="right">Id</th>
+<th align="left">First_Name</th>
+<th align="left">Last_Name</th>
+<th align="left">Email</th>
+<th align="right">Role_Id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Joe</td>
+<td align="left">O’Regan</td>
+<td align="left"><a href="mailto:joe.oregan@daie.ca4" class="email">joe.oregan@daie.ca4</a></td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Derp</td>
+<td align="left">McDerp</td>
+<td align="left"><a href="mailto:derpmcderp@daie.ca4" class="email">derpmcderp@daie.ca4</a></td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Herpderp</td>
+<td align="left">Derpderpenson</td>
+<td align="left"><a href="mailto:hd.derpderpenson@daie.ca4" class="email">hd.derpderpenson@daie.ca4</a></td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Herpa</td>
+<td align="left">Derpderp</td>
+<td align="left"><a href="mailto:herpa.derpderp@daie.ca4" class="email">herpa.derpderp@daie.ca4</a></td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">De</td>
+<td align="left">Rpderp</td>
+<td align="left"><a href="mailto:de.rpderp@daie.ca4" class="email">de.rpderp@daie.ca4</a></td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Pred</td>
+<td align="left">Prehpred</td>
+<td align="left"><a href="mailto:predprehpred@daie.ca4" class="email">predprehpred@daie.ca4</a></td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Derpa</td>
+<td align="left">Derpa</td>
+<td align="left"><a href="mailto:derpaderpa@daie.ca4" class="email">derpaderpa@daie.ca4</a></td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Herpa</td>
+<td align="left">Derpa</td>
+<td align="left"><a href="mailto:herpaderpa@daie.ca4" class="email">herpaderpa@daie.ca4</a></td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">HerpaDerpa</td>
+<td align="left">McDerpa</td>
+<td align="left"><a href="mailto:herpaderpa.mcderpa@daie.ca4" class="email">herpaderpa.mcderpa@daie.ca4</a></td>
+<td align="right">7</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="work_item-1" class="section level4">
 <h4>Work_Item</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Thingy&#39;, 2, 4);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Test Thingy&#39;, 3, 3);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Environment Model Thingy&#39;, 2, 6);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Concept Thingy&#39;, 4, 7);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Shading Thingy&#39;, 4, 8);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Random 3D Model&#39;, 2, 5);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;3D Model Test Obj&#39;, 2, 3);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Random Blueprint&#39;, 2, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Blueprint Thingy&#39;, 2, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Blueprint Test&#39;, 3, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<p>Insert table data:</p>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Thingy&#39;, 2, 4);&quot;)
+dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Test Thingy&#39;, 3, 3);&quot;)
+dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Environment Model Thingy&#39;, 2, 6);&quot;)
+dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Concept Thingy&#39;, 4, 7);&quot;)
+dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Art Shading Thingy&#39;, 4, 8);&quot;)
+dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Random 3D Model&#39;, 2, 5);&quot;)
+dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;3D Model Test Obj&#39;, 2, 3);&quot;)
+dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Random Blueprint&#39;, 2, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Blueprint Thingy&#39;, 2, 2);&quot;)
+dbExecute(conn, &quot;INSERT INTO Work_Item (&#39;Name&#39;, &#39;Status_Id&#39;, &#39;Assigned_To&#39;) VALUES (&#39;Blueprint Test&#39;, 3, 2);&quot;)</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>work_item_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Work_Item;&quot;)
+knitr::kable(work_item_data, caption = &quot;Work_Item Table&quot;)</code></pre>
+<table>
+<caption>Work_Item Table</caption>
+<thead>
+<tr class="header">
+<th align="right">Id</th>
+<th align="left">Name</th>
+<th align="right">Status_Id</th>
+<th align="right">Assigned_To</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Art Thingy</td>
+<td align="right">2</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Art Test Thingy</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Environment Model Thingy</td>
+<td align="right">2</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Art Concept Thingy</td>
+<td align="right">4</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Art Shading Thingy</td>
+<td align="right">4</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Random 3D Model</td>
+<td align="right">2</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">3D Model Test Obj</td>
+<td align="right">2</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Random Blueprint</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">Blueprint Thingy</td>
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">Blueprint Test</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="project-1" class="section level4">
 <h4>Project</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project (&#39;Name&#39;, &#39;Delivery_Date&#39;) VALUES (&#39;Art Proj&#39;, &#39;2023-01-11&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project (&#39;Name&#39;, &#39;Delivery_Date&#39;) VALUES (&#39;DAIE CA4&#39;, &#39;2023-01-20&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<p>Insert table data:</p>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project (&#39;Name&#39;, &#39;Delivery_Date&#39;) VALUES (&#39;Art Proj&#39;, &#39;2023-01-11&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Project (&#39;Name&#39;, &#39;Delivery_Date&#39;) VALUES (&#39;DAIE CA4&#39;, &#39;2023-01-20&#39;);&quot;)</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>project_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Project;&quot;)
+knitr::kable(project_data, caption = &quot;Project Table&quot;)</code></pre>
+<table>
+<caption>Project Table</caption>
+<thead>
+<tr class="header">
+<th align="right">Id</th>
+<th align="left">Name</th>
+<th align="left">Delivery_Date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Art Proj</td>
+<td align="left">2023-01-11</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">DAIE CA4</td>
+<td align="left">2023-01-20</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="project_team-1" class="section level4">
 <h4>Project_Team</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (1, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (2, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (3, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (4, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (5, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (6, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (7, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (8, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (9, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<p>Insert table data:</p>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (1, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (2, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (3, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (4, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (5, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (6, 2);&quot;)
+dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (7, 2);&quot;)
+dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (8, 2);&quot;)
+dbExecute(conn, &quot;INSERT INTO Project_Team (&#39;Team_Member_Id&#39;, &#39;Project_Id&#39;) VALUES (9, 2);&quot;)</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>project_team_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Project_Team;&quot;)
+knitr::kable(project_team_data, caption = &quot;Project_Team Table&quot;)</code></pre>
+<table>
+<caption>Project_Team Table</caption>
+<thead>
+<tr class="header">
+<th align="right">Team_Member_Id</th>
+<th align="right">Project_Id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="asset-1" class="section level4">
 <h4>Asset</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Type&#39;, &#39;Format&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Random Blueprint Asset&#39;, &#39;Combination of Blueprints&#39;, &#39;Zip file&#39;, 1, &#39;2023-01-11&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Random Art Asset&#39;, 4, &#39;2023-01-10&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Art Asset Thingy&#39;, 4, &#39;2023-01-10&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Type&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Environment Asset Thingy&#39;, &#39;Tree for use in Environment&#39;,4, &#39;2023-01-02&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<p>Insert table data:</p>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Type&#39;, &#39;Format&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Random Blueprint Asset&#39;, &#39;Combination of Blueprints&#39;, &#39;Zip file&#39;, 1, &#39;2023-01-11&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Random Art Asset&#39;, 4, &#39;2023-01-10&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Art Asset Thingy&#39;, 4, &#39;2023-01-10&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset (&#39;Name&#39;, &#39;Type&#39;, &#39;Created_By&#39;, &#39;Date_Created&#39;) VALUES (&#39;Environment Asset Thingy&#39;, &#39;Tree for use in Environment&#39;,4, &#39;2023-01-02&#39;);&quot;)</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>asset_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Asset;&quot;)
+knitr::kable(asset_data, caption = &quot;Asset Table&quot;)</code></pre>
+<table>
+<caption>Asset Table</caption>
+<colgroup>
+<col width="3%" />
+<col width="28%" />
+<col width="31%" />
+<col width="10%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Id</th>
+<th align="left">Name</th>
+<th align="left">Type</th>
+<th align="left">Format</th>
+<th align="right">Created_By</th>
+<th align="left">Date_Created</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Random Blueprint Asset</td>
+<td align="left">Combination of Blueprints</td>
+<td align="left">Zip file</td>
+<td align="right">1</td>
+<td align="left">2023-01-11</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Random Art Asset</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">4</td>
+<td align="left">2023-01-10</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Art Asset Thingy</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">4</td>
+<td align="left">2023-01-10</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Environment Asset Thingy</td>
+<td align="left">Tree for use in Environment</td>
+<td align="left">NA</td>
+<td align="right">4</td>
+<td align="left">2023-01-02</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="asset_work_items-1" class="section level4">
 <h4>Asset_Work_Items</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (8, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (9, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (10, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (1, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (2, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (4, 3);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (5, 3);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (3, 4);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (6, 4);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (7, 4);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<p>Insert table data:</p>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (8, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (9, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (10, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (1, 2);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (2, 2);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (4, 3);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (5, 3);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (3, 4);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (6, 4);&quot;)
+dbExecute(conn, &quot;INSERT INTO Asset_Work_Items (&#39;Work_Item_Id&#39;, &#39;Asset_Id&#39;) VALUES (7, 4);&quot;)</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>asset_work_items_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Asset_Work_Items;&quot;)
+knitr::kable(asset_work_items_data, caption = &quot;Asset_Work_Items Table&quot;)</code></pre>
+<table>
+<caption>Asset_Work_Items Table</caption>
+<thead>
+<tr class="header">
+<th align="right">Work_Item_Id</th>
+<th align="right">Asset_Id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">8</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="right">4</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="collection-1" class="section level4">
 <h4>Collection</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (1, 1);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (2, 2);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (2, 3);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (3, 4);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<p>Insert table data:</p>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (1, 1);&quot;)
+dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (2, 2);&quot;)
+dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (2, 3);&quot;)
+dbExecute(conn, &quot;INSERT INTO Collection (&#39;Library_Id&#39;, &#39;Asset_Id&#39;) VALUES (3, 4);&quot;)</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>collection_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Collection;&quot;)
+knitr::kable(collection_data, caption = &quot;Collection Table&quot;)</code></pre>
+<table>
+<caption>Collection Table</caption>
+<thead>
+<tr class="header">
+<th align="right">Library_Id</th>
+<th align="right">Asset_Id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="library-1" class="section level4">
 <h4>Library</h4>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Library (&#39;Name&#39;) VALUES (&#39;Programming&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Library (&#39;Name&#39;) VALUES (&#39;Models&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Library (&#39;Name&#39;) VALUES (&#39;Scenery&#39;);&quot;)</code></pre>
-<pre><code>## [1] 1</code></pre>
+<p>Insert table data:</p>
+<pre class="r"><code>dbExecute(conn, &quot;INSERT INTO Library (&#39;Name&#39;) VALUES (&#39;Programming&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Library (&#39;Name&#39;) VALUES (&#39;Models&#39;);&quot;)
+dbExecute(conn, &quot;INSERT INTO Library (&#39;Name&#39;) VALUES (&#39;Scenery&#39;);&quot;)</code></pre>
+<p>Display table data:</p>
+<pre class="r"><code>library_data &lt;- dbGetQuery(conn, &quot;SELECT * FROM Library;&quot;)
+knitr::kable(library_data, caption = &quot;Library Table&quot;)</code></pre>
+<table>
+<caption>Library Table</caption>
+<thead>
+<tr class="header">
+<th align="right">Id</th>
+<th align="left">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Programming</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Models</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Scenery</td>
+</tr>
+</tbody>
+</table>
 <hr />
 </div>
 </div>
