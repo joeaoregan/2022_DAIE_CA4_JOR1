@@ -464,6 +464,14 @@ Insert table data:
 ```{r insert data into project table, results='hide'}
 dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Art Proj', '2023-01-11');")
 dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('DAIE CA4', '2023-01-20');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('New Project', '2023-01-24');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Old Project', '2022-12-14');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Christmas 2022 Project', '2022-12-25');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Date Range Project', '2023-01-17');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Another Date Range Project', '2023-02-01');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Project Filler', '2023-03-01');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Derp Project', '2023-03-17');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Hmmm I Ran Out of Names', '2023-01-20');")
 ```
 
 Display table data:

@@ -474,9 +474,17 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 <pre class="sql"><code>SELECT * FROM Project</code></pre>
 <p>Display Project table data.</p>
 <pre class="r"><code>project_data</code></pre>
-<pre><code>##   Id     Name Delivery_Date
-## 1  1 Art Proj    2023-01-11
-## 2  2 DAIE CA4    2023-01-20</code></pre>
+<pre><code>##    Id                       Name Delivery_Date
+## 1   1                   Art Proj    2023-01-11
+## 2   2                   DAIE CA4    2023-01-20
+## 3   3                New Project    2023-01-24
+## 4   4                Old Project    2022-12-14
+## 5   5     Christmas 2022 Project    2022-12-25
+## 6   6         Date Range Project    2023-01-17
+## 7   7 Another Date Range Project    2023-02-01
+## 8   8             Project Filler    2023-03-01
+## 9   9               Derp Project    2023-03-17
+## 10 10    Hmmm I Ran Out of Names    2023-01-20</code></pre>
 <hr />
 </div>
 <div id="project_team" class="section level3">
@@ -780,13 +788,22 @@ WHERE Status_Id &gt; 2)</code></pre>
 </div>
 <div id="select-across-a-date-range" class="section level3">
 <h3><strong>5. SELECT across a date range</strong></h3>
-<p>Select delivery dates from Project table to compare query
-against.</p>
-<pre class="sql"><code>SELECT Delivery_Date FROM Project</code></pre>
+<p>Select delivery dates from Project table to compare query against.
+And order them to make it that much easier to find.</p>
+<pre class="sql"><code>SELECT Delivery_Date FROM Project
+ORDER BY Delivery_Date</code></pre>
 <pre class="r"><code>query14_check_dates</code></pre>
-<pre><code>##   Delivery_Date
-## 1    2023-01-11
-## 2    2023-01-20</code></pre>
+<pre><code>##    Delivery_Date
+## 1     2022-12-14
+## 2     2022-12-25
+## 3     2023-01-11
+## 4     2023-01-17
+## 5     2023-01-20
+## 6     2023-01-20
+## 7     2023-01-24
+## 8     2023-02-01
+## 9     2023-03-01
+## 10    2023-03-17</code></pre>
 <hr />
 <div id="select-across-a-date-range-1" class="section level4">
 <h4><strong>Select across a date range</strong></h4>
@@ -796,8 +813,11 @@ against.</p>
 WHERE Delivery_Date 
 BETWEEN &quot;2023-01-16&quot; AND &quot;2023-01-25&quot;;</code></pre>
 <pre class="r"><code>query15_select_across_date_range</code></pre>
-<pre><code>##   Id     Name Delivery_Date
-## 1  2 DAIE CA4    2023-01-20</code></pre>
+<pre><code>##   Id                    Name Delivery_Date
+## 1  2                DAIE CA4    2023-01-20
+## 2  3             New Project    2023-01-24
+## 3  6      Date Range Project    2023-01-17
+## 4 10 Hmmm I Ran Out of Names    2023-01-20</code></pre>
 <hr />
 </div>
 </div>
