@@ -6,6 +6,12 @@ date: "2023-01-11"
 output: html_document
 ---
 
+<!-- style for table rows -->
+<style>
+.table-striped tr:nth-child(even) {background: #AAFFAA}
+.table-hover > tbody > tr:hover {background-color: #44FF44}
+</style>
+
 <!-- clear console -->
 ```{r setup, include=FALSE}
 cat('\014')
@@ -36,9 +42,15 @@ if(!require("dplyr"))
   install.packages("dplyr")
 if(!require("magick"))
   install.packages("magick")
+if(!require("knitr"))
+  install.packages("knitr")
+if(!require("kableExtra"))
+  install.packages("kableExtra")
 library(DBI) # interface with database
 library(dplyr)
 library(magick) # crop images
+library(knitr) # Display data in tables
+library(kableExtra) # Format tables
 ```
 
 ### Create or recreate the sqlite file
@@ -371,7 +383,9 @@ Display table data (using knitr library kable function):
 ```{r show rows in status}
 status_data <- dbGetQuery(conn, "SELECT * FROM Status;")
 #View(status_data) # replace with knitr::kable() as it looks better
-knitr::kable(status_data, caption = "Status Table")
+kable(status_data, caption = "Status Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 #### Role
@@ -398,7 +412,10 @@ Display table data:
 
 ```{r show rows in role}
 role_data <- dbGetQuery(conn, "SELECT * FROM Role;")
-knitr::kable(role_data, caption = "Role Table")
+
+kable(role_data, caption = "Role Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 #### Team_Member
@@ -430,7 +447,10 @@ Display table data:
 
 ```{r show rows in team_member}
 team_member_data <- dbGetQuery(conn, "SELECT * FROM Team_Member;")
-knitr::kable(team_member_data, caption = "Team_Member Table")
+
+kable(team_member_data, caption = "Team_Member Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 #### Work_Item
@@ -461,7 +481,10 @@ Display table data:
 
 ```{r show rows in work_item}
 work_item_data <- dbGetQuery(conn, "SELECT * FROM Work_Item;")
-knitr::kable(work_item_data, caption = "Work_Item Table")
+
+kable(work_item_data, caption = "Work_Item Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 #### Project
@@ -489,7 +512,10 @@ Display table data:
 
 ```{r show rows in project}
 project_data <- dbGetQuery(conn, "SELECT * FROM Project;")
-knitr::kable(project_data, caption = "Project Table")
+
+kable(project_data, caption = "Project Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 #### Project_Team
@@ -525,7 +551,10 @@ Display table data:
 
 ```{r show rows in project_team}
 project_team_data <- dbGetQuery(conn, "SELECT * FROM Project_Team;")
-knitr::kable(project_team_data, caption = "Project_Team Table")
+
+kable(project_team_data, caption = "Project_Team Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 #### Asset
@@ -547,7 +576,10 @@ Display table data:
 
 ```{r show rows in asset}
 asset_data <- dbGetQuery(conn, "SELECT * FROM Asset;")
-knitr::kable(asset_data, caption = "Asset Table")
+
+kable(asset_data, caption = "Asset Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 #### Asset_Work_Items
@@ -575,7 +607,10 @@ Display table data:
 
 ```{r show rows in asset_work_items}
 asset_work_items_data <- dbGetQuery(conn, "SELECT * FROM Asset_Work_Items;")
-knitr::kable(asset_work_items_data, caption = "Asset_Work_Items Table")
+
+kable(asset_work_items_data, caption = "Asset_Work_Items Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 #### Collection
@@ -597,7 +632,10 @@ Display table data:
 
 ```{r show rows in collection}
 collection_data <- dbGetQuery(conn, "SELECT * FROM Collection;")
-knitr::kable(collection_data, caption = "Collection Table")
+
+kable(collection_data, caption = "Collection Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 #### Library
@@ -619,7 +657,10 @@ Display table data:
 
 ```{r show rows in library}
 library_data <- dbGetQuery(conn, "SELECT * FROM Library;")
-knitr::kable(library_data, caption = "Library Table")
+
+kable(library_data, caption = "Library Table", table.attr = "class=\"table-striped table-hover\"") %>%
+  kable_styling("striped", "hover") %>%
+  row_spec(0, background = "#1AE81A")
 ```
 
 ---
