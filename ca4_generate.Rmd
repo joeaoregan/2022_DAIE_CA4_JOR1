@@ -4,15 +4,15 @@ title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear 
 author: "Joe O'Regan"
 date: "2023-01-11"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 subtitle: "Part 1 - Generate and Populate Database"
 ---
 
 <!-- style for table rows -->
 <style>
-tr:nth-child(even) {background: #AAFFAA;}
-tr:hover td {background-color: #44FF44}
+  .table-striped tr:nth-child(even) {background: #AAFFAA;}
+  .table-hover tbody > tr:hover {background-color: #44FF44}
 </style>
 
 <!-- clear console -->
@@ -72,6 +72,7 @@ conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
 
 ---
 
+\newpage
 ## Create the tables
 
 ### Asset
@@ -82,9 +83,11 @@ Show each table cropped from the main ER Diagram using magick library. Only dime
 er_img <- image_read("daie_ca4_er_diagram.png")
 # cropped image dimension offset by location (in pixels)
 # (newXdimension x newYdimension + Xlocation + Ylocation)
-asset_img = image_scale(image_crop(er_img, "181x117+184+155"), "175%")
+asset_img = image_scale(image_crop(er_img, "181x117+184+155"), ifelse(is_html_output(), "250%", "125%"))
 asset_img
 ```
+
+Describes a single electronic resource produced by one or more work items
 
 * **Id:** Unique identifier for each row
 * **Name:** Description of the asset
@@ -115,12 +118,15 @@ dbExecute(conn, "CREATE TABLE Asset (
 
 ---
 
+\newpage
 ### Asset_Work_Items
 
 ```{r show Asset_Work_Items table only, echo=FALSE}
-asset_work_items_img = image_scale(image_crop(er_img, "183x62+181+27"), "175%")
+asset_work_items_img = image_scale(image_crop(er_img, "183x62+181+27"), ifelse(is_html_output(), "250%", "125%"))
 asset_work_items_img
 ```
+
+Assets are made up of work items
 
 * **Work_Item_Id:** Id for work items used to create the asset
 * **Asset_Id:** Id of the asset
@@ -143,12 +149,15 @@ dbExecute(conn, "CREATE TABLE Asset_Work_Items (
 
 ---
 
+\newpage
 ### Collection
 
 ```{r show Collection table only, echo=FALSE}
-collection_img = image_scale(image_crop(er_img, "146x61+210+334"), "175%")
+collection_img = image_scale(image_crop(er_img, "146x61+210+334"), ifelse(is_html_output(), "250%", "125%"))
 collection_img
 ```
+
+Collection of assets
 
 * **Library_Id:** Unique reference for a collection of assets
 * **Asset_Id:** Unique reference of the asset that make up a collection
@@ -171,12 +180,15 @@ dbExecute(conn, "CREATE TABLE Collection (
 
 ---
 
+\newpage
 ### Library
 
 ```{r show Library table only, echo=FALSE}
-library_img = image_scale(image_crop(er_img, "136x62+19+331"), "175%")
+library_img = image_scale(image_crop(er_img, "136x62+19+331"), ifelse(is_html_output(), "250%", "125%"))
 library_img
 ```
+
+Describes a collection of available assets
 
 * **Id:** Unique reference for each collection in Library
 * **Name:** Description of library collection
@@ -194,12 +206,15 @@ dbExecute(conn, "CREATE TABLE Library (
 
 ---
 
+\newpage
 ### Project
 
 ```{r show Project table only, echo=FALSE}
-project_img = image_scale(image_crop(er_img, "182x74+687+322"), "175%")
+project_img = image_scale(image_crop(er_img, "182x74+687+322"), ifelse(is_html_output(), "250%", "125%"))
 project_img
 ```
+
+Describes a project being produced, timeline, and team involved
 
 * **Id:** Unique reference for each project
 * **Name:** Description of Project
@@ -219,12 +234,15 @@ dbExecute(conn, "CREATE TABLE Project (
 
 ---
 
+\newpage
 ### Project_Team
 
 ```{r show Project_Team table only, echo=FALSE}
-project_team_img = image_scale(image_crop(er_img, "196x61+445+335"), "175%")
+project_team_img = image_scale(image_crop(er_img, "196x61+445+335"), ifelse(is_html_output(), "250%", "125%"))
 project_team_img
 ```
+
+Each project has team members assigned to it
 
 * **Team_Member_Id:** Unique reference for each Team Member
 * **Project_Id:** Id of Project
@@ -247,12 +265,15 @@ dbExecute(conn, "CREATE TABLE Project_Team (
 
 ---
 
+\newpage
 ### Role
 
 ```{r show Role table only, echo=FALSE}
-role_img = image_scale(image_crop(er_img, "136x62+709+177"), "175%")
+role_img = image_scale(image_crop(er_img, "136x62+709+177"), ifelse(is_html_output(), "250%", "125%"))
 role_img
 ```
+
+Each team member has a role (and only 1 role as I already used 10 tables)
 
 * **Id:** Unique reference for role
 * **Name:** Role description
@@ -270,12 +291,15 @@ dbExecute(conn, "CREATE TABLE Role (
 
 ---
 
+\newpage
 ### Status
 
 ```{r show Status table only, echo=FALSE}
-status_img = image_scale(image_crop(er_img, "138x63+708+34"), "175%")
+status_img = image_scale(image_crop(er_img, "138x63+708+34"), ifelse(is_html_output(), "250%", "125%"))
 status_img
 ```
+
+Work items have a progress status
 
 * **Id:** Unique reference for status
 * **Name:** Status description
@@ -293,10 +317,13 @@ dbExecute(conn, "CREATE TABLE Status (
 
 ---
 
+\newpage
 ### Team_Member
 
+Describes an individual on the team
+
 ```{r show Team_Member table only, echo=FALSE}
-team_member_img = image_scale(image_crop(er_img, "172x103+462+167"), "175%")
+team_member_img = image_scale(image_crop(er_img, "172x103+462+167"), ifelse(is_html_output(), "250%", "125%"))
 team_member_img
 ```
 
@@ -325,12 +352,15 @@ dbExecute(conn, "CREATE TABLE Team_Member (
 
 ---
 
+\newpage
 ### Work_Item
 
 ```{r show Work_Item table only, echo=FALSE}
-work_item_img = image_scale(image_crop(er_img, "203x91+439+19"), "175%")
+work_item_img = image_scale(image_crop(er_img, "203x91+439+19"), ifelse(is_html_output(), "250%", "125%"))
 work_item_img
 ```
+
+Describes smallest parcel of work resulting in a testable output
 
 * **Id:** Unique reference for work item.
 * **Name:** Description of work item.
@@ -357,7 +387,8 @@ dbExecute(conn, "CREATE TABLE Work_Item (
 
 ---
 
-### Show tables in database
+\newpage
+## Show tables in database
 
 ```{r list the tables}
 dbListTables(conn)
@@ -365,9 +396,32 @@ dbListTables(conn)
 
 ---
 
-### Insert Data
+## Data format function
 
-#### Status
+Function to format tables for HTML and PDF output. Display tables using knitr library's kable function and kableExtra to format tables.
+
+```{r}
+data_format.function <- function(data, capt) {
+  data %>%
+    { 
+      if (is_html_output()) { # if the output is HTML add class attribute
+        kbl(., table.attr='class="table-striped table-hover"', caption = capt)} 
+      else if (is_latex_output()) { # if the output is PDF ignore class attribute
+        kbl(., caption = capt)
+      }
+    } %>% # pdf output keep tables in position
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#1AE81A")
+}
+```
+
+---
+---
+
+\newpage
+## Insert Data
+
+### Status
 
 ```{r show fields in status table}
 dbListFields(conn, "Status")
@@ -386,15 +440,10 @@ Display table data (using knitr library kable function):
 
 ```{r show rows in status}
 status_data <- dbGetQuery(conn, "SELECT * FROM Status;")
-
-#View(status_data) # replace with knitr::kable() as it looks better
-
-kable(status_data, caption = "Status Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(status_data, "Status Table")
 ```
 
+\newpage
 ### Role
 
 ```{r show fields in role table}
@@ -419,13 +468,10 @@ Display table data:
 
 ```{r show rows in role}
 role_data <- dbGetQuery(conn, "SELECT * FROM Role;")
-
-kable(role_data, caption = "Role Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(role_data, "Role Table")
 ```
 
+\newpage
 ### Team_Member
 
 ```{r show fields in team_member table}
@@ -435,33 +481,44 @@ dbListFields(conn, "Team_Member")
 Insert table data:
 
 ```{r insert data into team member table, results='hide'}
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joe', 'O''Regan', 'joe.oregan@daie.ca4', 2);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Derp', 'McDerp', 'derpmcderp@daie.ca4', 1);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Herpderp', 'Derpderpenson', 'hd.derpderpenson@daie.ca4', 3);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Herpa', 'Derpderp', 'herpa.derpderp@daie.ca4', 4);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('De', 'Rpderp', 'de.rpderp@daie.ca4', 5);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Pred', 'Prehpred', 'predprehpred@daie.ca4', 6);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Derpa', 'Derpa', 'derpaderpa@daie.ca4', 9);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Herpa', 'Derpa', 'herpaderpa@daie.ca4', 8);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('HerpaDerpa', 'McDerpa', 'herpaderpa.mcderpa@daie.ca4', 7);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joe', 'Derp', 'j.derp@daie.ca4', 2);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Jon', 'Herpaderp', 'jherpaderp@daie.ca4', 7);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joblot', 'O''Stuff', 'joblot.ostuff@daie.ca4', 3);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joderp', 'Herpderpenson', 'j.herpderpenson@daie.ca4', 4);")
-dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Jo', 'McQueryfiller', 'j.mcqueryfiller@daie.ca4', 1);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Joe', 'O''Regan', 'joe.oregan@daie.ca4', 2);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Derp', 'McDerp', 'derpmcderp@daie.ca4', 1);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Herpderp', 'Derpderpenson', 'hd.derpderpenson@daie.ca4', 3);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Herpa', 'Derpderp', 'herpa.derpderp@daie.ca4', 4);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('De', 'Rpderp', 'de.rpderp@daie.ca4', 5);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Pred', 'Prehpred', 'predprehpred@daie.ca4', 6);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Derpa', 'Derpa', 'derpaderpa@daie.ca4', 9);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Herpa', 'Derpa', 'herpaderpa@daie.ca4', 8);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('HerpaDerpa', 'McDerpa', 'herpaderpa.mcderpa@daie.ca4', 7);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Joe', 'Derp', 'j.derp@daie.ca4', 2);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Jon', 'Herpaderp', 'jherpaderp@daie.ca4', 7);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Joblot', 'O''Stuff', 'joblot.ostuff@daie.ca4', 3);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Joderp', 'Herpderpenson', 'j.herpderpenson@daie.ca4', 4);")
+dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') 
+          VALUES ('Jo', 'McQueryfiller', 'j.mcqueryfiller@daie.ca4', 1);")
 ```
 
 Display table data:
 
 ```{r show rows in team member}
 team_member_data <- dbGetQuery(conn, "SELECT * FROM Team_Member;")
-
-kable(team_member_data, caption = "Team Member Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(team_member_data, "Team Member Table")
 ```
 
+\newpage
 ### Work_Item
 
 ```{r show fields in Work_Item table}
@@ -471,32 +528,42 @@ dbListFields(conn, "Work_Item")
 Insert table data:
 
 ```{r insert data into work_item table, results='hide'}
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Thingy', 2, 4);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Test Thingy', 3, 3);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Environment Model Thingy', 2, 6);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Concept Thingy', 4, 7);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Shading Thingy', 4, 8);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Random 3D Model', 2, 5);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('3D Model Test Obj', 2, 3);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Random Blueprint', 2, 1);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Blueprint Thingy', 2, 2);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Blueprint Test', 3, 2);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Art Test', 1, 12);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Query Model Thingy', 3, 11);")
-dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') VALUES ('Another Test', 4, 13);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Art Thingy', 2, 4);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Art Test Thingy', 3, 3);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Environment Model Thingy', 2, 6);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Art Concept Thingy', 4, 7);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Art Shading Thingy', 4, 8);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Random 3D Model', 2, 5);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('3D Model Test Obj', 2, 3);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Random Blueprint', 2, 1);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Blueprint Thingy', 2, 2);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Blueprint Test', 3, 2);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Art Test', 1, 12);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Query Model Thingy', 3, 11);")
+dbExecute(conn, "INSERT INTO Work_Item ('Name', 'Status_Id', 'Assigned_To') 
+          VALUES ('Another Test', 4, 13);")
 ```
 
 Display table data:
 
 ```{r show rows in work_item}
 work_item_data <- dbGetQuery(conn, "SELECT * FROM Work_Item;")
-
-kable(work_item_data, caption = "Work Item Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(work_item_data, "Work Item Table")
 ```
 
+\newpage
 ### Project
 
 ```{r show fields in Project table}
@@ -506,29 +573,36 @@ dbListFields(conn, "Project")
 Insert table data:
 
 ```{r insert data into project table, results='hide'}
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Art Proj', '2023-01-11');")
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('DAIE CA4', '2023-01-20');")
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('New Project', '2023-01-24');")
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Old Project', '2022-12-14');")
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Christmas 2022 Project', '2022-12-25');")
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Date Range Project', '2023-01-17');")
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Another Date Range Project', '2023-02-01');")
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Project Filler', '2023-03-01');")
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Derp Project', '2023-03-17');")
-dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') VALUES ('Hmmm I Ran Out of Names', '2023-01-20');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('Art Proj', '2023-01-11');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('DAIE CA4', '2023-01-20');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('New Project', '2023-01-24');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('Old Project', '2022-12-14');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('Christmas 2022 Project', '2022-12-25');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('Date Range Project', '2023-01-17');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('Another Date Range Project', '2023-02-01');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('Project Filler', '2023-03-01');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('Derp Project', '2023-03-17');")
+dbExecute(conn, "INSERT INTO Project ('Name', 'Delivery_Date') 
+          VALUES ('Hmmm I Ran Out of Names', '2023-01-20');")
 ```
 
 Display table data:
 
 ```{r show rows in project}
 project_data <- dbGetQuery(conn, "SELECT * FROM Project;")
-
-kable(project_data, caption = "Project Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(project_data, "Project Table")
 ```
 
+\newpage
 ### Project_Team
 
 ```{r show fields in Project_Team table}
@@ -562,13 +636,10 @@ Display table data:
 
 ```{r show rows in project_team}
 project_team_data <- dbGetQuery(conn, "SELECT * FROM Project_Team;")
-
-kable(project_team_data, caption = "Project Team Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(project_team_data, "Project Team Table")
 ```
 
+\newpage
 ### Asset
 
 ```{r show fields in Asset table}
@@ -578,23 +649,24 @@ dbListFields(conn, "Asset")
 Insert table data:
 
 ```{r  insert data into asset table, results='hide'}
-dbExecute(conn, "INSERT INTO Asset ('Name', 'Type', 'Format', 'Created_By', 'Date_Created') VALUES ('Random Blueprint Asset', 'Combination of Blueprints', 'Zip file', 1, '2023-01-11');")
-dbExecute(conn, "INSERT INTO Asset ('Name', 'Created_By', 'Date_Created') VALUES ('Random Art Asset', 4, '2023-01-10');")
-dbExecute(conn, "INSERT INTO Asset ('Name', 'Created_By', 'Date_Created') VALUES ('Art Asset Thingy', 4, '2023-01-10');")
-dbExecute(conn, "INSERT INTO Asset ('Name', 'Type', 'Created_By', 'Date_Created') VALUES ('Environment Asset Thingy', 'Tree for use in Environment',4, '2023-01-02');")
+dbExecute(conn, "INSERT INTO Asset ('Name', 'Type', 'Format', 'Created_By', 'Date_Created') 
+          VALUES ('Random Blueprint Asset', 'Combination of Blueprints', 'Zip file', 1, '2023-01-11');")
+dbExecute(conn, "INSERT INTO Asset ('Name', 'Created_By', 'Date_Created') 
+          VALUES ('Random Art Asset', 4, '2023-01-10');")
+dbExecute(conn, "INSERT INTO Asset ('Name', 'Created_By', 'Date_Created') 
+          VALUES ('Art Asset Thingy', 4, '2023-01-10');")
+dbExecute(conn, "INSERT INTO Asset ('Name', 'Type', 'Created_By', 'Date_Created') 
+          VALUES ('Environment Asset Thingy', 'Tree for use in Environment',4, '2023-01-02');")
 ```
 
 Display table data:
 
 ```{r show rows in asset}
 asset_data <- dbGetQuery(conn, "SELECT * FROM Asset;")
-
-kable(asset_data, caption = "Asset Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(asset_data, "Asset Table")
 ```
 
+\newpage
 ### Asset_Work_Items
 
 ```{r show fields in asset work items table}
@@ -620,13 +692,10 @@ Display table data:
 
 ```{r show rows in Asset_Work_Items}
 asset_work_items_data <- dbGetQuery(conn, "SELECT * FROM Asset_Work_Items;")
-
-kable(asset_work_items_data, caption = "Asset Work Items Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(asset_work_items_data, "Asset Work Items Table")
 ```
 
+\newpage
 ### Collection
 
 ```{r show fields in Collection table}
@@ -646,13 +715,10 @@ Display table data:
 
 ```{r show rows in collection}
 collection_data <- dbGetQuery(conn, "SELECT * FROM Collection;")
-
-kable(collection_data, caption = "Collection Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(collection_data, "Collection Table")
 ```
 
+\newpage
 ### Library
 
 ```{r show fields in Library table}
@@ -672,11 +738,7 @@ Display table data:
 
 ```{r show rows in library}
 library_data <- dbGetQuery(conn, "SELECT * FROM Library;")
-
-kable(library_data, caption = "Library Table") %>%
-  #    table.attr = 'class="table-striped table-hover"') %>%
-  kable_styling("striped") %>%
-  row_spec(0, background = "#1AE81A")
+data_format.function(library_data, "Library Table")
 ```
 
 ---
