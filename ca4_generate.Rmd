@@ -4,8 +4,8 @@ title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear 
 author: "Joe O'Regan"
 date: "2023-01-11"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 subtitle: "Part 1 - Generate and Populate Database"
 ---
 
@@ -20,6 +20,10 @@ subtitle: "Part 1 - Generate and Populate Database"
 cat('\014')
 #knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format = "latex")
+
+# adjust scale of er diagram table images
+scale_html <- "300%" # html output
+scale_pdf <- "110%" # pdf output
 ```
 
 ---
@@ -83,7 +87,8 @@ Show each table cropped from the main ER Diagram using magick library. Only dime
 er_img <- image_read("daie_ca4_er_diagram.png")
 # cropped image dimension offset by location (in pixels)
 # (newXdimension x newYdimension + Xlocation + Ylocation)
-asset_img = image_scale(image_crop(er_img, "181x117+184+155"), ifelse(is_html_output(), "250%", "125%"))
+asset_img = image_scale(image_crop(er_img, "181x117+184+155"), 
+                        ifelse(is_html_output(), scale_html, scale_pdf))
 asset_img
 ```
 
@@ -122,7 +127,7 @@ dbExecute(conn, "CREATE TABLE Asset (
 ### Asset_Work_Items
 
 ```{r show Asset_Work_Items table only, echo=FALSE}
-asset_work_items_img = image_scale(image_crop(er_img, "183x62+181+27"), ifelse(is_html_output(), "250%", "125%"))
+asset_work_items_img = image_scale(image_crop(er_img, "183x62+181+27"), ifelse(is_html_output(), scale_html, scale_pdf))
 asset_work_items_img
 ```
 
@@ -153,7 +158,7 @@ dbExecute(conn, "CREATE TABLE Asset_Work_Items (
 ### Collection
 
 ```{r show Collection table only, echo=FALSE}
-collection_img = image_scale(image_crop(er_img, "146x61+210+334"), ifelse(is_html_output(), "250%", "125%"))
+collection_img = image_scale(image_crop(er_img, "146x61+210+334"), ifelse(is_html_output(), scale_html, scale_pdf))
 collection_img
 ```
 
@@ -184,7 +189,7 @@ dbExecute(conn, "CREATE TABLE Collection (
 ### Library
 
 ```{r show Library table only, echo=FALSE}
-library_img = image_scale(image_crop(er_img, "136x62+19+331"), ifelse(is_html_output(), "250%", "125%"))
+library_img = image_scale(image_crop(er_img, "136x62+19+331"), ifelse(is_html_output(), scale_html, scale_pdf))
 library_img
 ```
 
@@ -210,7 +215,7 @@ dbExecute(conn, "CREATE TABLE Library (
 ### Project
 
 ```{r show Project table only, echo=FALSE}
-project_img = image_scale(image_crop(er_img, "182x74+687+322"), ifelse(is_html_output(), "250%", "125%"))
+project_img = image_scale(image_crop(er_img, "182x74+687+322"), ifelse(is_html_output(), scale_html, scale_pdf))
 project_img
 ```
 
@@ -238,7 +243,7 @@ dbExecute(conn, "CREATE TABLE Project (
 ### Project_Team
 
 ```{r show Project_Team table only, echo=FALSE}
-project_team_img = image_scale(image_crop(er_img, "196x61+445+335"), ifelse(is_html_output(), "250%", "125%"))
+project_team_img = image_scale(image_crop(er_img, "196x61+445+335"), ifelse(is_html_output(), scale_html, scale_pdf))
 project_team_img
 ```
 
@@ -269,7 +274,7 @@ dbExecute(conn, "CREATE TABLE Project_Team (
 ### Role
 
 ```{r show Role table only, echo=FALSE}
-role_img = image_scale(image_crop(er_img, "136x62+709+177"), ifelse(is_html_output(), "250%", "125%"))
+role_img = image_scale(image_crop(er_img, "136x62+709+177"), ifelse(is_html_output(), scale_html, scale_pdf))
 role_img
 ```
 
@@ -295,7 +300,7 @@ dbExecute(conn, "CREATE TABLE Role (
 ### Status
 
 ```{r show Status table only, echo=FALSE}
-status_img = image_scale(image_crop(er_img, "138x63+708+34"), ifelse(is_html_output(), "250%", "125%"))
+status_img = image_scale(image_crop(er_img, "138x63+708+34"), ifelse(is_html_output(), scale_html, scale_pdf))
 status_img
 ```
 
@@ -323,7 +328,7 @@ dbExecute(conn, "CREATE TABLE Status (
 Describes an individual on the team
 
 ```{r show Team_Member table only, echo=FALSE}
-team_member_img = image_scale(image_crop(er_img, "172x103+462+167"), ifelse(is_html_output(), "250%", "125%"))
+team_member_img = image_scale(image_crop(er_img, "172x103+462+167"), ifelse(is_html_output(), scale_html, scale_pdf))
 team_member_img
 ```
 
@@ -356,7 +361,7 @@ dbExecute(conn, "CREATE TABLE Team_Member (
 ### Work_Item
 
 ```{r show Work_Item table only, echo=FALSE}
-work_item_img = image_scale(image_crop(er_img, "203x91+439+19"), ifelse(is_html_output(), "250%", "125%"))
+work_item_img = image_scale(image_crop(er_img, "203x91+439+19"), ifelse(is_html_output(), scale_html, scale_pdf))
 work_item_img
 ```
 
