@@ -63,28 +63,37 @@ conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
 
 Contents of tables to check queries against.
 
+## Format Table Function
+
 Function to format tables for HTML and PDF output. Display tables using knitr library's kable function and kableExtra to format tables.
 
 ```{r}
-data_format.function <- function(data, type="table", bgcolour="#28B3F9") {
+# type parameter sets class type for different table formatting
+# bgcolor parameter sets the table heading colour
+# caprt paramter sets the table caption
+# paste() used to concatenate strings
+# sep - the separator in the concatenated string
+# separate formatting is required for html and pdf tables due to css class error
+data_format.function <- function(data, capt="", type="table", bgcolour="#28B3F9") {
   data %>%
     { 
       if (is_html_output()) { # if the output is HTML add class attribute
-        kbl(., table.attr= paste("class='",type,"-striped ",type,'-',"hover'", sep="")) %>% 
+        kbl(., caption = capt, 
+            table.attr=paste("class='",type,"-striped ",type,'-',"hover'", sep="")) %>% 
         kable_styling(bootstrap_options = c("striped", "hover"))
       }
       else if (is_latex_output()) { # if the output is PDF ignore class attribute
-        kbl(.) %>%
+        kbl(., caption = capt) %>%
         kable_styling(latex_options = c("striped","HOLD_position"))
       }
     } %>% # pdf output keep tables in position
-      # kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
         row_spec(0, background = bgcolour) # table heading colour
 }
 ```
 
 ---
 
+\newpage
 ## Status
 
 Status table data.
@@ -93,10 +102,8 @@ Status table data.
 SELECT * FROM Status -- get all data in Status table
 ```
 
-Display Status table using above data format function.
-
 ```{r output status table contents}
-data_format.function(status_data) # format data with function above
+data_format.function(status_data, "Status") # format data with function above
 ```
 
 ## Role
@@ -108,7 +115,7 @@ SELECT * FROM Role -- get all data in Role table
 ```
 
 ```{r output role table contents}
-data_format.function(role_data) # format data with function above
+data_format.function(role_data, "Role") # format data with function above
 ```
 
 ## Team_Member
@@ -120,10 +127,9 @@ SELECT * FROM Team_Member -- get all data in Team_Member table
 ```
 
 ```{r output team_member table contents}
-data_format.function(team_member_data) # format data with function above
+data_format.function(team_member_data, "Team Member") # format data with function above
 ```
 
-\newpage
 ## Work_Item
 
 Work_Item table data.
@@ -133,9 +139,10 @@ SELECT * FROM Work_Item -- get all data in Work_Item table
 ```
 
 ```{r output work_item table contents}
-data_format.function(work_item_data) # format data with function above
+data_format.function(work_item_data, "Work Item") # format data with function above
 ```
 
+\newpage
 ## Project
 
 Project table data.
@@ -145,10 +152,9 @@ SELECT * FROM Project -- get all data in Project table
 ```
 
 ```{r output project table contents}
-data_format.function(project_data) # format data with function above
+data_format.function(project_data, "Project") # format data with function above
 ```
 
-\newpage
 ## Project_Team
 
 Project_Team table data.
@@ -158,7 +164,7 @@ SELECT * FROM Project_Team -- get all data in Project_Team table
 ```
 
 ```{r output project_team table contents}
-data_format.function(project_team_data) # format data with function above
+data_format.function(project_team_data, "Project Team") # format data with function above
 ```
 
 ## Asset
@@ -170,10 +176,9 @@ SELECT * FROM Asset -- get all data in Asset table
 ```
 
 ```{r output asset table contents}
-data_format.function(asset_data) # format data with function above
+data_format.function(asset_data, "Asset") # format data with function above
 ```
 
-\newpage
 ## Asset_Work_Items
 
 Asset_Work_Items table data.
@@ -183,9 +188,11 @@ SELECT * FROM Asset_Work_Items -- get all data in Asset_Work_Items table
 ```
 
 ```{r output asset_work_items table contents}
-data_format.function(asset_work_items_data) # format data with function above
+data_format.function(asset_work_items_data, 
+                     "Asset Work Items") # format data with function above
 ```
 
+\newpage
 ## Library
 
 Library table data.
@@ -195,10 +202,9 @@ SELECT * FROM Library -- get all data in Library table
 ```
 
 ```{r output library table contents}
-data_format.function(library_data) # format data with function above
+data_format.function(library_data, "Library") # format data with function above
 ```
 
-\newpage
 ## Collection
 
 Collection table data.
@@ -208,7 +214,7 @@ SELECT * FROM Collection -- get all data in Collection table
 ```
 
 ```{r output collection table contents}
-data_format.function(collection_data) # format data with function above
+data_format.function(collection_data, "Collection") # format data with function above
 ```
 
 ---
@@ -239,7 +245,8 @@ SELECT * FROM Team_Member WHERE First_Name = 'Joe';
 Format the query output as a table with kable and kableExtra function above.
 
 ```{r select with where}
-data_format.function(query1_select_with_where, "query", "#FF0000") # format data
+data_format.function(query1_select_with_where, "Team members with first name Joe",
+                     "query", "#FF0000") # format data changing function defaults
 ```
 
 ### 1.2 SELECT with LIKE
@@ -255,7 +262,9 @@ SELECT * FROM Team_Member WHERE First_Name LIKE "jo_";
 ```
 
 ```{r select with like single character wildcard}
-data_format.function(query2a_select_with_like, "query", "#FF0000")
+data_format.function(query2a_select_with_like, 
+                     "Team members with name beginning with jo and at least 3 characters",
+                     "query", "#FF0000")
 ```
 
 
@@ -268,10 +277,12 @@ SELECT * FROM Team_Member WHERE Last_Name LIKE "%derp%";
 ```
 
 ```{r select with like}
-data_format.function(query2b_select_with_like, "query", "#FF0000")
+data_format.function(query2b_select_with_like, 
+                     # need to escape \ and %
+                     "Team member last name contains 'derp' string using \\% wildcard",
+                     "query", "#FF0000")
 ```
 
-\newpage
 #### **1.2.3 Select with LIKE and** \'%\' **and** \'_\' **wildcard**  
   \
 Find Team Members with first name beginning with "jo" with at least 3 characters, i.e. excludes "Jo".
@@ -281,7 +292,9 @@ SELECT * FROM Team_Member WHERE First_Name LIKE "jo_%";
 ```
 
 ```{r select with like both wildcards}
-data_format.function(query2c_select_with_like, "query", "#FF0000")
+data_format.function(query2c_select_with_like, 
+                     "Team member first name of at least 3 characters beginning with 'jo'",
+                     "query", "#FF0000")
 ```
 
 ### 1.3 SELECT with OR
@@ -295,7 +308,8 @@ SELECT * FROM Team_Member WHERE Role_Id = 2 OR Role_Id = 7;
 ```
 
 ```{r select with or numeric}
-data_format.function(query3a_select_with_or, "query", "#FF0000")
+data_format.function(query3a_select_with_or, "Team member with role id of 2 or 7",
+                     "query", "#FF0000")
 ```
 
 \newpage
@@ -308,7 +322,9 @@ SELECT * FROM Team_Member WHERE First_Name = "Herpa" OR Last_Name = "Derpa";
 ```
 
 ```{r select with or string}
-data_format.function(query3b_select_with_or, "query", "#FF0000")
+data_format.function(query3b_select_with_or, 
+                     "Team members with first name 'Herpa' or last name 'Derpa'",
+                     "query", "#FF0000")
 ```
   
 ### 1.4 SELECT with WHERE, LIKE and OR
@@ -320,9 +336,12 @@ SELECT * FROM Work_Item WHERE Name LIKE "art%" OR Status_Id = 3;
 ```
 
 ```{r select with where like or}
-data_format.function(query4a_select_with_where_like_or, "query", "#FF0000")
+data_format.function(query4a_select_with_where_like_or, 
+                     "Work item with name beginning with the string 'art'",
+                     "query", "#FF0000")
 ```
 
+\newpage
 ### 1.5 SELECT with NOT
 
 Find Work Items where the name doesn't contain "Thingy".
@@ -332,7 +351,9 @@ SELECT * FROM Work_Item WHERE Name NOT LIKE "%thingy%";
 ```
 
 ```{r select with not}
-data_format.function(query4b_select_with_not, "query", "#FF0000")
+data_format.function(query4b_select_with_not, 
+                     "Work items that do not containt the string 'thingy'",
+                     "query", "#FF0000")
 ```
 
 ---
@@ -349,7 +370,9 @@ SELECT DISTINCT Status_Id FROM Work_Item;
 ```
 
 ```{r select distinct}
-data_format.function(query5_select_distinct, "query", "#FF0000") # format query
+data_format.function(query5_select_distinct, 
+                     "Get the unique values for Status Id in Work Item",
+                     "query", "#FF0000") # format query
 ```
 
 ### 2.2 SELECT with ORDER BY
@@ -361,9 +384,12 @@ SELECT * FROM Work_Item ORDER BY Assigned_To;
 ```
 
 ```{r select order by}
-data_format.function(query6_select_order_by, "query", "#FF0000")
+data_format.function(query6_select_order_by, 
+                     "Show Work Items ordered by Assigned To ID number",
+                     "query", "#FF0000")
 ```
 
+\newpage
 ### 2.3 SELECT with ORDER BY ASC
 
 Display work items ordered by Status_Id (Status.Id) in ascending order.
@@ -373,7 +399,8 @@ SELECT * FROM Work_Item ORDER BY Status_Id ASC;
 ```
 
 ```{r select order by asc}
-data_format.function(query7_select_order_by_asc, "query", "#FF0000")
+data_format.function(query7_select_order_by_asc,
+                     "Show Work Items ordered by Status Id code", "query", "#FF0000")
 ```
 
 ### 2.4 SELECT with ORDER BY DESC
@@ -385,10 +412,11 @@ SELECT * FROM Work_Item ORDER BY Assigned_To DESC;
 ```
 
 ```{r select order by desc}
-data_format.function(query8_select_order_by_desc, "query", "#FF0000")
+data_format.function(query8_select_order_by_desc, 
+                     "Work Items ordered by Assigned To ID number in descending order",
+                     "query", "#FF0000")
 ```
 
-\newpage
 ### 2.5 SELECT with DISTINCT and ORDER By
 
 Display work items ordered by Assigned_To (Team_Member.Id) in descending order.
@@ -398,12 +426,30 @@ SELECT DISTINCT Assigned_To FROM Work_Item ORDER BY Assigned_To;
 ```
 
 ```{r select with distinct and order by}
-data_format.function(query9_select_distinct_order_by, "query", "#FF0000")
+data_format.function(query9_select_distinct_order_by, 
+                     "Show distinct list of team members with work assigned to them",
+                     "query", "#FF0000")
 ```
 
-  
+\newpage
+### 2.6 SELECT with DISTINCT and Subquery
+
+Show list of team members who have no work assigned to them (opposite of previous query).
+
+```{sql connection=conn, output.var="query9b"}
+SELECT Id, First_Name || ' ' || Last_Name AS "Name"
+FROM Team_Member
+WHERE Id NOT IN 
+(SELECT DISTINCT Assigned_To FROM Work_Item);
+```
+
+```{r select with distinct and subquery}
+data_format.function(query9b, 
+                     "Show list of team members with no work assigned to them",
+                     "query", "#FF0000")
+```
+
 ---
-  
 
 \newpage
 ## 3. Inner Join
@@ -416,37 +462,46 @@ First name and last name are concatenated with the || operator as Concat() doesn
 
 ```{sql connection=conn, output.var="query10a_select_inner_join"}
  -- no Concat() in sqlite, || = concat operator
-SELECT t.Id as "Team Member Id", 
+SELECT t.Id AS 'Member Id', 
 t.First_Name || ' ' || t.Last_Name AS 'Full Name',
 r.Name AS 'Project Role'
-From Team_Member t
+FROM Team_Member t
 Inner Join Role r
 ON t.Role_Id = r.Id
 ```
 
 ```{r select with inner join}
-data_format.function(query10a_select_inner_join, "query", "#FF0000") # format
+data_format.function(query10a_select_inner_join, 
+                     "Team Member Inner Joins Role to display member name and role",
+                     "query", "#FF0000") # format
 ```
 
+\newpage
 ### 3.2 Inner Join 2
 
 Get Projects with no Project Manager.
 
 #### **3.2.1 Select Project Managers from Team Members**  
   \
+Get list of Project Managers from Team_Member table.
+  
 ```{sql connection=conn, output.var="query10b_part1"}
 SELECT * FROM Team_Member WHERE Role_id = 1;
 ```
 
 ```{r select with inner join 2 part 1}
-data_format.function(query10b_part1, "query", "#FF0000")
+data_format.function(query10b_part1,
+                     "Select Team Members who are Project Managers",
+                     "query", "#FF0000")
 ```
 
-\newpage
 #### **3.2.2 Show Project Manager and their projects**  
   \
+List of Project managers and the projects assigned to them. Joins Team_Member, Project_Team and Role tables.
+  
 ```{sql connection=conn, output.var="query10b_part2"}
-SELECT First_Name || ' ' || Last_Name as "Name", r.name, r.Id, pt.Project_Id
+SELECT First_Name || ' ' || Last_Name as "Member Name", 
+r.name AS "Role", r.Id AS "Role ID", pt.Project_Id AS "Project ID"
 FROM Team_Member tm
 INNER JOIN Project_Team pt
 ON pt.Team_Member_Id = tm.Id
@@ -457,14 +512,20 @@ WHERE tm.Role_Id IN
 ```
 
 ```{r select with inner join 2 part 2}
-data_format.function(query10b_part2, "query", "#FF0000")
+data_format.function(query10b_part2, 
+                     "Project Managers assigned projects using Inner Join",
+                     "query", "#FF0000")
 ```
 
+\newpage
 #### **3.2.3 Get Projects with no Project Manager**  
   \
+List of projects with no manager assigned. Joins Project, Team_Member and Role tables.
+  
 ```{sql connection=conn, output.var="query10b_part3"}
-Select Name as "Projects with no Manager:" from Project
-WHERE Id NOT IN
+Select p.Id AS "Project Id", p.Name AS "Projects Name" 
+FROM Project p
+WHERE p.Id NOT IN
 (SELECT DISTINCT pt.Project_Id
 FROM Team_Member tm
 INNER JOIN Project_Team pt
@@ -476,7 +537,9 @@ WHERE tm.Role_Id IN
 ```
 
 ```{r select with inner join 2 part 3}
-data_format.function(query10b_part3, "query", "#FF0000")
+data_format.function(query10b_part3, 
+                     "List of Projects with no Project Manager assigned",
+                     "query", "#FF0000")
 ```
 
 ---
@@ -493,12 +556,13 @@ Nested select query
 Select the work items that are at least in Review (Review, or Done), i.e.with a status greater than 2.
 
 ```{sql connection=conn, output.var="query11_subquery_part_1"}
-SELECT * FROM Work_Item
-WHERE Status_Id > 2
+SELECT * FROM Work_Item WHERE Status_Id > 2
 ```
 
 ```{r subquery part 1}
-data_format.function(query11_subquery_part_1, "query", "#FF0000") # format query
+data_format.function(query11_subquery_part_1, 
+                     "Get Work Items that are at least In Review",
+                     "query", "#FF0000") # format query
 ```
 
 #### **4.1.2 Subquery part 2: Outer query**  
@@ -506,14 +570,15 @@ data_format.function(query11_subquery_part_1, "query", "#FF0000") # format query
 Select work items that contain the string "test".
 
 ```{sql connection=conn, output.var="query12_subquery_part_2"}
-SELECT * FROM Work_Item
-WHERE Name LIKE "%test%"
+SELECT * FROM Work_Item WHERE Name LIKE "%test%"
 ```
 
 ```{r subquery part 2}
-data_format.function(query12_subquery_part_2, "query", "#FF0000")
+data_format.function(query12_subquery_part_2, "Work Items with string 'test'",
+                     "query", "#FF0000")
 ```
 
+\newpage
 #### **4.1.3 Subquery with SELECT and IN**  
   \
 Select work items that contain the string "test" and have a Status_Id greater than 2. 
@@ -527,7 +592,8 @@ WHERE Status_Id > 2)
 ```
 
 ```{r subquery with select}
-data_format.function(query13_subquery_with_select, "query", "#FF0000")
+data_format.function(query13_subquery_with_select, 
+                     "Test Work Items that are in review or done", "query", "#FF0000")
 ```
 
 ### 4.2 Subquery with SELECT and NOT IN
@@ -543,7 +609,8 @@ WHERE Status_Id > 2)
 ```
 
 ```{r subquery with select and not in}
-data_format.function(query13b_subquery_with_select_not_in, "query", "#FF0000")
+data_format.function(query13b_subquery_with_select_not_in, 
+                     "Test Work Items in To Do or In Progress", "query", "#FF0000")
 ```
 
 ---
@@ -556,12 +623,14 @@ data_format.function(query13b_subquery_with_select_not_in, "query", "#FF0000")
 Select delivery dates from Project table to compare query against. And order them to make it that much easier to find.
 
 ```{sql connection=conn, output.var="query14_check_dates"}
-SELECT Delivery_Date FROM Project
+SELECT Delivery_Date AS "Project Due Dates" FROM Project
 ORDER BY Delivery_Date
 ```
 
 ```{r select date part 1}
-data_format.function(query14_check_dates, "query", "#FF0000") # Format query data
+data_format.function(query14_check_dates, 
+                     "Ordered Project Due Dates",
+                     "query", "#FF0000") # Format query data
 ```
 
 ### 5.2 Select across a date range
@@ -575,7 +644,9 @@ BETWEEN "2023-01-16" AND "2023-01-25";
 ```
 
 ```{r select across date range}
-data_format.function(query15_select_across_date_range, "query", "#FF0000")
+data_format.function(query15_select_across_date_range, 
+                     "Project Due between 16th and 25th of January 2023",
+                     "query", "#FF0000")
 ```
 
 ---
