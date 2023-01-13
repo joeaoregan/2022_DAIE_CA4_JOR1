@@ -1879,6 +1879,7 @@ Asset_Id
 <li>Subquery with SELECT</li>
 <li>SELECT across a date range</li>
 </ol>
+<div style="page-break-after: always;"></div>
 <div id="select-with-where-like-and-or" class="section level3">
 <h3><strong>1. SELECT with WHERE, LIKE, and OR</strong></h3>
 <div id="select-with-where" class="section level4">
@@ -1945,14 +1946,6 @@ Derp
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>#query1_select_with_where %&gt;%
-#  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;query-striped query-hover\&#39;&quot;)} 
-#    else if (is_latex_output()) {kbl(.)}} %&gt;%
-#      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
-#        row_spec(0, background = &quot;#FF0000&quot;)
-
-#data_format.function(query1_select_with_where)</code></pre>
-<hr />
 </div>
 <div id="select-with-like" class="section level4">
 <h4><strong>SELECT with LIKE</strong></h4>
@@ -2035,7 +2028,6 @@ Herpaderp
 </tr>
 </tbody>
 </table>
-<hr />
 <p>Find Team Members with last name containing the string “derp” using
 ‘%’ wildcard.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE Last_Name LIKE &quot;%derp%&quot;;</code></pre>
@@ -2233,7 +2225,6 @@ Herpderpenson
 </tr>
 </tbody>
 </table>
-<hr />
 <p>Find Team Members with first name beginning with “jo” with at least 3
 characters, i.e. excludes “Jo”.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE First_Name LIKE &quot;jo_%&quot;;</code></pre>
@@ -2346,7 +2337,6 @@ Herpderpenson
 </tr>
 </tbody>
 </table>
-<hr />
 </div>
 <div id="select-with-or." class="section level4">
 <h4><strong>SELECT with OR.</strong></h4>
@@ -2445,7 +2435,6 @@ Herpaderp
 </tr>
 </tbody>
 </table>
-<hr />
 </div>
 <div id="select-with-where-like-and-or-1" class="section level4">
 <h4><strong>SELECT with WHERE, LIKE and OR</strong></h4>
@@ -3578,6 +3567,7 @@ McQueryfiller
 </tr>
 </tbody>
 </table>
+<div style="page-break-after: always;"></div>
 <p><strong>Part 2:</strong> Show Project Manager and their projects</p>
 <pre class="sql"><code>SELECT First_Name || &#39; &#39; || Last_Name as &quot;Name&quot;, r.name, r.Id, pt.Project_Id
 FROM Team_Member tm

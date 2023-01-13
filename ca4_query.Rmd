@@ -4,8 +4,8 @@ subtitle: "CA4 Part 2 - Querying Database"
 author: "Joe O'Regan"
 date: "2023-01-11"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 always_allow_html: true
 ---
 
@@ -231,6 +231,7 @@ data_format.function(collection_data)
 4. Subquery with SELECT
 5. SELECT across a date range
 
+\newpage
 ### **1. SELECT with WHERE, LIKE, and OR**
 
 #### **Select with WHERE**  
@@ -244,16 +245,7 @@ SELECT * FROM Team_Member WHERE First_Name = 'Joe';
 
 ```{r select with where}
 data_format.function(query1_select_with_where, "query", "#FF0000")
-#query1_select_with_where %>%
-#  { if (is_html_output()) {kbl(., table.attr="class=\'query-striped query-hover\'")} 
-#    else if (is_latex_output()) {kbl(.)}} %>%
-#      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
-#        row_spec(0, background = "#FF0000")
-
-#data_format.function(query1_select_with_where)
 ```
-
----
 
 #### **SELECT with LIKE**  
   \
@@ -267,8 +259,6 @@ SELECT * FROM Team_Member WHERE First_Name LIKE "jo_";
 data_format.function(query2a_select_with_like, "query", "#FF0000")
 ```
 
----
-
 Find Team Members with last name containing the string "derp" using '%' wildcard.
 
 ```{sql connection=conn, output.var="query2b_select_with_like"}
@@ -279,8 +269,6 @@ SELECT * FROM Team_Member WHERE Last_Name LIKE "%derp%";
 data_format.function(query2b_select_with_like, "query", "#FF0000")
 ```
 
----
-
 Find Team Members with first name beginning with "jo" with at least 3 characters, i.e. excludes "Jo".
 
 ```{sql connection=conn, output.var="query2c_select_with_like"}
@@ -290,8 +278,6 @@ SELECT * FROM Team_Member WHERE First_Name LIKE "jo_%";
 ```{r select with like both wildcards}
 data_format.function(query2c_select_with_like, "query", "#FF0000")
 ```
-
----
 
 #### **SELECT with OR.**  
   \
@@ -304,8 +290,6 @@ SELECT * FROM Team_Member WHERE Role_Id = 2 OR Role_Id = 7;
 ```{r select with or}
 data_format.function(query3_select_with_or, "query", "#FF0000")
 ```
-
----
 
 #### **SELECT with WHERE, LIKE and OR**  
   \
@@ -426,6 +410,7 @@ SELECT * FROM Team_Member WHERE Role_id = 1;
 data_format.function(query10b_part1, "query", "#FF0000")
 ```
 
+\newpage
 **Part 2:** Show Project Manager and their projects
 
 ```{sql connection=conn, output.var="query10b_part2"}
