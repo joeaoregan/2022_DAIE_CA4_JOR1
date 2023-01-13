@@ -39,4 +39,6 @@ vignettes/*.pdf
 .Renviron
 
 # log files
+*.log
 .log
+ca4_query.log
