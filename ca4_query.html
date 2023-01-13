@@ -585,11 +585,18 @@ Environments - CA4 - RDBMS &amp; Linear Regression Project</h1>
 
 <!-- style for table rows -->
 <style>
-.table-striped tr:nth-child(even) {background: #D3EDF9}
-.query-striped tr:nth-child(even) {background: #FBBBBB}
-.table-hover > tbody > tr:hover {background-color: #00EDF9}
-.query-hover > tbody > tr:hover {background-color: #FC3C3C}
+.table-striped tr:nth-child(even) {background: #D3EDF9;}
+.query-striped tr:nth-child(even) {background: #FBBBBB;}
+.table-hover tbody > tr:hover {background-color: #00EDF9;}
+.query-hover tbody > tr:hover {background-color: #FC3C3C;}
 </style>
+<pre class="r"><code>query.function &lt;- function(data) {
+data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;query-striped query-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#FF0000&quot;)
+}</code></pre>
 <!-- clear console -->
 <hr />
 <div id="er-diagram" class="section level2">
@@ -614,10 +621,25 @@ conn &lt;- dbConnect(RSQLite::SQLite(), &quot;daie_ca4_data.sqlite&quot;)</code>
 <h3>Status</h3>
 <p>Get all rows in Status table.</p>
 <pre class="sql"><code>SELECT * FROM Status</code></pre>
+<hr />
 <p>Display table using knitr library kable function.</p>
-<pre class="r"><code>kable(status_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<pre class="r"><code>#if (is_html_output()) {
+#  status_data %&gt;%
+#  kbl(table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;, format=&quot;html&quot;) %&gt;%
+#      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+#        row_spec(0, background = &quot;#28B3F9&quot;)
+#} else if (is_latex_output()) {
+#  kable(status_data) %&gt;%
+#    kable_styling(&quot;striped&quot;, &quot;hold_position&quot;) %&gt;%
+#      row_spec(0, background = &quot;#28B3F9&quot;)
+#}
+
+# using . to place status_data depending on the result of if else statement
+status_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
 <table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -671,9 +693,17 @@ Done
 <p>Get all rows in Role table.</p>
 <pre class="sql"><code>SELECT * FROM Role</code></pre>
 <p>Display Role table data.</p>
-<pre class="r"><code>kable(role_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<pre class="r"><code>#if (is_html_output()) {
+#  kable(role_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;, format=&quot;html&quot;) %&gt;%
+#    kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
+#    row_spec(0, background = &quot;#28B3F9&quot;)
+#}
+
+role_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
 <table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -767,9 +797,11 @@ Concept Artist
 <p>Get all rows in Team_Member table.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member</code></pre>
 <p>Display Team_Member table data.</p>
-<pre class="r"><code>kable(team_member_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<pre class="r"><code>team_member_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
 <table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1038,9 +1070,11 @@ McQueryfiller
 <p>Get all rows in Work_Item table.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item</code></pre>
 <p>Display Work_Item table data.</p>
-<pre class="r"><code>kable(work_item_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<pre class="r"><code>work_item_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
 <table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1250,9 +1284,11 @@ Another Test
 <p>Get all rows in Project table.</p>
 <pre class="sql"><code>SELECT * FROM Project</code></pre>
 <p>Display Project table data.</p>
-<pre class="r"><code>kable(project_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<pre class="r"><code>project_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
 <table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1387,9 +1423,11 @@ Hmmm I Ran Out of Names
 <p>Get all rows in Project_Team table.</p>
 <pre class="sql"><code>SELECT * FROM Project_Team</code></pre>
 <p>Display Project_Team table data.</p>
-<pre class="r"><code>kable(project_team_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<pre class="r"><code>project_team_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
 <table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1555,9 +1593,11 @@ Project_Id
 <p>Get all rows in Asset table.</p>
 <pre class="sql"><code>SELECT * FROM Asset</code></pre>
 <p>Display Asset table data.</p>
-<pre class="r"><code>kable(asset_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<pre class="r"><code>asset_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
 <table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1671,9 +1711,11 @@ NA
 <p>Get all rows in Asset_Work_Items table.</p>
 <pre class="sql"><code>SELECT * FROM Asset_Work_Items</code></pre>
 <p>Display Asset_Work_Items table data.</p>
-<pre class="r"><code>kable(asset_work_items_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<pre class="r"><code>asset_work_items_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
 <table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1775,9 +1817,11 @@ Asset_Id
 <p>Get all rows in Library table.</p>
 <pre class="sql"><code>SELECT * FROM Library</code></pre>
 <p>Display Library table data.</p>
-<pre class="r"><code>kable(library_data, table.attr = &quot;class=\&quot;table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<pre class="r"><code>library_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
 <table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1831,10 +1875,12 @@ Characters
 <p>Get all rows in Collection table.</p>
 <pre class="sql"><code>SELECT * FROM Collection</code></pre>
 <p>Display Collection table data.</p>
-<pre class="r"><code>kable(collection_data, table.attr = &quot;class=\table-striped table-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
-<table class="able-striped table table-striped" table-hover style="margin-left: auto; margin-right: auto;">
+<pre class="r"><code>collection_data %&gt;%
+  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;table-striped table-hover\&#39;&quot;)} 
+    else if (is_latex_output()) {kbl(.)}} %&gt;%
+      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+        row_spec(0, background = &quot;#28B3F9&quot;)</code></pre>
+<table class="table-striped table-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;background-color: #28B3F9 !important;">
@@ -1899,10 +1945,13 @@ Asset_Id
 <p>Find Team Members who have the first name Joe.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE First_Name = &#39;Joe&#39;;
 </code></pre>
-<pre class="r"><code># query1_select_with_where
-kable(query1_select_with_where, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>#query1_select_with_where %&gt;%
+#  { if (is_html_output()) {kbl(., table.attr=&quot;class=\&#39;query-striped query-hover\&#39;&quot;)} 
+#    else if (is_latex_output()) {kbl(.)}} %&gt;%
+#      kable_styling(&quot;striped&quot;, ifelse(is_html_output(),&quot;hover&quot;,&quot;hold_position&quot;)) %&gt;%
+#        row_spec(0, background = &quot;#FF0000&quot;)
+
+query.function(query1_select_with_where)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1967,9 +2016,7 @@ Derp
 <p>Find Team Members with first name with 3 characters beginning with
 “jo” using ’_’ wildcard.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE First_Name LIKE &quot;jo_&quot;;</code></pre>
-<pre class="r"><code>kable(query2a_select_with_like, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query2a_select_with_like)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2048,9 +2095,7 @@ Herpaderp
 <p>Find Team Members with last name containing the string “derp” using
 ‘%’ wildcard.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE Last_Name LIKE &quot;%derp%&quot;;</code></pre>
-<pre class="r"><code>kable(query2b_select_with_like, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query2b_select_with_like)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2248,9 +2293,7 @@ Herpderpenson
 <p>Find Team Members with first name beginning with “jo” with at least 3
 characters, i.e. excludes “Jo”.</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE First_Name LIKE &quot;jo_%&quot;;</code></pre>
-<pre class="r"><code>kable(query2c_select_with_like, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query2c_select_with_like)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2364,9 +2407,7 @@ Herpderpenson
 <div id="select-with-or." class="section level4">
 <h4><strong>SELECT with OR.</strong></h4>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE Role_Id = 2 OR Role_Id = 7;</code></pre>
-<pre class="r"><code>kable(query3_select_with_or, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query3_select_with_or)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2465,9 +2506,7 @@ Herpaderp
 <p>Find work items with Name beginning with a string like “art” or have
 a Status_Id of 3.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item WHERE Name LIKE &quot;art%&quot; OR Status_Id = 3;</code></pre>
-<pre class="r"><code>kable(query4_select_with_where_like_or, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query4_select_with_where_like_or)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2595,9 +2634,7 @@ Query Model Thingy
 <h4><strong>SELECT with DISTINCT</strong></h4>
 <p>Find the unique status IDs currently in the Work_Item table.</p>
 <pre class="sql"><code>SELECT DISTINCT Status_Id FROM Work_Item;</code></pre>
-<pre class="r"><code>kable(query5_select_distinct, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query5_select_distinct)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2635,9 +2672,7 @@ Status_Id
 <h4><strong>SELECT with ORDER BY</strong></h4>
 <p>Display work items ordered by assigned_to (Team_Member.Id).</p>
 <pre class="sql"><code>SELECT * FROM Work_Item ORDER BY Assigned_To;</code></pre>
-<pre class="r"><code>kable(query6_select_order_by, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query6_select_order_by)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2847,9 +2882,7 @@ Another Test
 <p>Display work items ordered by Status_Id (Status.Id) in ascending
 order.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item ORDER BY Status_Id ASC;</code></pre>
-<pre class="r"><code>kable(query7_select_order_by_asc, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query7_select_order_by_asc)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3059,9 +3092,7 @@ Another Test
 <p>Display work items ordered by Assigned_To (Team_Member.Id) in
 descending order.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item ORDER BY Assigned_To DESC;</code></pre>
-<pre class="r"><code>kable(query8_select_order_by_desc, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query8_select_order_by_desc)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3271,9 +3302,7 @@ Random Blueprint
 <p>Display work items ordered by Assigned_To (Team_Member.Id) in
 descending order.</p>
 <pre class="sql"><code>SELECT DISTINCT Assigned_To FROM Work_Item ORDER BY Assigned_To;</code></pre>
-<pre class="r"><code>kable(query9_select_distinct_order_by, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query9_select_distinct_order_by)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3357,9 +3386,7 @@ r.Name AS &#39;Project Role&#39;
 From Team_Member t
 Inner Join Role r
 ON t.Role_Id = r.Id</code></pre>
-<pre class="r"><code>kable(query10a_select_inner_join, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query10a_select_inner_join)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3538,9 +3565,7 @@ Project Manager
 <hr />
 <p>Part 1: Select Project Managers from Team Members</p>
 <pre class="sql"><code>SELECT * FROM Team_Member WHERE Role_id = 1;</code></pre>
-<pre class="r"><code>kable(query10b_part1, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query10b_part1)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3608,9 +3633,7 @@ INNER JOIN Role r
 ON tm.Role_Id = r.Id
 WHERE tm.Role_Id IN 
 (SELECT Role_Id FROM Team_Member WHERE Role_id = 1);</code></pre>
-<pre class="r"><code>kable(query10b_part2, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query10b_part2)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3727,9 +3750,7 @@ INNER JOIN Role r
 ON tm.Role_Id = r.Id
 WHERE tm.Role_Id IN 
 (SELECT Role_Id FROM Team_Member WHERE Role_id = 1));</code></pre>
-<pre class="r"><code>kable(query10b_part3, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query10b_part3)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3768,9 +3789,7 @@ r.Name AS &#39;Project Role&#39;
 From Team_Member t
 Inner Join Role r
 ON t.Role_Id = r.Id</code></pre>
-<pre class="r"><code>kable(query10b_select_inner_join_2, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query10b_select_inner_join_2)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3953,9 +3972,7 @@ Project Manager
 i.e.with a status greater than 2.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item
 WHERE Status_Id &gt; 2</code></pre>
-<pre class="r"><code>kable(query11_subquery_part_1, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query11_subquery_part_1)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -4067,9 +4084,7 @@ Another Test
 <p>Select work items that contain the string “test”.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item
 WHERE Name LIKE &quot;%test%&quot;</code></pre>
-<pre class="r"><code>kable(query12_subquery_part_2, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query12_subquery_part_2)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -4171,9 +4186,7 @@ WHERE Name LIKE &quot;%test%&quot;
 AND Status_Id IN
 (SELECT Status_Id FROM Work_Item
 WHERE Status_Id &gt; 2)</code></pre>
-<pre class="r"><code>kable(query13_subquery_with_select, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query13_subquery_with_select)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -4247,9 +4260,7 @@ WHERE Name LIKE &quot;%test%&quot;
 AND Status_Id NOT IN
 (SELECT Status_Id FROM Work_Item
 WHERE Status_Id &gt; 2)</code></pre>
-<pre class="r"><code>kable(query13b_subquery_with_select_not_in, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query13b_subquery_with_select_not_in)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -4307,9 +4318,7 @@ Art Test
 And order them to make it that much easier to find.</p>
 <pre class="sql"><code>SELECT Delivery_Date FROM Project
 ORDER BY Delivery_Date</code></pre>
-<pre class="r"><code>kable(query14_check_dates, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query14_check_dates)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -4379,9 +4388,7 @@ Delivery_Date
 <pre class="sql"><code>SELECT * FROM Project
 WHERE Delivery_Date 
 BETWEEN &quot;2023-01-16&quot; AND &quot;2023-01-25&quot;;</code></pre>
-<pre class="r"><code>kable(query15_select_across_date_range, table.attr = &quot;class=\&quot;query-striped query-hover\&quot;&quot;) %&gt;%
-  kable_styling(&quot;striped&quot;, &quot;hover&quot;) %&gt;%
-  row_spec(0, background = &quot;#FF0000&quot;)</code></pre>
+<pre class="r"><code>query.function(query15_select_across_date_range)</code></pre>
 <table class="query-striped query-hover table table-striped" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>

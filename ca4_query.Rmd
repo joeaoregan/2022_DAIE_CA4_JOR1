@@ -3,16 +3,29 @@ title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear 
 subtitle: "CA4 Part 2 - Querying Database"
 author: "Joe O'Regan"
 date: "2023-01-11"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+always_allow_html: true
 ---
 
 <!-- style for table rows -->
 <style>
-.table-striped tr:nth-child(even) {background: #D3EDF9}
-.query-striped tr:nth-child(even) {background: #FBBBBB}
-.table-hover > tbody > tr:hover {background-color: #00EDF9}
-.query-hover > tbody > tr:hover {background-color: #FC3C3C}
+.table-striped tr:nth-child(even) {background: #D3EDF9;}
+.query-striped tr:nth-child(even) {background: #FBBBBB;}
+.table-hover tbody > tr:hover {background-color: #00EDF9;}
+.query-hover tbody > tr:hover {background-color: #FC3C3C;}
 </style>
+
+```{r}
+query.function <- function(data) {
+data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'query-striped query-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#FF0000")
+}
+```
 
 
 <!-- clear console -->
@@ -68,12 +81,29 @@ Get all rows in Status table.
 SELECT * FROM Status
 ```
 
+---
+
 Display table using knitr library kable function.
 
 ```{r output status table contents}
-kable(status_data, table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+
+#if (is_html_output()) {
+#  status_data %>%
+#  kbl(table.attr="class=\'table-striped table-hover\'", format="html") %>%
+#      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+#        row_spec(0, background = "#28B3F9")
+#} else if (is_latex_output()) {
+#  kable(status_data) %>%
+#    kable_styling("striped", "hold_position") %>%
+#      row_spec(0, background = "#28B3F9")
+#}
+
+# using . to place status_data depending on the result of if else statement
+status_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -89,9 +119,17 @@ SELECT * FROM Role
 Display Role table data.
 
 ```{r output role table contents}
-kable(role_data, table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+#if (is_html_output()) {
+#  kable(role_data, table.attr = "class=\"table-striped table-hover\"", format="html") %>%
+#    kable_styling("striped", "hover") %>%
+#    row_spec(0, background = "#28B3F9")
+#}
+
+role_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -107,9 +145,11 @@ SELECT * FROM Team_Member
 Display Team_Member table data.
 
 ```{r output team_member table contents}
-kable(team_member_data, table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+team_member_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -125,9 +165,11 @@ SELECT * FROM Work_Item
 Display Work_Item table data.
 
 ```{r output work_item table contents}
-kable(work_item_data, table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+work_item_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -143,9 +185,11 @@ SELECT * FROM Project
 Display Project table data.
 
 ```{r output project table contents}
-kable(project_data, table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+project_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -161,9 +205,11 @@ SELECT * FROM Project_Team
 Display Project_Team table data.
 
 ```{r output project_team table contents}
-kable(project_team_data, table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+project_team_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -179,9 +225,11 @@ SELECT * FROM Asset
 Display Asset table data.
 
 ```{r output asset table contents}
-kable(asset_data, table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+asset_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -197,9 +245,11 @@ SELECT * FROM Asset_Work_Items
 Display Asset_Work_Items table data.
 
 ```{r output asset_work_items table contents}
-kable(asset_work_items_data, table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+asset_work_items_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -215,9 +265,11 @@ SELECT * FROM Library
 Display Library table data.
 
 ```{r output library table contents}
-kable(library_data, table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+library_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -233,9 +285,11 @@ SELECT * FROM Collection
 Display Collection table data.
 
 ```{r output collection table contents}
-kable(collection_data, table.attr = "class=\table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#28B3F9")
+collection_data %>%
+  { if (is_html_output()) {kbl(., table.attr="class=\'table-striped table-hover\'")} 
+    else if (is_latex_output()) {kbl(.)}} %>%
+      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+        row_spec(0, background = "#28B3F9")
 ```
 
 ---
@@ -260,10 +314,13 @@ SELECT * FROM Team_Member WHERE First_Name = 'Joe';
 ```
 
 ```{r select with where}
-# query1_select_with_where
-kable(query1_select_with_where, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+#query1_select_with_where %>%
+#  { if (is_html_output()) {kbl(., table.attr="class=\'query-striped query-hover\'")} 
+#    else if (is_latex_output()) {kbl(.)}} %>%
+#      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+#        row_spec(0, background = "#FF0000")
+
+query.function(query1_select_with_where)
 ```
 
 ---
@@ -277,9 +334,7 @@ SELECT * FROM Team_Member WHERE First_Name LIKE "jo_";
 ```
 
 ```{r select with like single character wildcard}
-kable(query2a_select_with_like, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query2a_select_with_like)
 ```
 
 ---
@@ -291,9 +346,7 @@ SELECT * FROM Team_Member WHERE Last_Name LIKE "%derp%";
 ```
 
 ```{r select with like}
-kable(query2b_select_with_like, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query2b_select_with_like)
 ```
 
 ---
@@ -305,9 +358,7 @@ SELECT * FROM Team_Member WHERE First_Name LIKE "jo_%";
 ```
 
 ```{r select with like both wildcards}
-kable(query2c_select_with_like, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query2c_select_with_like)
 ```
 
 ---
@@ -319,9 +370,7 @@ SELECT * FROM Team_Member WHERE Role_Id = 2 OR Role_Id = 7;
 ```
 
 ```{r select with or}
-kable(query3_select_with_or, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query3_select_with_or)
 ```
 
 ---
@@ -335,9 +384,7 @@ SELECT * FROM Work_Item WHERE Name LIKE "art%" OR Status_Id = 3;
 ```
 
 ```{r select with where like or}
-kable(query4_select_with_where_like_or, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query4_select_with_where_like_or)
 ```
 
 ---
@@ -353,9 +400,7 @@ SELECT DISTINCT Status_Id FROM Work_Item;
 ```
 
 ```{r select distinct}
-kable(query5_select_distinct, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query5_select_distinct)
 ```
 
 ---
@@ -369,9 +414,7 @@ SELECT * FROM Work_Item ORDER BY Assigned_To;
 ```
 
 ```{r select order by}
-kable(query6_select_order_by, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query6_select_order_by)
 ```
 
 ---
@@ -385,9 +428,7 @@ SELECT * FROM Work_Item ORDER BY Status_Id ASC;
 ```
 
 ```{r select order by asc}
-kable(query7_select_order_by_asc, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query7_select_order_by_asc)
 ```
 
 ---
@@ -401,9 +442,7 @@ SELECT * FROM Work_Item ORDER BY Assigned_To DESC;
 ```
 
 ```{r select order by desc}
-kable(query8_select_order_by_desc, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query8_select_order_by_desc)
 ```
 
 ---
@@ -417,9 +456,7 @@ SELECT DISTINCT Assigned_To FROM Work_Item ORDER BY Assigned_To;
 ```
 
 ```{r select with distinct and order by}
-kable(query9_select_distinct_order_by, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query9_select_distinct_order_by)
 ```
 
 ---
@@ -441,9 +478,7 @@ ON t.Role_Id = r.Id
 ```
 
 ```{r select with inner join}
-kable(query10a_select_inner_join, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query10a_select_inner_join)
 ```
 
 ---
@@ -461,9 +496,7 @@ SELECT * FROM Team_Member WHERE Role_id = 1;
 ```
 
 ```{r select with inner join 2 part 1}
-kable(query10b_part1, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query10b_part1)
 ```
 
 ---
@@ -482,9 +515,7 @@ WHERE tm.Role_Id IN
 ```
 
 ```{r select with inner join 2 part 2}
-kable(query10b_part2, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query10b_part2)
 ```
 
 --- 
@@ -505,9 +536,7 @@ WHERE tm.Role_Id IN
 ```
 
 ```{r select with inner join 2 part 3}
-kable(query10b_part3, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query10b_part3)
 ```
 
 --- 
@@ -522,9 +551,7 @@ ON t.Role_Id = r.Id
 ```
 
 ```{r select with inner join 2}
-kable(query10b_select_inner_join_2, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query10b_select_inner_join_2)
 ```
 
 ---
@@ -541,9 +568,7 @@ WHERE Status_Id > 2
 ```
 
 ```{r subquery part 1}
-kable(query11_subquery_part_1, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query11_subquery_part_1)
 ```
 
 ---
@@ -558,9 +583,7 @@ WHERE Name LIKE "%test%"
 ```
 
 ```{r subquery part 2}
-kable(query12_subquery_part_2, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query12_subquery_part_2)
 ```
 
 ---
@@ -578,9 +601,7 @@ WHERE Status_Id > 2)
 ```
 
 ```{r subquery with select}
-kable(query13_subquery_with_select, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query13_subquery_with_select)
 ```
 
 ---
@@ -598,9 +619,7 @@ WHERE Status_Id > 2)
 ```
 
 ```{r subquery with select and not in}
-kable(query13b_subquery_with_select_not_in, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query13b_subquery_with_select_not_in)
 ```
 
 ---
@@ -615,9 +634,7 @@ ORDER BY Delivery_Date
 ```
 
 ```{r select date part 1}
-kable(query14_check_dates, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query14_check_dates)
 ```
 
 ---
@@ -633,9 +650,7 @@ BETWEEN "2023-01-16" AND "2023-01-25";
 ```
 
 ```{r select across date range}
-kable(query15_select_across_date_range, table.attr = "class=\"query-striped query-hover\"") %>%
-  kable_styling("striped", "hover") %>%
-  row_spec(0, background = "#FF0000")
+query.function(query15_select_across_date_range)
 ```
 
 ---

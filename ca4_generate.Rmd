@@ -1,26 +1,30 @@
 ---
-title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear Regression Project"
-subtitle: "Part 1 - Generate and Populate Database"
+title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear Regression
+  Project"
 author: "Joe O'Regan"
 date: "2023-01-11"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
+subtitle: "Part 1 - Generate and Populate Database"
 ---
 
 <!-- style for table rows -->
 <style>
-.table-striped tr:nth-child(even) {background: #AAFFAA}
-.table-hover > tbody > tr:hover {background-color: #44FF44}
+tr:nth-child(even) {background: #AAFFAA;}
+tr:hover td {background-color: #44FF44}
 </style>
 
 <!-- clear console -->
 ```{r setup, include=FALSE}
 cat('\014')
 #knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format = "latex")
 ```
 
 ---
 
-## ER Diagram
+# ER Diagram
 
 <!-- show ER Diagram -->
 ```{r er image, echo=FALSE}
@@ -32,7 +36,7 @@ rasterImage(pp, 0, 0, 1, 1)
 
 ---
 
-## Create Tables
+# Create Tables
 
 <!--include libraries-->
 ```{r setup libraries, include=FALSE}
@@ -53,7 +57,7 @@ library(knitr) # Display data in tables
 library(kableExtra) # Format tables
 ```
 
-### Create or recreate the sqlite file
+## Create or recreate the sqlite file
 
 Check if the sqlite file exists already and if it does delete it. Then create an in-memory RSQLite database.
 
@@ -68,9 +72,9 @@ conn <- dbConnect(RSQLite::SQLite(), "daie_ca4_data.sqlite")
 
 ---
 
-### Create the tables
+## Create the tables
 
-#### Asset
+### Asset
 
 Show each table cropped from the main ER Diagram using magick library. Only dimensions and offset change for each cropped table, so this code is shown once.
 
@@ -78,7 +82,7 @@ Show each table cropped from the main ER Diagram using magick library. Only dime
 er_img <- image_read("daie_ca4_er_diagram.png")
 # cropped image dimension offset by location (in pixels)
 # (newXdimension x newYdimension + Xlocation + Ylocation)
-asset_img = image_scale(image_crop(er_img, "181x117+184+155"), "640")
+asset_img = image_scale(image_crop(er_img, "181x117+184+155"), "175%")
 asset_img
 ```
 
@@ -111,10 +115,10 @@ dbExecute(conn, "CREATE TABLE Asset (
 
 ---
 
-#### Asset_Work_Items
+### Asset_Work_Items
 
 ```{r show Asset_Work_Items table only, echo=FALSE}
-asset_work_items_img = image_scale(image_crop(er_img, "183x62+181+27"), "640")
+asset_work_items_img = image_scale(image_crop(er_img, "183x62+181+27"), "175%")
 asset_work_items_img
 ```
 
@@ -139,10 +143,10 @@ dbExecute(conn, "CREATE TABLE Asset_Work_Items (
 
 ---
 
-#### Collection
+### Collection
 
 ```{r show Collection table only, echo=FALSE}
-collection_img = image_scale(image_crop(er_img, "146x61+210+334"), "640")
+collection_img = image_scale(image_crop(er_img, "146x61+210+334"), "175%")
 collection_img
 ```
 
@@ -167,10 +171,10 @@ dbExecute(conn, "CREATE TABLE Collection (
 
 ---
 
-#### Library
+### Library
 
 ```{r show Library table only, echo=FALSE}
-library_img = image_scale(image_crop(er_img, "136x62+19+331"), "640")
+library_img = image_scale(image_crop(er_img, "136x62+19+331"), "175%")
 library_img
 ```
 
@@ -190,10 +194,10 @@ dbExecute(conn, "CREATE TABLE Library (
 
 ---
 
-#### Project
+### Project
 
 ```{r show Project table only, echo=FALSE}
-project_img = image_scale(image_crop(er_img, "182x74+687+322"), "640")
+project_img = image_scale(image_crop(er_img, "182x74+687+322"), "175%")
 project_img
 ```
 
@@ -215,10 +219,10 @@ dbExecute(conn, "CREATE TABLE Project (
 
 ---
 
-#### Project_Team
+### Project_Team
 
 ```{r show Project_Team table only, echo=FALSE}
-project_team_img = image_scale(image_crop(er_img, "182x74+687+322"), "640")
+project_team_img = image_scale(image_crop(er_img, "196x61+445+335"), "175%")
 project_team_img
 ```
 
@@ -243,10 +247,10 @@ dbExecute(conn, "CREATE TABLE Project_Team (
 
 ---
 
-#### Role
+### Role
 
 ```{r show Role table only, echo=FALSE}
-role_img = image_scale(image_crop(er_img, "136x62+709+177"), "640")
+role_img = image_scale(image_crop(er_img, "136x62+709+177"), "175%")
 role_img
 ```
 
@@ -266,10 +270,10 @@ dbExecute(conn, "CREATE TABLE Role (
 
 ---
 
-#### Status
+### Status
 
 ```{r show Status table only, echo=FALSE}
-status_img = image_scale(image_crop(er_img, "138x63+708+34"), "640")
+status_img = image_scale(image_crop(er_img, "138x63+708+34"), "175%")
 status_img
 ```
 
@@ -289,10 +293,10 @@ dbExecute(conn, "CREATE TABLE Status (
 
 ---
 
-#### Team_Member
+### Team_Member
 
 ```{r show Team_Member table only, echo=FALSE}
-team_member_img = image_scale(image_crop(er_img, "172x103+462+167"), "640")
+team_member_img = image_scale(image_crop(er_img, "172x103+462+167"), "175%")
 team_member_img
 ```
 
@@ -321,10 +325,10 @@ dbExecute(conn, "CREATE TABLE Team_Member (
 
 ---
 
-#### Work_Item
+### Work_Item
 
 ```{r show Work_Item table only, echo=FALSE}
-work_item_img = image_scale(image_crop(er_img, "203x91+439+19"), "640")
+work_item_img = image_scale(image_crop(er_img, "203x91+439+19"), "175%")
 work_item_img
 ```
 
@@ -353,7 +357,7 @@ dbExecute(conn, "CREATE TABLE Work_Item (
 
 ---
 
-#### Show tables in database
+### Show tables in database
 
 ```{r list the tables}
 dbListTables(conn)
@@ -382,13 +386,16 @@ Display table data (using knitr library kable function):
 
 ```{r show rows in status}
 status_data <- dbGetQuery(conn, "SELECT * FROM Status;")
+
 #View(status_data) # replace with knitr::kable() as it looks better
-kable(status_data, caption = "Status Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+
+kable(status_data, caption = "Status Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
-#### Role
+### Role
 
 ```{r show fields in role table}
 dbListFields(conn, "Role")
@@ -413,12 +420,13 @@ Display table data:
 ```{r show rows in role}
 role_data <- dbGetQuery(conn, "SELECT * FROM Role;")
 
-kable(role_data, caption = "Role Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+kable(role_data, caption = "Role Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
-#### Team_Member
+### Team_Member
 
 ```{r show fields in team_member table}
 dbListFields(conn, "Team_Member")
@@ -426,7 +434,7 @@ dbListFields(conn, "Team_Member")
 
 Insert table data:
 
-```{r insert data into team_member table, results='hide'}
+```{r insert data into team member table, results='hide'}
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Joe', 'O''Regan', 'joe.oregan@daie.ca4', 2);")
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Derp', 'McDerp', 'derpmcderp@daie.ca4', 1);")
 dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'Role_Id') VALUES ('Herpderp', 'Derpderpenson', 'hd.derpderpenson@daie.ca4', 3);")
@@ -445,15 +453,16 @@ dbExecute(conn, "INSERT INTO Team_Member ('First_Name', 'Last_Name', 'Email', 'R
 
 Display table data:
 
-```{r show rows in team_member}
+```{r show rows in team member}
 team_member_data <- dbGetQuery(conn, "SELECT * FROM Team_Member;")
 
-kable(team_member_data, caption = "Team_Member Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+kable(team_member_data, caption = "Team Member Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
-#### Work_Item
+### Work_Item
 
 ```{r show fields in Work_Item table}
 dbListFields(conn, "Work_Item")
@@ -482,12 +491,13 @@ Display table data:
 ```{r show rows in work_item}
 work_item_data <- dbGetQuery(conn, "SELECT * FROM Work_Item;")
 
-kable(work_item_data, caption = "Work_Item Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+kable(work_item_data, caption = "Work Item Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
-#### Project
+### Project
 
 ```{r show fields in Project table}
 dbListFields(conn, "Project")
@@ -513,12 +523,13 @@ Display table data:
 ```{r show rows in project}
 project_data <- dbGetQuery(conn, "SELECT * FROM Project;")
 
-kable(project_data, caption = "Project Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+kable(project_data, caption = "Project Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
-#### Project_Team
+### Project_Team
 
 ```{r show fields in Project_Team table}
 dbListFields(conn, "Project_Team")
@@ -552,12 +563,13 @@ Display table data:
 ```{r show rows in project_team}
 project_team_data <- dbGetQuery(conn, "SELECT * FROM Project_Team;")
 
-kable(project_team_data, caption = "Project_Team Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+kable(project_team_data, caption = "Project Team Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
-#### Asset
+### Asset
 
 ```{r show fields in Asset table}
 dbListFields(conn, "Asset")
@@ -577,20 +589,21 @@ Display table data:
 ```{r show rows in asset}
 asset_data <- dbGetQuery(conn, "SELECT * FROM Asset;")
 
-kable(asset_data, caption = "Asset Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+kable(asset_data, caption = "Asset Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
-#### Asset_Work_Items
+### Asset_Work_Items
 
-```{r show fields in Asset_Work_Items table}
+```{r show fields in asset work items table}
 dbListFields(conn, "Asset_Work_Items")
 ```
 
 Insert table data:
 
-```{r insert data into asset_work_items table, results='hide'}
+```{r insert data into asset work items table, results='hide'}
 dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (8, 1);")
 dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (9, 1);")
 dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUES (10, 1);")
@@ -605,15 +618,16 @@ dbExecute(conn, "INSERT INTO Asset_Work_Items ('Work_Item_Id', 'Asset_Id') VALUE
 
 Display table data:
 
-```{r show rows in asset_work_items}
+```{r show rows in Asset_Work_Items}
 asset_work_items_data <- dbGetQuery(conn, "SELECT * FROM Asset_Work_Items;")
 
-kable(asset_work_items_data, caption = "Asset_Work_Items Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+kable(asset_work_items_data, caption = "Asset Work Items Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
-#### Collection
+### Collection
 
 ```{r show fields in Collection table}
 dbListFields(conn, "Collection")
@@ -633,12 +647,13 @@ Display table data:
 ```{r show rows in collection}
 collection_data <- dbGetQuery(conn, "SELECT * FROM Collection;")
 
-kable(collection_data, caption = "Collection Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+kable(collection_data, caption = "Collection Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
-#### Library
+### Library
 
 ```{r show fields in Library table}
 dbListFields(conn, "Library")
@@ -658,14 +673,15 @@ Display table data:
 ```{r show rows in library}
 library_data <- dbGetQuery(conn, "SELECT * FROM Library;")
 
-kable(library_data, caption = "Library Table", table.attr = "class=\"table-striped table-hover\"") %>%
-  kable_styling("striped", "hover") %>%
+kable(library_data, caption = "Library Table") %>%
+  #    table.attr = 'class="table-striped table-hover"') %>%
+  kable_styling("striped") %>%
   row_spec(0, background = "#1AE81A")
 ```
 
 ---
 
-### Disconnect Database
+## Disconnect Database
 
 ```{r disconnect from database}
 dbDisconnect(conn)
