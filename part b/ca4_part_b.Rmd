@@ -40,6 +40,9 @@ library(knitr) # Display data in tables
 library(kableExtra) # Format tables
 ```
 
+**Dependent Variable:** avg_monthly_hrs_gaming
+**Independent Variable:** avg_monthly_expenditure_dlc
+
 ```{r}
 data <- read_csv("amalgamated_game_survey_250_2022.csv")
 # kbl(data)
@@ -51,17 +54,21 @@ sample_data <- sample_n(data, 200) # tibble 200 x 11
 #   lm(avg_monthly_hrs_gaming ~ avg_monthly_expenditure_dlc, data = .) %>%
 #   summary() # data summary
 
-mod <- lm(avg_monthly_hrs_gaming ~ avg_monthly_expenditure_dlc, data = sample_data)
+# dependent var. ~ independent var.
+mod <- lm(avg_monthly_expenditure_dlc ~ avg_monthly_hrs_gaming, data = sample_data)
 #summary(mod)
 
 #attributes(mod)
 #mod$residuals
 # hist(mod$residuals)
 
-ggplot(data = mod, mapping = aes(x = avg_monthly_hrs_gaming, y = avg_monthly_expenditure_dlc)) + 
+ggplot(data = mod, mapping = aes(x = avg_monthly_hrs_gaming, 
+                                 y = avg_monthly_expenditure_dlc)) + 
   # geom_point(alpha = 0.1, color = "blue") # add colours for points
   geom_point() + 
-  labs(title = "Relationship between monthly hours played + dlc expenditure")
+  labs(title = "Relationship between games monthly hours played + DLC expenditure",
+       x = "Average Monthly Hours Gaming",
+       y = "Average Monthly Expenditure DLC")
 
 
 
