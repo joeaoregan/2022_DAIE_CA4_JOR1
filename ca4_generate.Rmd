@@ -4,8 +4,8 @@ title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear 
 author: "Joe O'Regan"
 date: "2023-01-11"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 subtitle: "Part 1 - Generate and Populate Database"
 ---
 
@@ -61,11 +61,11 @@ if(!require("DBI"))
 if(!require("dplyr"))
   install.packages("dplyr")
 if(!require("magick"))
-  install.packages("magick")
+  install.packages("magick") # images
 if(!require("knitr"))
   install.packages("knitr")
 if(!require("kableExtra"))
-  install.packages("kableExtra")
+  install.packages("kableExtra") # table formatting
 library(DBI) # interface with database
 library(dplyr)
 library(magick) # crop images

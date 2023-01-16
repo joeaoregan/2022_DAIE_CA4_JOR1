@@ -1,0 +1,70 @@
+---
+title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear Regression Project"
+subtitle: "CA4 Part B - Linear Regression Analysis"
+author: "Joe O'Regan"
+date: "2023-01-16"
+output:
+  html_document: default
+  pdf_document: default
+always_allow_html: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+
+# Repo Link
+
+[https://github.com/joeaoregan/2022_DAIE_CA4_JOR1](https://github.com/joeaoregan/2022_DAIE_CA4_JOR1)
+
+---
+
+```{r setup libraries}
+if(!require("readr"))
+  install.packages("readr")
+if(!require("dplyr"))
+  install.packages("dplyr")
+if(!require("ggplot2"))
+  install.packages("ggplot2")
+if(!require("knitr"))
+  install.packages("knitr")
+if(!require("kableExtra"))
+  install.packages("kableExtra")
+
+library(readr) # read_csv()
+library(dplyr) # sample_n()
+library(ggplot2) # plot linear regression
+library(knitr) # Display data in tables
+library(kableExtra) # Format tables
+```
+
+```{r}
+data <- read_csv("amalgamated_game_survey_250_2022.csv")
+# kbl(data)
+
+#kbl(sample_n(data, 200))
+sample_data <- sample_n(data, 200) # tibble 200 x 11
+
+# sample_data %>%
+#   lm(avg_monthly_hrs_gaming ~ avg_monthly_expenditure_dlc, data = .) %>%
+#   summary() # data summary
+
+mod <- lm(avg_monthly_hrs_gaming ~ avg_monthly_expenditure_dlc, data = sample_data)
+#summary(mod)
+
+#attributes(mod)
+#mod$residuals
+# hist(mod$residuals)
+
+ggplot(data = mod, mapping = aes(x = avg_monthly_hrs_gaming, y = avg_monthly_expenditure_dlc)) + 
+  # geom_point(alpha = 0.1, color = "blue") # add colours for points
+  geom_point() + 
+  labs(title = "Relationship between monthly hours played + dlc expenditure")
+
+
+
+```
+
+
