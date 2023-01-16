@@ -592,6 +592,11 @@ Environments - CA4 - RDBMS &amp; Linear Regression Project</h1>
 </style>
 <!-- clear console -->
 <hr />
+<div id="repo-link" class="section level1">
+<h1>Repo Link</h1>
+<p><a href="https://github.com/joeaoregan/2022_DAIE_CA4_JOR1">https://github.com/joeaoregan/2022_DAIE_CA4_JOR1</a></p>
+<hr />
+</div>
 <div id="er-diagram" class="section level1">
 <h1>ER Diagram</h1>
 <div class="figure">
@@ -622,17 +627,19 @@ tables.</p>
 # paste() used to concatenate strings
 # sep - the separator in the concatenated string
 # separate formatting is required for html and pdf tables due to css class error
+# stripe_color sets alternate row colour for pdf tables and queries
 data_format.function &lt;- function(data, capt=&quot;&quot;, type=&quot;table&quot;, bgcolour=&quot;#28B3F9&quot;) {
   data %&gt;%
     { 
       if (is_html_output()) { # if the output is HTML add class attribute
         kbl(., caption = capt, 
-            table.attr=paste(&quot;class=&#39;&quot;,type,&quot;-striped &quot;,type,&#39;-&#39;,&quot;hover&#39;&quot;, sep=&quot;&quot;)) %&gt;% 
-        kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))
+          table.attr=paste(&quot;class=&#39;&quot;,type,&quot;-striped &quot;,type,&#39;-&#39;,&quot;hover&#39;&quot;, sep=&quot;&quot;)) %&gt;% 
+            kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))
       }
       else if (is_latex_output()) { # if the output is PDF ignore class attribute
         kbl(., caption = capt) %&gt;%
-        kable_styling(latex_options = c(&quot;striped&quot;,&quot;HOLD_position&quot;))
+          kable_styling(latex_options = c(&quot;striped&quot;,&quot;HOLD_position&quot;), 
+                        stripe_color=ifelse((type == &quot;table&quot;),&quot;#D3EDF9&quot;,&quot;#FBBBBB&quot;))
       }
     } %&gt;% # pdf output keep tables in position
         row_spec(0, background = bgcolour) # table heading colour
@@ -1062,22 +1069,41 @@ McQueryfiller
 </div>
 <div id="work_item" class="section level2">
 <h2>Work_Item</h2>
-<p>Work_Item table data.</p>
+<p>Work_Item table data. Formatted differently (HTML output) to test
+different kableExtra formatting options.</p>
 <pre class="sql"><code>SELECT * FROM Work_Item -- get all data in Work_Item table</code></pre>
-<pre class="r"><code>data_format.function(work_item_data, &quot;Work Item&quot;) # format data with function above</code></pre>
-<table class="table-striped table-hover table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<pre class="r"><code># data_format.function(work_item_data, &quot;Work Item&quot;) # format data with function above
+
+data &lt;- work_item_data # dataframe
+data$Id = row.names(work_item_data)
+row.names(data) &lt;- NULL
+# in HTML output format the Status_Id column so 1 (To Do) is red, and 4 (Done) is green
+if (is_html_output()) {
+  data$Status_Id = cell_spec(data$Status_Id, color = &quot;white&quot;, 
+                             background = ifelse(data$Status_Id == 4, &quot;green&quot;, 
+                                                 ifelse(data$Status_Id == 1, 
+                                                        &quot;red&quot;, &quot;black&quot;)))
+}
+data &lt;- data[c(&quot;Id&quot;, &quot;Name&quot;, &quot;Status_Id&quot;, &quot;Assigned_To&quot;)] # error if not escaped for html
+# data &lt;- data.frame(data)
+
+kbl(data, escape=ifelse(is_html_output(), FALSE, TRUE), caption = &quot;Work Item&quot;) %&gt;%
+  kable_styling(c(&quot;striped&quot;, &quot;hover&quot;)) %&gt;%
+  kable_styling(latex_options = &quot;striped&quot;, stripe_color=&quot;#D3EDF9&quot;) %&gt;% # pdf stripe colour
+    row_spec(0, background = &quot;#28B3F9&quot;) # table heading colour</code></pre>
+<table class="table table-striped table-hover table" style="margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
 Work Item
 </caption>
 <thead>
 <tr>
-<th style="text-align:right;background-color: #28B3F9 !important;">
+<th style="text-align:left;background-color: #28B3F9 !important;">
 Id
 </th>
 <th style="text-align:left;background-color: #28B3F9 !important;">
 Name
 </th>
-<th style="text-align:right;background-color: #28B3F9 !important;">
+<th style="text-align:left;background-color: #28B3F9 !important;">
 Status_Id
 </th>
 <th style="text-align:right;background-color: #28B3F9 !important;">
@@ -1087,182 +1113,182 @@ Assigned_To
 </thead>
 <tbody>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
 Art Thingy
 </td>
-<td style="text-align:right;">
-2
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: black !important;">2</span>
 </td>
 <td style="text-align:right;">
 4
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 2
 </td>
 <td style="text-align:left;">
 Art Test Thingy
 </td>
-<td style="text-align:right;">
-3
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: black !important;">3</span>
 </td>
 <td style="text-align:right;">
 3
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 3
 </td>
 <td style="text-align:left;">
 Environment Model Thingy
 </td>
-<td style="text-align:right;">
-2
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: black !important;">2</span>
 </td>
 <td style="text-align:right;">
 6
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 4
 </td>
 <td style="text-align:left;">
 Art Concept Thingy
 </td>
-<td style="text-align:right;">
-4
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: green !important;">4</span>
 </td>
 <td style="text-align:right;">
 7
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 5
 </td>
 <td style="text-align:left;">
 Art Shading Thingy
 </td>
-<td style="text-align:right;">
-4
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: green !important;">4</span>
 </td>
 <td style="text-align:right;">
 8
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 6
 </td>
 <td style="text-align:left;">
 Random 3D Model
 </td>
-<td style="text-align:right;">
-2
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: black !important;">2</span>
 </td>
 <td style="text-align:right;">
 5
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 7
 </td>
 <td style="text-align:left;">
 3D Model Test Obj
 </td>
-<td style="text-align:right;">
-2
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: black !important;">2</span>
 </td>
 <td style="text-align:right;">
 3
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 8
 </td>
 <td style="text-align:left;">
 Random Blueprint
 </td>
-<td style="text-align:right;">
-2
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: black !important;">2</span>
 </td>
 <td style="text-align:right;">
 1
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 9
 </td>
 <td style="text-align:left;">
 Blueprint Thingy
 </td>
-<td style="text-align:right;">
-2
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: black !important;">2</span>
 </td>
 <td style="text-align:right;">
 2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 10
 </td>
 <td style="text-align:left;">
 Blueprint Test
 </td>
-<td style="text-align:right;">
-3
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: black !important;">3</span>
 </td>
 <td style="text-align:right;">
 2
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 11
 </td>
 <td style="text-align:left;">
 Art Test
 </td>
-<td style="text-align:right;">
-1
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: red !important;">1</span>
 </td>
 <td style="text-align:right;">
 12
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 12
 </td>
 <td style="text-align:left;">
 Query Model Thingy
 </td>
-<td style="text-align:right;">
-3
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: black !important;">3</span>
 </td>
 <td style="text-align:right;">
 11
 </td>
 </tr>
 <tr>
-<td style="text-align:right;">
+<td style="text-align:left;">
 13
 </td>
 <td style="text-align:left;">
 Another Test
 </td>
-<td style="text-align:right;">
-4
+<td style="text-align:left;">
+<span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: green !important;">4</span>
 </td>
 <td style="text-align:right;">
 13
@@ -1407,6 +1433,7 @@ Hmmm I Ran Out of Names
 </tr>
 </tbody>
 </table>
+<div style="page-break-after: always;"></div>
 </div>
 <div id="project_team" class="section level2">
 <h2>Project_Team</h2>
@@ -1689,6 +1716,7 @@ NA
 </tr>
 </tbody>
 </table>
+<div style="page-break-after: always;"></div>
 </div>
 <div id="asset_work_items" class="section level2">
 <h2>Asset_Work_Items</h2>
@@ -1793,7 +1821,6 @@ Asset_Id
 </tr>
 </tbody>
 </table>
-<div style="page-break-after: always;"></div>
 </div>
 <div id="library" class="section level2">
 <h2>Library</h2>
@@ -1849,6 +1876,7 @@ Characters
 </tr>
 </tbody>
 </table>
+<div style="page-break-after: always;"></div>
 </div>
 <div id="collection" class="section level2">
 <h2>Collection</h2>

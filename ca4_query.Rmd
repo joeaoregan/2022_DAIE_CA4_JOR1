@@ -4,8 +4,8 @@ subtitle: "CA4 Part 2 - Querying Database"
 author: "Joe O'Regan"
 date: "2023-01-11"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 always_allow_html: true
 ---
 
@@ -22,6 +22,12 @@ always_allow_html: true
 cat('\014')
 # knitr::opts_chunk$set(echo = TRUE)
 ```
+
+---
+
+# Repo Link
+
+[https://github.com/joeaoregan/2022_DAIE_CA4_JOR1](https://github.com/joeaoregan/2022_DAIE_CA4_JOR1)
 
 ---
 
@@ -74,17 +80,19 @@ Function to format tables for HTML and PDF output. Display tables using knitr li
 # paste() used to concatenate strings
 # sep - the separator in the concatenated string
 # separate formatting is required for html and pdf tables due to css class error
+# stripe_color sets alternate row colour for pdf tables and queries
 data_format.function <- function(data, capt="", type="table", bgcolour="#28B3F9") {
   data %>%
     { 
       if (is_html_output()) { # if the output is HTML add class attribute
         kbl(., caption = capt, 
-            table.attr=paste("class='",type,"-striped ",type,'-',"hover'", sep="")) %>% 
-        kable_styling(bootstrap_options = c("striped", "hover"))
+          table.attr=paste("class='",type,"-striped ",type,'-',"hover'", sep="")) %>% 
+            kable_styling(bootstrap_options = c("striped", "hover"))
       }
       else if (is_latex_output()) { # if the output is PDF ignore class attribute
         kbl(., caption = capt) %>%
-        kable_styling(latex_options = c("striped","HOLD_position"))
+          kable_styling(latex_options = c("striped","HOLD_position"), 
+                        stripe_color=ifelse((type == "table"),"#D3EDF9","#FBBBBB"))
       }
     } %>% # pdf output keep tables in position
         row_spec(0, background = bgcolour) # table heading colour
@@ -132,14 +140,32 @@ data_format.function(team_member_data, "Team Member") # format data with functio
 
 ## Work_Item
 
-Work_Item table data.
+Work_Item table data. Formatted differently (HTML output) to test different kableExtra formatting options.
 
 ```{sql connection=conn, output.var="work_item_data"}
 SELECT * FROM Work_Item -- get all data in Work_Item table
 ```
 
 ```{r output work_item table contents}
-data_format.function(work_item_data, "Work Item") # format data with function above
+# data_format.function(work_item_data, "Work Item") # format data with function above
+
+data <- work_item_data # dataframe
+data$Id = row.names(work_item_data)
+row.names(data) <- NULL
+# in HTML output format the Status_Id column so 1 (To Do) is red, and 4 (Done) is green
+if (is_html_output()) {
+  data$Status_Id = cell_spec(data$Status_Id, color = "white", 
+                             background = ifelse(data$Status_Id == 4, "green", 
+                                                 ifelse(data$Status_Id == 1, 
+                                                        "red", "black")))
+}
+data <- data[c("Id", "Name", "Status_Id", "Assigned_To")] # error if not escaped for html
+# data <- data.frame(data)
+
+kbl(data, escape=ifelse(is_html_output(), FALSE, TRUE), caption = "Work Item") %>%
+  kable_styling(c("striped", "hover")) %>%
+  kable_styling(latex_options = "striped", stripe_color="#D3EDF9") %>% # pdf stripe colour
+    row_spec(0, background = "#28B3F9") # table heading colour
 ```
 
 \newpage
@@ -155,6 +181,7 @@ SELECT * FROM Project -- get all data in Project table
 data_format.function(project_data, "Project") # format data with function above
 ```
 
+\newpage
 ## Project_Team
 
 Project_Team table data.
@@ -179,6 +206,7 @@ SELECT * FROM Asset -- get all data in Asset table
 data_format.function(asset_data, "Asset") # format data with function above
 ```
 
+\newpage
 ## Asset_Work_Items
 
 Asset_Work_Items table data.
@@ -192,7 +220,6 @@ data_format.function(asset_work_items_data,
                      "Asset Work Items") # format data with function above
 ```
 
-\newpage
 ## Library
 
 Library table data.
@@ -205,6 +232,7 @@ SELECT * FROM Library -- get all data in Library table
 data_format.function(library_data, "Library") # format data with function above
 ```
 
+\newpage
 ## Collection
 
 Collection table data.
@@ -253,7 +281,7 @@ data_format.function(query1_select_with_where, "Team members with first name Joe
 
 Using wildcards to substitute one or more characters in a string.
 
-#### **1.2.1 Select with LIKE and** \'_\' **wildcard**  
+#### **1.2.1 Select with LIKE and** \'_\' **wildcard**
   \
 Find Team Members with first name with 3 characters beginning with "jo" using '_' wildcard.
 

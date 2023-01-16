@@ -12,7 +12,13 @@ subtitle: "Part 1 - Generate and Populate Database"
 <!-- style for table rows -->
 <style>
   .table-striped tr:nth-child(even) {background: #AAFFAA;}
-  .table-hover tbody > tr:hover {background-color: #44FF44}
+  .table-hover tbody > tr:hover {background-color: #44FF44;}
+  table { width: 100%; }
+  th, td { padding: 5px; }
+  th:first-of-type {  border-top-left-radius: 10px; }
+  th:last-of-type { border-top-right-radius: 10px; }
+  tr:last-of-type td:first-of-type { border-bottom-left-radius: 10px; }
+  tr:last-of-type td:last-of-type { border-bottom-right-radius: 10px; }
 </style>
 
 <!-- clear console -->
@@ -25,6 +31,12 @@ options(knitr.table.format = "latex")
 scale_html <- "300%" # html output
 scale_pdf <- "110%" # pdf output
 ```
+
+---
+
+# Repo Link
+
+[https://github.com/joeaoregan/2022_DAIE_CA4_JOR1](https://github.com/joeaoregan/2022_DAIE_CA4_JOR1)
 
 ---
 
@@ -409,13 +421,17 @@ Function to format tables for HTML and PDF output. Display tables using knitr li
 data_format.function <- function(data, capt) {
   data %>%
     { 
-      if (is_html_output()) { # if the output is HTML add class attribute
-        kbl(., table.attr='class="table-striped table-hover"', caption = capt)} 
-      else if (is_latex_output()) { # if the output is PDF ignore class attribute
+      #if (is_html_output()) { # if the output is HTML add class attribute
+      #  kbl(., table.attr='class="table-striped table-hover"', caption = capt)} 
+      #else if (is_latex_output()) { # if the output is PDF ignore class attribute
         kbl(., caption = capt)
-      }
+      #}
     } %>% # pdf output keep tables in position
-      kable_styling("striped", ifelse(is_html_output(),"hover","hold_position")) %>%
+      #kable_styling("striped", ifelse(is_html_output(),"hover","hold_position"),
+      kable_styling(bootstrap_options = c("striped", "hover", "condensed", "HOLD_position"),
+                    latex_options = c("striped","HOLD_position"), 
+                    stripe_color="#AAFFAA",
+                    htmltable_class="table-striped table-hover") %>%
         row_spec(0, background = "#1AE81A")
 }
 ```
