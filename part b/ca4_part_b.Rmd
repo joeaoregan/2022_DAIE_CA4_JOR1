@@ -151,7 +151,8 @@ intercept <- coeff[1]
 slope <- coeff[2]
 slope
 
-plot + geom_abline(intercept = intercept, slope = slope, color="blue")
+plot +
+  geom_abline(intercept = intercept, slope = slope, color="blue") # regression line
 
 # + geom_abline(mapping = aes(x = avg_monthly_hrs_gaming, y = avg_monthly_expenditure_dlc), data = mod)
 
