@@ -4,8 +4,8 @@ subtitle: "CA4 Part B - Linear Regression Analysis"
 author: "Joe O'Regan"
 date: "2023-01-16"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 always_allow_html: true
 ---
 
@@ -21,6 +21,53 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ---
 
+# Amalgamated Game Survey 2022
+
+Survey of 250 undergraduate students gamer preferences.
+
+Information provided:
+
+* **gender**
+* **age**
+* **ethnicity**
+* **top_reason_gaming** - reason provided why they game
+* **gaming_platform** - platform used for gaming
+* **favourite_game** - preferred genre
+* **avg_monthly_hrs_gaming** - estimated hours/month spent gaming
+* **avg_years_playing_games** - average years playing computer games
+* **avg_monthly_expenditure_dlc** - average expenditure/month on dowloadable content
+* **play_roblox** - familiarity with Roblox platform
+* **use_steam** - use Steam platform to download games
+
+---
+
+# Linear Regression
+
+The statistical method for fitting a line to data where the relationship between two variables, x and y, can be modeled by a straight line with some error (M., D., D., C. and Çetinkaya-Rundel, M., 2019): 
+
+y = β0 + β1x + ε
+
+**β0:** intercept, predicted value of y when x is 0  
+**β1:** regression coefficient - how much y changes as x increases  
+**ε:** Error of estimate. How much variation exists in estimate of regression coefficient  
+**x:** Explanatory variable (independent), influences y  
+**y:** Response variable (dependent)  
+
+---
+
+## Assumptions (Linear Regression)
+
+Make sure data meets assumptions (Bevans 2023).
+
+1. **Homogeneity of variance (homoscedasticity):** The size of the error in our prediction doesn't change significantly across the values of the independent variable.
+2. **Independence of observations (no autocorrelation):** the observations in the data set were collected using statistically valid sampling methods, and there are no hidden relationships among observations.
+3. **Normality:** The data follows a normal distribution.
+4. **The relationship between the independent and dependent variable is linear:** the line of best fit through the data points is a straight line (rather than a curve or some sort of grouping factor).
+
+--- 
+
+# Step 1. Load Data
+
 ```{r setup libraries, include=FALSE}
 if(!require("readr"))
   install.packages("readr")
@@ -35,62 +82,125 @@ if(!require("kableExtra"))
 
 library(readr) # read_csv()
 library(dplyr) # sample_n()
-library(ggplot2) # plot linear regression
+library(ggplot2) # data viszualizatoin, plot linear regression
 library(knitr) # Display data in tables
 library(kableExtra) # Format tables
 ```
 
-# Assumptions (Linear Regression)
 
-1. **Homogeneity of variance (homoscedasticity):** The size of the error in our prediction doesn't change significantly across the values of the independent variable.
-2. **Independence of observations:** the observations in the dataset were collected using statistically valid sampling methods, and there are no hidden relationships among observations.
-3. **Normality:** The data follows a normal distribution.
-4. **The relationship between the independent and dependent variable is linear:** the line of best fit through the data points is a straight line (rather than a curve or some sort of grouping factor).
-
-# Read data from CSV file
+## Read data from CSV file
 
 ```{r read csv file}
 data <- read_csv("amalgamated_game_survey_250_2022.csv") # read data from csv
 ```
 
-# Find usable columns
+## Check data has been read in correctly
+
+```{r}
+summary(data)
+```
+
+## Find appropriate columns (assumed numeric)
 
 ```{r get numeric columns}
-# assumption here is it would be very hard to plot a graph on anything else
+# assumption here is it would be hard to plot a graph on non-numeric data
 # colnames(data) # list of column names
-#sapply(data, class)
+# sapply(data, class)
 # str(data) # show column properties, find numeric columns
 numeric_cols <- unlist(lapply(data, is.numeric))
 numeric_data <- data[ , numeric_cols]
 colnames(numeric_data)
 ```
 
-# Variables
+### Numeric Variables
 
-age, avg_monthly_hrs_gaming, avg_years_playing_games, avg_monthly_expenditure_dlc are all numeric fields.
+* age
+* avg_monthly_hrs_gaming
+* avg_years_playing_games
+* avg_monthly_expenditure_dlc
 
-# Normality
+---
 
-## Histogram (Visual check)
+# Step 2. Make sure data meet the assumptions
 
-Use histograms to visually check for normality. If the histogram is symmetrical/unimodal, then the data is assumed to be normally distributed.
+1. Independence of observation
+2. Normality
+3. Linearity
+4. Homoscedasticity
+
+## Original data no sampling
+
+### 1. Independence of observation
+
+No need to test for hidden relationships between variables when there is only one independent and one dependent variable.
+
+age and avg_years_playing_games don't have floating values so are more likely to repeat.
+
+```{r, include=FALSE}
+acf(data$age) # Significance
+acf(data$avg_monthly_hrs_gaming)
+acf(data$avg_years_playing_games)
+acf(data$avg_monthly_expenditure_dlc)
+```
+
+```{r}
+# cor.test(data$age, data$avg_years_playing_games)
+cor(data$age, data$avg_years_playing_games)
+cor(data$age, data$avg_monthly_hrs_gaming)
+cor(data$age, data$avg_monthly_expenditure_dlc)
+cor(data$avg_monthly_hrs_gaming, data$avg_monthly_expenditure_dlc) # smallest
+cor(data$avg_monthly_hrs_gaming, data$avg_years_playing_games)
+cor(data$avg_years_playing_games, data$avg_monthly_expenditure_dlc)
+
+cor.test(data$avg_monthly_hrs_gaming, data$avg_monthly_expenditure_dlc)
+```
+
+correlation between avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc is smallest.
+
+### 2. Test Normality
+
+**2.1 Histogram:** Use histograms to visually check for normality. If the histogram is symmetrical/unimodal, then the data is assumed to be normally distributed.  
+**2.2 Shapiro-Wilk:** Significance test. Visual inspection isn't always reliable. Widely recommended for normality test and more powerful than Kolmogorov-Smirnov (K-S) nomality test.
+
+Need to combine visual inspection and significance test to get good results, as normality test can be sensitive to sample size. Small samples can pass normality tests.
+
+### 2.1 Histogram (Visual check)
 
 ```{r}
 hist(data$age, 
      main="Age Frequency",
      xlab = "Age")
+```
+
+Age histogram skewed to the right.
+
+```{r}
 hist(data$avg_monthly_hrs_gaming, 
      main="Average Monthly Hours Gaming Frequency",
      xlab="Average Monthly Hours Gaming")
+```
+
+Average Monthly Hours Gaming histogram skewed to the left slightly.
+
+```{r}
 hist(data$avg_years_playing_games, 
      main="Average Years Playing Games Frequency",
      xlab = "Average Years Playing Games")
+```
+
+Roughly bell-shaped.
+
+```{r}
 hist(data$avg_monthly_expenditure_dlc, 
      main="Average Monthly Expenditure DLC Fequency",
      xlab = "Average Monthly Expenditure DLC")
 ```
 
-## Shapiro-Wilk's test
+Roughly bell-shaped.
+
+---
+
+### 2.2 Shapiro-Wilk's Method (Significance test)
 
 **null hypothesis:** the data are sampled from a Gaussian distribution.
 
@@ -109,6 +219,106 @@ if(st_years$p.value < 0.05) print("nope") else print("yep")
 st_bucks <- shapiro.test(data$avg_monthly_expenditure_dlc)
 if(st_bucks$p.value < 0.05) print("nope") else print("yep")
 ```
+
+Null hypothesis rejected for all variables before sampling
+
+### 3. Linearity
+
+```{r}
+plot(avg_monthly_expenditure_dlc ~ avg_years_playing_games, data)
+```
+
+```{r}
+plot(avg_monthly_expenditure_dlc ~ avg_monthly_hrs_gaming, data)
+```
+
+```{r}
+plot(avg_monthly_expenditure_dlc ~ age, data)
+```
+
+```{r}
+plot(avg_years_playing_games ~ age, data)
+```
+
+```{r}
+plot(avg_years_playing_games ~ avg_monthly_hrs_gaming, data)
+```
+
+```{r}
+plot(avg_monthly_hrs_gaming ~ age, data)
+```
+
+---
+
+# Step 3. Linear Regression Analysis
+
+After checking data meets assumptions, check the relationship between independent and dependent variables using linear regression.
+
+```{r}
+mod <- lm(avg_monthly_expenditure_dlc ~ avg_monthly_hrs_gaming, 
+          data = data)
+summary(mod)
+```
+
+Not a Significant positive relationship between avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc (p value > 0.05)
+
+---
+
+# Step 4. Check for homoscedasticity
+
+```{r}
+par(mfrow=c(2,2))
+plot(mod)
+par(mfrow=c(1,1))
+```
+
+Normal Q-Qplot doesn't a perfect one-to-one line with the theoretical residuals.
+
+---
+
+# Step 5. Visualize the results with a graph
+
+1. plot data points on graph
+
+```{r}
+graph <- ggplot(data, aes(x=avg_monthly_hrs_gaming, y=avg_monthly_expenditure_dlc)) + 
+  geom_point()
+graph
+```
+
+2. add linear regression line
+
+```{r}
+graph <- graph + geom_smooth(method="lm", col="blue")
+graph
+```
+
+3. add equation to regression line
+
+```{r}
+graph <- graph +
+  ggpubr::stat_regline_equation()
+graph
+```
+
+4. make graph ready to publish
+
+```{r}
+graph <- graph + labs(title = "expenditure as a function of hours played",
+                      x = "Average monthly hours gaming",
+                      y = "Average monthly expenditure DLC")
+graph
+```
+
+---
+
+# Step 6. Results
+
+No significant relationship between avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc.
+
+---
+
+## Sample Data
 
 **Dependent Variable:** avg_monthly_hrs_gaming
 
@@ -191,25 +401,25 @@ shapiro.test(data$age)
 # log transformation
 log_age <- log10(data$age)
 # histogram original distribution
-hist(data$age, col='steelblue', main='Age Original')
+hist(data$age, col='steelblue', main='Original')
 # histogram log-transformed distribution
-hist(log_age, col='coral2', main='Age Log Transformed')
+hist(log_age, col='coral2', main='Log Transformed')
 shapiro.test(log_age)
 
 # square root transformation
 sqrt_age <- sqrt(data$age)
 # histogram original distribution
-hist(data$age, col='steelblue', main='Age Original')
+hist(data$age, col='steelblue', main='Original')
 # histogram square root-transformed distribution
-hist(sqrt_age, col='coral2', main='Age Square Root Transformed')
+hist(sqrt_age, col='coral2', main='Square Root Transformed')
 shapiro.test(sqrt_age)
 
 # cube root transformation
 cube_age <- data$age^(1/3)
 # histogram original distribution
-hist(data$age, col='steelblue', main='Age Original')
+hist(data$age, col='steelblue', main='Original')
 # histogram cube root-transformed
-hist(cube_age, col='coral2', main='Age Cube Root Transformed')
+hist(cube_age, col='coral2', main='Cube Root Transformed')
 shapiro.test(cube_age)
 
 cube_age_p_value <- shapiro.test(cube_age)$p.value
@@ -227,17 +437,17 @@ par(mfrow=c(1,2)) # define plotting region
 
 log_monthly_hrs <- log10(data$avg_monthly_hrs_gaming)
 hist(data$avg_monthly_hrs_gaming, col='steelblue', main='Age Original')
-hist(log_monthly_hrs, col='coral2', main='Avg. Monthly Hours Gaming Log Transformed')
+hist(log_monthly_hrs, col='coral2', main='Log Transformed')
 shapiro.test(log_monthly_hrs)
 
 sqrt_monthly_hrs <- sqrt(data$avg_monthly_hrs_gaming)
 hist(data$avg_monthly_hrs_gaming, col='steelblue', main='Age Original')
-hist(sqrt_monthly_hrs, col='coral2', main='Avg. Monthly Hours Gaming Square Root Transformed')
+hist(sqrt_monthly_hrs, col='coral2', main='Square Root Transformed')
 shapiro.test(sqrt_monthly_hrs)
 
 cube_monthly_hrs <- data$avg_monthly_hrs_gaming^(1/3)
 hist(data$avg_monthly_hrs_gaming, col='steelblue', main='Age Original')
-hist(cube_monthly_hrs, col='coral2', main='Avg. Monthly Hours Gaming Cube Root Transformed')
+hist(cube_monthly_hrs, col='coral2', main='Cube Root Transformed')
 shapiro.test(cube_monthly_hrs)
 
 cube_monthly_hrs_p_value <- shapiro.test(cube_monthly_hrs)$p.value
@@ -247,3 +457,18 @@ if (cube_monthly_hrs_p_value < significance) {
   print(paste("Cube Root Transform of Avg. Monthly Hours Gaming is less than ", significance))
 }
 ```
+
+---
+
+# References
+
+**OpenIntro Statistics:**
+
+M., D., D., C. and Çetinkaya-Rundel, M., 2019. OpenIntro Statistics. OpenIntro, Incorporated.
+
+OpenIntro Statistics. 2022. OpenIntro Statistics. [ONLINE] Available at: https://www.openintro.org/book/os/. [Accessed 18 January 2023].
+
+
+**Linear Regression:**
+
+Rebecca Bevans. 2023. Linear Regression in R | A Step-by-Step Guide & Examples. [ONLINE] Available at: https://www.scribbr.com/statistics/linear-regression-in-r/. [Accessed 18 January 2023].

@@ -50,8 +50,8 @@ if(!require("knitr"))
   install.packages("knitr")
 if(!require("kableExtra"))
   install.packages("kableExtra")
-library(DBI) # Interface with database
-library(dplyr)
+library(DBI) # Database interface
+library(dplyr) # Query data
 library(knitr) # Display data in tables
 library(kableExtra) # Format tables
 ```
