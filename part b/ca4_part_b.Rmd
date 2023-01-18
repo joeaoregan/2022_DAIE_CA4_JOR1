@@ -158,8 +158,23 @@ plot +
 
 # + geom_abline(mapping = aes(x = avg_monthly_hrs_gaming, y = avg_monthly_expenditure_dlc), data = mod)
 
-
-
 ```
 
+# Visually Check Normality QQ Plots
+
+```{r}
+car::qqPlot(data$age)
+car::qqPlot(data$avg_monthly_hrs_gaming)
+car::qqPlot(data$avg_years_playing_games)
+car::qqPlot(data$avg_monthly_expenditure_dlc)
+
+qqnorm(data$age)
+qqline(data$age)
+qqnorm(data$avg_monthly_hrs_gaming)
+qqline(data$avg_monthly_hrs_gaming)
+qqnorm(data$avg_years_playing_games)
+qqline(data$avg_years_playing_games)
+qqnorm(data$avg_monthly_expenditure_dlc)
+qqline(data$avg_monthly_expenditure_dlc)
+```
 
