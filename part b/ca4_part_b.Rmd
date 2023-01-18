@@ -71,7 +71,9 @@ age, avg_monthly_hrs_gaming, avg_years_playing_games, avg_monthly_expenditure_dl
 
 # Normality
 
-Use histograms to check for normality.
+## Histogram (Visual check)
+
+Use histograms to visually check for normality. If the histogram is symmetrical/unimodal, then the data is assumed to be normally distributed.
 
 ```{r}
 hist(data$age, 
