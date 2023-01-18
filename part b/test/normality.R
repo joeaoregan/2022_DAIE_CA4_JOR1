@@ -1,6 +1,7 @@
 # normality
 # https://www.statology.org/test-for-normality-in-r/
 
+cat("\014")
 
 # Method 1: Create a Histogram
 
@@ -34,6 +35,7 @@ non_normal_data <- rexp(200, rate=3)
 
 #define plotting region
 par(mfrow=c(1,2)) 
+
 
 #create Q-Q plot for both datasets
 qqnorm(normal_data, main='Normal')
