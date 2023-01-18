@@ -4,7 +4,9 @@ subtitle: "CA4 Part B - Linear Regression Analysis"
 author: "Joe O'Regan"
 date: "2023-01-16"
 output:
-  html_document: default
+  html_document:
+    toc: true
+    toc_depth: 3
   pdf_document: default
 always_allow_html: true
 ---
@@ -21,7 +23,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ---
 
-# Amalgamated Game Survey 2022
+# Statement of Assumptions
+
+## Data provided
+
+### Amalgamated Game Survey 2022
 
 Survey of 250 undergraduate students gamer preferences.
 
@@ -41,7 +47,7 @@ Information provided:
 
 ---
 
-# Linear Regression
+### Linear Regression
 
 The statistical method for fitting a line to data where the relationship between two variables, x and y, can be modeled by a straight line with some error (M., D., D., C. and Çetinkaya-Rundel, M., 2019): 
 
@@ -66,7 +72,9 @@ Make sure data meets assumptions (Bevans 2023).
 
 --- 
 
-# Step 1. Load Data
+## Original data no sampling
+
+### Step 1. Load Data
 
 ```{r setup libraries, include=FALSE}
 if(!require("readr"))
@@ -87,20 +95,14 @@ library(knitr) # Display data in tables
 library(kableExtra) # Format tables
 ```
 
-
-## Read data from CSV file
+### Load and Randomly Sample Data
 
 ```{r read csv file}
 data <- read_csv("amalgamated_game_survey_250_2022.csv") # read data from csv
+summary(data) # Check data has been read in correctly
 ```
 
-## Check data has been read in correctly
-
-```{r}
-summary(data)
-```
-
-## Find appropriate columns (assumed numeric)
+#### Find appropriate columns (assumed numeric)
 
 ```{r get numeric columns}
 # assumption here is it would be hard to plot a graph on non-numeric data
@@ -112,7 +114,7 @@ numeric_data <- data[ , numeric_cols]
 colnames(numeric_data)
 ```
 
-### Numeric Variables
+#### Numeric Variables
 
 * age
 * avg_monthly_hrs_gaming
@@ -121,18 +123,18 @@ colnames(numeric_data)
 
 ---
 
-# Step 2. Make sure data meet the assumptions
+### Step 2. Make sure data meet the assumptions
 
 1. Independence of observation
 2. Normality
 3. Linearity
 4. Homoscedasticity
 
-## Original data no sampling
-
-### 1. Independence of observation
+#### 1. Independence of observation (no autocorrelation)
 
 No need to test for hidden relationships between variables when there is only one independent and one dependent variable.
+
+**Correlation**: describes the strength of the linear relationship between 2 variables.
 
 age and avg_years_playing_games don't have floating values so are more likely to repeat.
 
@@ -145,7 +147,7 @@ acf(data$avg_monthly_expenditure_dlc)
 
 ```{r}
 # cor.test(data$age, data$avg_years_playing_games)
-cor(data$age, data$avg_years_playing_games)
+cor(data$age, data$avg_years_playing_games) # largest
 cor(data$age, data$avg_monthly_hrs_gaming)
 cor(data$age, data$avg_monthly_expenditure_dlc)
 cor(data$avg_monthly_hrs_gaming, data$avg_monthly_expenditure_dlc) # smallest
@@ -155,16 +157,18 @@ cor(data$avg_years_playing_games, data$avg_monthly_expenditure_dlc)
 cor.test(data$avg_monthly_hrs_gaming, data$avg_monthly_expenditure_dlc)
 ```
 
-correlation between avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc is smallest.
+Correlation between avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc is smallest. There is no apparent linear relationship between the variables.
 
-### 2. Test Normality
+Correlation between age and avg_yers_playing_games is largest but it is still not close to 1 or -1.
+
+#### 2. Test Normality
 
 **2.1 Histogram:** Use histograms to visually check for normality. If the histogram is symmetrical/unimodal, then the data is assumed to be normally distributed.  
 **2.2 Shapiro-Wilk:** Significance test. Visual inspection isn't always reliable. Widely recommended for normality test and more powerful than Kolmogorov-Smirnov (K-S) nomality test.
 
 Need to combine visual inspection and significance test to get good results, as normality test can be sensitive to sample size. Small samples can pass normality tests.
 
-### 2.1 Histogram (Visual check)
+#### 2.1 Histogram (Visual check)
 
 ```{r}
 hist(data$age, 
@@ -200,7 +204,7 @@ Roughly bell-shaped.
 
 ---
 
-### 2.2 Shapiro-Wilk's Method (Significance test)
+#### 2.2 Shapiro-Wilk's Method (Significance test)
 
 **null hypothesis:** the data are sampled from a Gaussian distribution.
 
@@ -222,7 +226,7 @@ if(st_bucks$p.value < 0.05) print("nope") else print("yep")
 
 Null hypothesis rejected for all variables before sampling
 
-### 3. Linearity
+#### 3. Linearity
 
 ```{r}
 plot(avg_monthly_expenditure_dlc ~ avg_years_playing_games, data)
@@ -231,6 +235,8 @@ plot(avg_monthly_expenditure_dlc ~ avg_years_playing_games, data)
 ```{r}
 plot(avg_monthly_expenditure_dlc ~ avg_monthly_hrs_gaming, data)
 ```
+
+Weak relationship, and trying a linear fit would be reasonable.
 
 ```{r}
 plot(avg_monthly_expenditure_dlc ~ age, data)
@@ -250,7 +256,7 @@ plot(avg_monthly_hrs_gaming ~ age, data)
 
 ---
 
-# Step 3. Linear Regression Analysis
+### Step 3. Linear Regression Analysis
 
 After checking data meets assumptions, check the relationship between independent and dependent variables using linear regression.
 
@@ -264,7 +270,7 @@ Not a Significant positive relationship between avg_monthly_hrs_gaming and avg_m
 
 ---
 
-# Step 4. Check for homoscedasticity
+### Step 4. Check for homoscedasticity
 
 ```{r}
 par(mfrow=c(2,2))
@@ -276,12 +282,13 @@ Normal Q-Qplot doesn't a perfect one-to-one line with the theoretical residuals.
 
 ---
 
-# Step 5. Visualize the results with a graph
+### Step 5. Visualize the results with a graph
 
 1. plot data points on graph
 
 ```{r}
-graph <- ggplot(data, aes(x=avg_monthly_hrs_gaming, y=avg_monthly_expenditure_dlc)) + 
+graph <- ggplot(data, aes(x=avg_monthly_hrs_gaming, 
+                          y=avg_monthly_expenditure_dlc)) + 
   geom_point()
 graph
 ```
@@ -312,13 +319,15 @@ graph
 
 ---
 
-# Step 6. Results
+### Step 6. Results
 
-No significant relationship between avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc.
+The scatterplots showed that avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc were the only variables that a linear fit would suit the data.
+
+There is no significant relationship between avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc.
 
 ---
 
-## Sample Data
+# Sample Data
 
 **Dependent Variable:** avg_monthly_hrs_gaming
 
@@ -333,7 +342,7 @@ No significant relationship between avg_monthly_hrs_gaming and avg_monthly_expen
 ```
 
 ```{r}
-set.seed(321) # reproduce random values
+set.seed(1234) # reproduce random values
 
 sample_data <- sample_n(data, 200) # tibble 200 x 11
 
@@ -371,6 +380,14 @@ plot +
 # + geom_abline(mapping = aes(x = avg_monthly_hrs_gaming, y = avg_monthly_expenditure_dlc), data = mod)
 
 ```
+
+Variables have a negative trend. The relationship is not perfectly linear.
+
+```{r}
+cor(sample_data$avg_monthly_hrs_gaming, sample_data$avg_monthly_expenditure_dlc)
+```
+
+Correlation is near zero, so there is no apparent relationship.
 
 # Visually Check Normality QQ Plots
 
