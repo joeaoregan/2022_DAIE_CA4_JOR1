@@ -30,7 +30,7 @@ shapiro.test(sqrt_y) # Shapiro test on cube root-transformed data - ok
 
 
 # 3. Cube Root Transformation in R
-cube_y <- df$y^(1/3) # perform square root transformation
+cube_y <- df$y^(1/3) # cube root transformation
 
 # Histograms
 hist(df$y, col='steelblue', main='Original') # original distribution
