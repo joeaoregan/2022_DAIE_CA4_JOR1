@@ -4,8 +4,8 @@ title: "2022 - Data Analytics for Immersive Environments - CA4 - RDBMS & Linear 
 author: "Joe O'Regan"
 date: "2023-01-11"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 subtitle: "Part 1 - Generate and Populate Database"
 ---
 

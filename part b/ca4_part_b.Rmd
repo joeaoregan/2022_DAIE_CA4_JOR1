@@ -4,12 +4,18 @@ subtitle: "CA4 Part B - Linear Regression Analysis"
 author: "Joe O'Regan"
 date: "2023-01-16"
 output:
-  pdf_document: default
   html_document:
     toc: true
     toc_float: true
     toc_depth: 3
+  pdf_document: default
 always_allow_html: true
+---
+
+# Repo Link
+
+[https://github.com/joeaoregan/2022_DAIE_CA4_JOR1](https://github.com/joeaoregan/2022_DAIE_CA4_JOR1)
+
 ---
 
 # Statement of Assumptions
@@ -18,6 +24,7 @@ Variables to be tested should ideally be numeric for plotting graphs etc. Averag
 
 ---
 
+\newpage
 # Testing of Assumptions
 
 Assumptions for Linear Regression
@@ -59,6 +66,7 @@ Homogeneity of variance. The size of the error in our prediction doesn't change 
 
 ---
 
+\newpage
 # Analysis conducted and results obtained
 
 **Correlation (R Value)**
@@ -76,6 +84,8 @@ Correlation between age and avg_yers_playing_games is largest but it is still no
 **Linearity**
 
 After checking data meets assumptions, check the relationship between independent and dependent variables using linear regression.
+
+**Box plot:** Outliers in the prediction can negatively affect  predictions as they may affect the direction/slope of the best fit line.
 
 **Homoscedasticity**
 
@@ -107,6 +117,7 @@ Data transformation might be an option.
 
 ---
 
+\newpage
 # R Code
 
 ## Load and Randomly Sample Data
@@ -280,7 +291,26 @@ sqrt(r_squared)
 cor(sample_data$avg_monthly_hrs_gaming, sample_data$avg_monthly_expenditure_dlc)
 ```
 
+Check for outliers
 
+```{r box plots}
+par(mfrow=c(1, 2))  # divide graph area in 2 columns
+
+boxplot(sample_data$avg_monthly_hrs_gaming, 
+        main="Average Monthly Hours Gaming", 
+        sub=paste("Outlier rows: ", 
+         boxplot.stats(sample_data$avg_monthly_hrs_gaming)$out))
+
+boxplot(sample_data$avg_monthly_expenditure_dlc, 
+        main="Average Monthly Expenditure DLC",
+        sub=paste("Outlier rows: ",
+         boxplot.stats(sample_data$avg_monthly_expenditure_dlc)$out))
+```
+
+no outliers detected
+
+
+\newpage
 ### 4. Check for homoscedasticity
 
 ```{r}
@@ -294,6 +324,7 @@ Normal Q-Qplot doesn't a perfect one-to-one line with the theoretical residuals.
 
 ---
 
+\newpage
 ## Linear Regression Plot(s)
 
 The plot is created using the linear model data to map the avg_monthly_hrs_gaming and avg_montly_expenditure_dlc variables as points in the plot.
@@ -342,6 +373,8 @@ plot + scale_x + scale_y +
 ---
 
 \newpage
+# Appendices
+
 ### Transform Data
 
 Perform transformation: log, square root, or cube root. To see can data become more normally distributed.
@@ -539,6 +572,8 @@ Rebecca Bevans. 2023. Simple Linear Regression | An Easy Introduction & Examples
 R Programming 101 (YouTube). 2023. Linear regression using R programming - YouTube. [ONLINE] Available at: https://www.youtube.com/watch?v=-mGXnm0fHtI. [Accessed 19 January 2023].
 
 datacamp. 2023. Linear Regression in R Tutorial. [ONLINE] Available at: https://www.datacamp.com/tutorial/linear-regression-R. [Accessed 19 January 2023].
+
+Linear Regression With R. 2023. Linear Regression With R. [ONLINE] Available at: http://r-statistics.co/Linear-Regression.html#Linear%20Regression%20Diagnostics. [Accessed 19 January 2023].
 
 **GGPlot**
 
