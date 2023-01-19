@@ -4,18 +4,17 @@ subtitle: "CA4 Part B - Linear Regression Analysis"
 author: "Joe O'Regan"
 date: "2023-01-16"
 output:
+  pdf_document: default
   html_document:
     toc: true
+    toc_float: true
     toc_depth: 3
-  pdf_document: default
 always_allow_html: true
 ---
 
 # Statement of Assumptions
 
-Variables to be tested should ideally be numeric for plotting graphs etc.
-
-Average monthly hours gaming (**avg_monthly_hrs_gaming**) would have a positive effect on average monthly expenditure downloadable content (DLC) (**avg_monthly_expenditure_dlc**). The more hours a player plays games, the more inclined they would be to spend money on DLC.
+Variables to be tested should ideally be numeric for plotting graphs etc. Average monthly hours gaming (**avg_monthly_hrs_gaming**) would have a positive effect on average monthly expenditure downloadable content (DLC) (**avg_monthly_expenditure_dlc**). The more hours a player plays games, the more inclined they would be to spend money on DLC.
 
 ---
 
@@ -30,11 +29,7 @@ Assumptions for Linear Regression
 
 **Independence of observation (No autocorrellation)**  
 
-No need to test for hidden relationships between variables when there is only one independent and one dependent variable.
-
-Find the R value or correlation between variables using cor().
-
-age and avg_years_playing_games don't have floating values so are more likely to repeat.
+No need to test for hidden relationships between variables when there is only one independent and one dependent variable. Find the R value or correlation between variables using cor().The variables age and avg_years_playing_games don't have floating values so are more likely to repeat.
 
 **Normality (Histograms, Shapiro-Wilk Significance Test**
 
@@ -48,6 +43,16 @@ Need to combine visual inspection and significance test to get good results, as 
 
 Any relationship between the independent and dependent variable is linear: the line of best fit through the data points is a straight line and not a curve or grouping factor.
 
+The statistical method for fitting a line to data where the relationship between two variables, x and y, can be modeled by a straight line with some error (M., D., D., C. and Çetinkaya-Rundel, M., 2019): 
+
+$Y = \beta0 + \beta1x + \epsilon$
+
+**$\beta0$:** intercept, predicted value of y when x is 0  
+**$\beta1$:** regression coefficient - how much y changes as x increases  
+**$\epsilon$:** Error of estimate. How much variation exists in estimate of regression coefficient  
+**x:** Explanatory variable (independent), influences y  
+**y:** Response variable (dependent)  
+
 **Homoscedasticity**
 
 Homogeneity of variance. The size of the error in our prediction doesn't change significantly across the values of the independent variable.
@@ -56,7 +61,7 @@ Homogeneity of variance. The size of the error in our prediction doesn't change 
 
 # Analysis conducted and results obtained
 
-**Correlation**
+**Correlation (R Value)**
 
 Correlation between avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc is smallest. There is no apparent linear relationship between the variables.
 
@@ -64,7 +69,9 @@ Correlation between age and avg_yers_playing_games is largest but it is still no
 
 **Normality**
 
-Inspecting the histograms, data is not normally distributed for both variables.
+**Visual:** Inspecting the histograms, data is not normally distributed for both variables. For avg_monthly_hrs_gaming the histogram is skewed to the right. The histogram for avg_monthly_expenditure_dlc is roughly bell-shaped, but the number of breaks increases it appears multimodal. 
+
+**Significance:** Null hypothesis for Shapiro-Wilk's normality test rejected for all variables before sampling. The p-value is less than 0.05 and the distribution of the data is significantly different from normal distribution.
 
 **Linearity**
 
@@ -72,11 +79,31 @@ After checking data meets assumptions, check the relationship between independen
 
 **Homoscedasticity**
 
-Plot the linear model results to check whether the observed tata meets our model assumptions.
+Plot the linear model results to check whether the observed data meets our model assumptions.
 
-Normal Q-Qplot doesn't a perfect one-to-one line with the theoretical residuals.
+Normal Q-Qplot doesn't create a perfect one-to-one line with the theoretical residuals.
 
 The red lines representing the mean of the residuals are not entirely horizontal.
+
+**Plot**
+
+From the scatterplot the variables appear to have a weak relationship, and trying a linear fit would be reasonable.
+
+**Line**
+
+When the least squares line is added there is a very weak downward trend in the data.
+
+**R and R squared**
+
+Coefficient of determination (R2) tests how good the model is. The total variability explained by the regression model. Low r squared value means less variability is explained by the model. 
+
+High R squared isn't necessary in every situation. 
+
+**Residuals**
+
+Residuals appear to be still random when plotting the linear model residuals.
+
+Data transformation might be an option.
 
 ---
 
@@ -98,28 +125,32 @@ if(!require("knitr"))
   install.packages("knitr")
 if(!require("kableExtra"))
   install.packages("kableExtra")
+if(!require("kableExtra"))
+  install.packages("ggpubr")
 
-library(readr) # read_csv()
-library(dplyr) # sample_n()
-library(ggplot2) # data viszualizatoin, plot linear regression
-library(knitr) # Display data in tables
+library(readr)      # read_csv()
+library(dplyr)      # sample_n()
+library(ggplot2)    # data viszualizatoin, plot linear regression
+library(knitr)      # Display data in tables
 library(kableExtra) # Format tables
+library(ggpubr)     # Add formula to plot
 ```
 
 ```{r read csv file and summarise data}
 # Load and Randomly Sample Data
 # use readr::read_csv() to load data from csv file
+
 data <- read_csv("amalgamated_game_survey_250_2022.csv") # read data from csv
 summary(data) # Check data has been read in correctly
 ```
 
 ```{r randomly sample 200 of the 250 rows in the csv sample}
-set.seed(1234) # set a seed to reproduce random values
+# set a seed to reproduce random values
+set.seed(1234) 
+
 # randomly sample 200 of the 250 rows
 sample_data <- sample_n(data, 200) # returns tibble 200 x 11
-
 ```
-
 
 ## Calculate Linear Regression for Data
 
@@ -127,12 +158,13 @@ sample_data <- sample_n(data, 200) # returns tibble 200 x 11
 
 Correlation / R Value
 
-```{r}
+```{r correlation between variables}
 # check the correlation between the chosen variables
 cor(sample_data$avg_monthly_hrs_gaming, sample_data$avg_monthly_expenditure_dlc)
 # perform correlation test on chosen variables
 cor.test(sample_data$avg_monthly_hrs_gaming, sample_data$avg_monthly_expenditure_dlc)
 ```
+
 
 ### 2. Normality
 
@@ -146,6 +178,13 @@ hist(sample_data$avg_monthly_hrs_gaming,
      xlab="Average Monthly Hours Gaming")
 ```
 
+```{r}
+hist(sample_data$avg_monthly_hrs_gaming, 
+     main="Average Monthly Hours Gaming Frequency",
+     xlab="Average Monthly Hours Gaming",
+     breaks=12)
+```
+
 Average Monthly Hours Gaming histogram skewed to the left slightly.
 
 ```{r}
@@ -154,41 +193,93 @@ hist(sample_data$avg_monthly_expenditure_dlc,
      xlab = "Average Monthly Expenditure DLC")
 ```
 
-Roughly bell-shaped.
+```{r}
+hist(sample_data$avg_monthly_expenditure_dlc, 
+     main="Average Monthly Expenditure DLC Fequency",
+     xlab = "Average Monthly Expenditure DLC",
+     breaks=12)
+```
+
+Roughly bell-shaped. Increasing the breaks makes it appear multimodal.
 
 **Shapiro-Wilk's Method (Significance test)**
 
 **null hypothesis:** the data are sampled from a Gaussian distribution.
 
 ```{r shapiro test}
-significance <- 0.05
+# Shapiro-Wilk's method for normality test
+
 # If the P value is greater than 0.05 accept null hypothesis
 # If the P value is less than or equal to 0.05 reject null hypothesis
 
+significance <- 0.05
+
+# perform shapiro test on avg_monthly_hrs_gaming
 st_hours <- shapiro.test(sample_data$avg_monthly_hrs_gaming)
+
 # if shapiro test result is too low reject the null hypothesis
 if(st_hours$p.value < significance) {
   print("reject") } else {
   print("accept")
 }
 
+# perform shapiro test on avg_monthly_expenditure_dlc
 st_bucks <- shapiro.test(sample_data$avg_monthly_expenditure_dlc)
 # use ifelse() to perform similar check as above
 print(ifelse(st_bucks$p.value < significance, "reject", "accept"))
 ```
 
-Null hypothesis rejected for all variables before sampling
+Null hypothesis rejected for all variables before sampling.
+
+Data is not normally distributed for either variable.
+
 
 ### 3. Linear Regression Analysis
 
 ```{r}
 # simple linear regression
+
+# calculate effect of independent on dependent variable
 mod <- lm(avg_monthly_expenditure_dlc ~ avg_monthly_hrs_gaming, 
-          data = sample_data) # calculate effect of independent on dependent variable
-summary(mod) # summarise the results of the model
+          data = sample_data)
+
+# summarise the results of the model
+summary(mod)
 ```
 
 Not a Significant positive relationship between avg_monthly_hrs_gaming and avg_monthly_expenditure_dlc (p value > 0.05)
+
+Equation for least-squares regression line:
+avg_monthly_expenditure_dlc = 56.61685 -0.04529*avg_monthly_hrs_gaming
+(When seed is set 1234 above set.seed(1234))
+
+```{r plot residuals}
+#plot(sample_data$avg_monthly_hrs_gaming, mod$residuals)
+
+df <- data.frame(sample_data$avg_monthly_hrs_gaming, sample_data$avg_monthly_expenditure_dlc)
+
+par(mfrow=c(1,2), main="test") # 2 rows and 2 columns
+plot(df, pch=16, col="blue", 
+     xlab="Average Monthly Hours Gaming",
+     ylab="Average Monthly Expenditure DLC",
+     main="Chosen Variables")
+abline(mod)
+plot(mod$residuals, pch=16, col="red", ylab="residuals", main="Residuals")
+par(mfrow=c(1,1)) # Reset to 1 row and 1 column
+```
+
+```{r rsquared and r values}
+# r squared value, percent of variation
+r_squared <- summary(mod)$r.squared
+r_squared
+
+# r value, derived from r squared
+sqrt(r_squared)
+
+# r value, using correlation function
+cor(sample_data$avg_monthly_hrs_gaming, sample_data$avg_monthly_expenditure_dlc)
+```
+
 
 ### 4. Check for homoscedasticity
 
@@ -200,16 +291,19 @@ par(mfrow=c(1,1)) # Reset to 1 row and 1 column
 
 Normal Q-Qplot doesn't a perfect one-to-one line with the theoretical residuals.
 
+
+---
+
 ## Linear Regression Plot(s)
 
 The plot is created using the linear model data to map the avg_monthly_hrs_gaming and avg_montly_expenditure_dlc variables as points in the plot.
 
 The scale of the x and y axiis are set using the rounded down min value for the variable and the max value rounded up. With just rounded values they were showing with a decimal place and didn't look right.
 
-```{r}
+```{r ggplot}
+# plot dataset in a scatter plot, add colours for points
 plot <- ggplot(data = mod, mapping = aes(x = avg_monthly_hrs_gaming, 
-                                 y = avg_monthly_expenditure_dlc)) + 
-  # plot dataset in a scatter plot, add colours for points
+                                 y = avg_monthly_expenditure_dlc)) +
   geom_point(alpha = 0.66, # transparcency, lets stacked points show darker
              shape=21,# round
              fill="red", # inner colour
@@ -235,15 +329,198 @@ scale_y = scale_y_continuous(breaks = seq(
 # Get intercept and slope for regresion line
 coeff <- coefficients(mod) # get coefficients returned from linear model
 intercept <- coeff[1] # avg_monthly_hrs_gaming intercept
-slope <- coeff[2] # slope of line
+slope <- coeff[[2]] # slope of line, double square brackets = just the number
 
 # Add x and y labels and geometry line to plot
 plot + scale_x + scale_y +
-  geom_abline(intercept = intercept, slope = slope, color="blue") # regression line
+  # geom_abline(intercept = intercept, slope = slope, color="red") + # regression line
+  #stat_smooth(method = "lm", formula = y ~ x, geom = "smooth")
+  geom_smooth(method="lm", se=F) +
+  stat_regline_equation() # add equation to regression line
 ```
 
 ---
 
+\newpage
+### Transform Data
+
+Perform transformation: log, square root, or cube root. To see can data become more normally distributed.
+
+```{r log transform}
+log_hours <- log10(sample_data$avg_monthly_hrs_gaming)
+log_bucks <- log10(sample_data$avg_monthly_expenditure_dlc)
+
+df_log <- data.frame(log_hours, log_bucks)
+mod_log <- lm(log_bucks ~ log_hours, data=df_log)
+summary(mod_log)
+```
+
+\newpage
+```{r square root transform}
+sqrt_hours <- log10(sample_data$avg_monthly_hrs_gaming)
+sqrt_bucks <- log10(sample_data$avg_monthly_expenditure_dlc)
+
+df_sqrt <- data.frame(sqrt_hours, sqrt_bucks)
+mod_sqrt <- lm(sqrt_bucks ~ sqrt_hours, data=df_sqrt)
+summary(mod_sqrt)
+```
+
+\newpage
+```{r cube root transform}
+cube_hours <- sample_data$avg_monthly_hrs_gaming^(1/3)
+cube_bucks <- sample_data$avg_monthly_expenditure_dlc^(1/3)
+
+df_cube <- data.frame(cube_hours, cube_bucks)
+mod_cube <- lm(cube_bucks ~ cube_hours, data=df_cube)
+summary(mod_cube)
+```
+
+\newpage
+```{r transfomed histograms hours}
+par(mfrow=c(2,2)) # 2 rows and 2 columns
+
+# avg_monthly_hrs_gaming transforms
+
+hist(sample_data$avg_monthly_hrs_gaming, main='Original',
+     xlab="Average Monthly Hours Gaming") # original
+hist(log_hours, main='Log Transformation',
+     xlab="Log of Average Monthly Hours Gaming") # log
+hist(sqrt_hours, main='Square Root Transformation',
+     xlab="Square Root of Average Monthly Hours Gaming") # square root
+hist(cube_hours, main='Cube Root Transformation',
+     xlab="Cube Root of Average Monthly Hours Gaming") # cube root
+
+par(mfrow=c(1,1)) # Reset to 1 row and 1 column
+```
+
+\newpage
+```{r transfomed histograms expenditure}
+par(mfrow=c(2,2)) # 2 rows and 2 columns
+
+# avg_monthly_expenditure_dlc transforms
+
+hist(sample_data$avg_monthly_expenditure_dlc, main='Original',
+     xlab="Average Monthly Expenditure DLC") # original
+hist(log_bucks, main='Log Transformation',
+     xlab="Log of Average Monthly Expenditure DLC") # log
+hist(sqrt_bucks, main='Square Root Transformation',
+     xlab="Square Root of Avg. Monthly Expenditure DLC") # square root
+hist(cube_bucks, main='Cube Root Transformation',
+     xlab="Cube Root of Avg. Monthly Expenditure DLC") # cube root
+par(mfrow=c(1,1)) # Reset to 1 row and 1 column
+```
+
+\newpage
+```{r shapiro wilk transforms}
+st1 <- shapiro.test(sample_data$avg_monthly_hrs_gaming)
+print(ifelse(st1$p.value < significance, "reject", "accept"))
+st2 <- shapiro.test(log_hours)
+print(ifelse(st2$p.value < significance, "reject", "accept"))
+st3 <- shapiro.test(sqrt_hours)
+print(ifelse(st3$p.value < significance, "reject", "accept"))
+st4 <- shapiro.test(cube_hours)
+print(ifelse(st4$p.value < significance, "reject", "accept"))
+st5 <- shapiro.test(sample_data$avg_monthly_expenditure_dlc)
+print(ifelse(st5$p.value < significance, "reject", "accept"))
+st6 <- shapiro.test(log_bucks)
+print(ifelse(st6$p.value < significance, "reject", "accept"))
+st7 <- shapiro.test(sqrt_bucks)
+print(ifelse(st7$p.value < significance, "reject", "accept"))
+st8 <- shapiro.test(cube_bucks)
+print(ifelse(st8$p.value < significance, "reject", "accept"))
+```
+
+Well, that was a waste of time.
+
+---
+
+\newpage
+### Misc plots to try and make sense of the data (and failing)
+
+```{r}
+plot <- ggplot(data = mod, mapping = aes(x = avg_monthly_hrs_gaming, 
+                                 y = avg_monthly_expenditure_dlc,
+                                 fill=sample_data$favourite_game,
+                                 color=sample_data$favourite_game)) + 
+  geom_point(alpha = 0.66, # transparcency, lets stacked points show darker
+             shape=21,# round
+             color="black", # outline colour
+             size=2.5) + # size (3 too big, 1 too small) +
+  
+  labs(title = "Relationship between games played + DLC expenditure",
+       subtitle = "Average monthly values",
+       caption = "Linear Regression Plot: Group by favourite game")
+
+# Add x and y labels and geometry line to plot
+plot + scale_x + scale_y +
+  geom_smooth(method="lm", se=F)
+```
+
+\newpage
+```{r}
+plot <- ggplot(data = mod, mapping = aes(x = avg_monthly_hrs_gaming, 
+                                 y = avg_monthly_expenditure_dlc,
+                                 fill=sample_data$gender,
+                                 color=sample_data$gender)) + 
+  geom_point(alpha = 0.66, # transparcency, lets stacked points show darker
+             shape=21,# round
+             color="black", # outline colour
+             size=2.5) + # size (3 too big, 1 too small) +
+  
+  labs(title = "Relationship between games played + DLC expenditure",
+       subtitle = "Average monthly values",
+       caption = "Linear Regression Plot: Group by gender")
+
+# Add x and y labels and geometry line to plot
+plot + scale_x + scale_y +
+  geom_smooth(method="lm", se=F)
+```
+
+\newpage
+```{r}
+plot <- ggplot(data = mod, mapping = aes(x = avg_monthly_hrs_gaming, 
+                                 y = avg_monthly_expenditure_dlc,
+                                 fill=sample_data$top_reason_gaming,
+                                 color=sample_data$top_reason_gaming)) + 
+  geom_point(alpha = 0.66, # transparcency, lets stacked points show darker
+             shape=21,# round
+             color="black", # outline colour
+             size=2.5) + # size (3 too big, 1 too small) +
+  
+  labs(title = "Relationship between games played + DLC expenditure",
+       subtitle = "Play Roblox",
+       caption = "Linear Regression Plot: Group by To Reason Gaming")
+
+# Add x and y labels and geometry line to plot
+plot + scale_x + scale_y +
+  geom_smooth(method="lm", se=F) +
+  facet_grid(~sample_data$play_roblox)
+```
+
+\newpage
+```{r}
+plot <- ggplot(data = mod, mapping = aes(x = avg_monthly_hrs_gaming, 
+                                 y = avg_monthly_expenditure_dlc,
+                                 fill=sample_data$top_reason_gaming,
+                                 color=sample_data$top_reason_gaming)) + 
+  geom_point(alpha = 0.66, # transparcency, lets stacked points show darker
+             shape=21,# round
+             color="black", # outline colour
+             size=2.5) + # size (3 too big, 1 too small) +
+  
+  labs(title = "Relationship between games played + DLC expenditure",
+       subtitle = "Use Steam",
+       caption = "Linear Regression Plot: Group by To Reason Gaming")
+
+# Add x and y labels and geometry line to plot
+plot + scale_x + scale_y +
+  geom_smooth(method="lm", se=F) +
+  facet_grid(~sample_data$use_steam)
+```
+
+---
+
+\newpage
 # References
 
 **OpenIntro Statistics:**
@@ -257,10 +534,32 @@ OpenIntro Statistics. 2022. OpenIntro Statistics. [ONLINE] Available at: https:/
 
 Rebecca Bevans. 2023. Linear Regression in R | A Step-by-Step Guide & Examples. [ONLINE] Available at: https://www.scribbr.com/statistics/linear-regression-in-r/. [Accessed 18 January 2023].
 
+Rebecca Bevans. 2023. Simple Linear Regression | An Easy Introduction & Examples. [ONLINE] Available at: https://www.scribbr.com/statistics/simple-linear-regression/. [Accessed 19 January 2023].
+
 R Programming 101 (YouTube). 2023. Linear regression using R programming - YouTube. [ONLINE] Available at: https://www.youtube.com/watch?v=-mGXnm0fHtI. [Accessed 19 January 2023].
+
+datacamp. 2023. Linear Regression in R Tutorial. [ONLINE] Available at: https://www.datacamp.com/tutorial/linear-regression-R. [Accessed 19 January 2023].
 
 **GGPlot**
 
 R Programming 101 (YouTube) 2023. ggplot for plots and graphs. An introduction to data visualization using R programming - YouTube. [ONLINE] Available at: https://www.youtube.com/watch?v=HPJn1CMvtmI. [Accessed 19 January 2023].
 
 Data Carpentry contributors. 2023. Data visualization with ggplot2. [ONLINE] Available at: https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html. [Accessed 19 January 2023].
+
+ggplot2 point shapes - Easy Guides - Wiki - STHDA. 2023. ggplot2 point shapes - Easy Guides - Wiki - STHDA. [ONLINE] Available at: http://www.sthda.com/english/wiki/ggplot2-point-shapes. [Accessed 19 January 2023].
+
+**Least-Squares Regression**
+
+The Least-Square Regression Line and Equation. 2023. The Least-Square Regression Line and Equation. [ONLINE] Available at: https://rstudio-pubs-static.s3.amazonaws.com/199692_d02c8f7b352e4ec1b85544432ac28896.html. [Accessed 19 January 2023].
+
+Linear Least Squares Regression — R Tutorial. 2023. 8. Linear Least Squares Regression — R Tutorial. [ONLINE] Available at: https://www.cyclismo.org/tutorial/R/linearLeastSquares.html. [Accessed 19 January 2023].
+
+**Normality Tests**
+
+Normality Test in R - Easy Guides - Wiki - STHDA. 2023. Normality Test in R - Easy Guides - Wiki - STHDA. [ONLINE] Available at: http://www.sthda.com/english/wiki/normality-test-in-r. [Accessed 19 January 2023].
+
+Zach. 2023. How to Test for Normality in R (4 Methods) - Statology. [ONLINE] Available at: https://www.statology.org/test-for-normality-in-r/. [Accessed 19 January 2023].
+
+**Transform Data**
+
+Zach. 2023. How to Transform Data in R (Log, Square Root, Cube Root). [ONLINE] Available at: https://www.statology.org/transform-data-in-r/. [Accessed 19 January 2023].
