@@ -4,8 +4,8 @@ subtitle: "CA4 Part 2 - Querying Database"
 author: "Joe O'Regan"
 date: "2023-01-11"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 always_allow_html: true
 ---
 

@@ -1505,8 +1505,12 @@ Environments - CA4 - RDBMS &amp; Linear Regression Project</h1>
 etc. Average monthly hours gaming
 (<strong>avg_monthly_hrs_gaming</strong>) would have a positive effect
 on average monthly expenditure downloadable content (DLC)
-(<strong>avg_monthly_expenditure_dlc</strong>). The more hours a player
-plays games, the more inclined they would be to spend money on DLC.</p>
+(<strong>avg_monthly_expenditure_dlc</strong>).</p>
+<p>The more hours a player plays games, the more inclined they would be
+to spend money on DLC. As the number of hours grows the expenditure
+should also grow.</p>
+<p>I would assume there is linearity between the chosen variables and
+constant variance.</p>
 <hr />
 <div style="page-break-after: always;"></div>
 </div>
@@ -1561,6 +1565,8 @@ y<br />
 <p>Homogeneity of variance. The size of the error in our prediction
 doesn’t change significantly across the values of the independent
 variable.</p>
+<p>Transforming the data had no impact with the p-value remaining low
+for all 3 transformations, log, square root and cube root.</p>
 <hr />
 <div style="page-break-after: always;"></div>
 </div>
@@ -1610,6 +1616,8 @@ means less variability is explained by the model.</p>
 <p>Residuals appear to be still random when plotting the linear model
 residuals.</p>
 <p>Data transformation might be an option.</p>
+<p><strong>Boxplots</strong></p>
+<p>No substantial outliers detected.</p>
 <hr />
 <div style="page-break-after: always;"></div>
 </div>
@@ -1991,7 +1999,13 @@ hist(cube_bucks, main=&#39;Cube Root Transformation&#39;,
 <pre class="r"><code>par(mfrow=c(1,1)) # Reset to 1 row and 1 column</code></pre>
 <div style="page-break-after: always;"></div>
 <pre class="r"><code>st1 &lt;- shapiro.test(sample_data$avg_monthly_hrs_gaming)
-print(ifelse(st1$p.value &lt; significance, &quot;reject&quot;, &quot;accept&quot;))</code></pre>
+st1</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  sample_data$avg_monthly_hrs_gaming
+## W = 0.96331, p-value = 4.589e-05</code></pre>
+<pre class="r"><code>print(ifelse(st1$p.value &lt; significance, &quot;reject&quot;, &quot;accept&quot;))</code></pre>
 <pre><code>## [1] &quot;reject&quot;</code></pre>
 <pre class="r"><code>st2 &lt;- shapiro.test(log_hours)
 print(ifelse(st2$p.value &lt; significance, &quot;reject&quot;, &quot;accept&quot;))</code></pre>

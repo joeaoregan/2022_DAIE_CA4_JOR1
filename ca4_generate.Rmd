@@ -27,7 +27,7 @@ cat('\014')
 #knitr::opts_chunk$set(echo = TRUE)
 options(knitr.table.format = "latex")
 
-# adjust scale of er diagram table images
+# adjust scale of er diagram table images depending on output type
 scale_html <- "300%" # html output
 scale_pdf <- "110%" # pdf output
 ```
@@ -299,6 +299,8 @@ Each team member has a role (and only 1 role as I already used 10 tables)
 
 **Foreign Key(s):** Id (Team_Member.Role_Id). Each team member has 1 role for projects.
 
+Additional fields that could be added in this table are salary for the role, seniority, and description. I meant to add a description field here.
+
 ```{r create role table, results='hide'}
 dbExecute(conn, "CREATE TABLE Role (
     Id integer NOT NULL CONSTRAINT Role_pk PRIMARY KEY AUTOINCREMENT,
@@ -324,6 +326,8 @@ Work items have a progress status
 **Primary Key(s):** Id
 
 **Foreign Key(s):** Id (Work_Item.Stats_Id). Each work item has a status (To Do, In Progress, Review, Done).
+
+An additional field that could be added in this table is description. I meant to add this after moving status to its own table, but forgot to come back to it.
 
 ```{r create Status table, results='hide'}
 dbExecute(conn, "CREATE TABLE Status (

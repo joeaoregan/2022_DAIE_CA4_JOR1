@@ -4,11 +4,11 @@ subtitle: "CA4 Part B - Linear Regression Analysis"
 author: "Joe O'Regan"
 date: "2023-01-16"
 output:
+  pdf_document: default
   html_document:
     toc: true
     toc_float: true
     toc_depth: 3
-  pdf_document: default
 always_allow_html: true
 ---
 
@@ -20,7 +20,11 @@ always_allow_html: true
 
 # Statement of Assumptions
 
-Variables to be tested should ideally be numeric for plotting graphs etc. Average monthly hours gaming (**avg_monthly_hrs_gaming**) would have a positive effect on average monthly expenditure downloadable content (DLC) (**avg_monthly_expenditure_dlc**). The more hours a player plays games, the more inclined they would be to spend money on DLC.
+Variables to be tested should ideally be numeric for plotting graphs etc. Average monthly hours gaming (**avg_monthly_hrs_gaming**) would have a positive effect on average monthly expenditure downloadable content (DLC) (**avg_monthly_expenditure_dlc**). 
+
+The more hours a player plays games, the more inclined they would be to spend money on DLC. As the number of hours grows the expenditure should also grow.
+
+I would assume there is linearity between the chosen variables and constant variance.
 
 ---
 
@@ -63,6 +67,8 @@ $Y = \beta0 + \beta1x + \epsilon$
 **Homoscedasticity**
 
 Homogeneity of variance. The size of the error in our prediction doesn't change significantly across the values of the independent variable.
+
+Transforming the data had no impact with the p-value remaining low for all 3 transformations, log, square root and cube root.
 
 ---
 
@@ -114,6 +120,10 @@ High R squared isn't necessary in every situation.
 Residuals appear to be still random when plotting the linear model residuals.
 
 Data transformation might be an option.
+
+**Boxplots**
+
+No substantial outliers detected.
 
 ---
 
@@ -446,6 +456,7 @@ par(mfrow=c(1,1)) # Reset to 1 row and 1 column
 \newpage
 ```{r shapiro wilk transforms}
 st1 <- shapiro.test(sample_data$avg_monthly_hrs_gaming)
+st1
 print(ifelse(st1$p.value < significance, "reject", "accept"))
 st2 <- shapiro.test(log_hours)
 print(ifelse(st2$p.value < significance, "reject", "accept"))
