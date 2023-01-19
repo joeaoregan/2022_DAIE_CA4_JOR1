@@ -91,13 +91,14 @@ summary(data) # Check data has been read in correctly
 #### Find appropriate columns (assumed numeric)
 
 ```{r get numeric columns}
+# https://statisticsglobe.com/select-only-numeric-columns-from-data-frame-in-r
 # assumption here is it would be hard to plot a graph on non-numeric data
 # colnames(data) # list of column names
 # sapply(data, class)
 # str(data) # show column properties, find numeric columns
-numeric_cols <- unlist(lapply(data, is.numeric))
-numeric_data <- data[ , numeric_cols]
-colnames(numeric_data)
+numeric_cols <- unlist(lapply(data, is.numeric)) # identify numeric fields
+numeric_data <- data[ , numeric_cols] # subset numeric fields
+colnames(numeric_data) # show names of numeric fields
 ```
 
 ---

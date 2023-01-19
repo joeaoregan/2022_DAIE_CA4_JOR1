@@ -497,13 +497,14 @@ data &lt;- read_csv(&quot;amalgamated_game_survey_250_2022.csv&quot;) # read dat
 ## </code></pre>
 <div id="find-appropriate-columns-assumed-numeric" class="section level4">
 <h4>Find appropriate columns (assumed numeric)</h4>
-<pre class="r"><code># assumption here is it would be hard to plot a graph on non-numeric data
+<pre class="r"><code># https://statisticsglobe.com/select-only-numeric-columns-from-data-frame-in-r
+# assumption here is it would be hard to plot a graph on non-numeric data
 # colnames(data) # list of column names
 # sapply(data, class)
 # str(data) # show column properties, find numeric columns
-numeric_cols &lt;- unlist(lapply(data, is.numeric))
-numeric_data &lt;- data[ , numeric_cols]
-colnames(numeric_data)</code></pre>
+numeric_cols &lt;- unlist(lapply(data, is.numeric)) # identify numeric fields
+numeric_data &lt;- data[ , numeric_cols] # subset numeric fields
+colnames(numeric_data) # show names of numeric fields</code></pre>
 <pre><code>## [1] &quot;age&quot;                         &quot;avg_monthly_hrs_gaming&quot;     
 ## [3] &quot;avg_years_playing_games&quot;     &quot;avg_monthly_expenditure_dlc&quot;</code></pre>
 <hr />
